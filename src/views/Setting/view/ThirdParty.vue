@@ -3,7 +3,17 @@
     <div class="sub-view-box setting-password-view">
       <h1>第三方登录绑定</h1>
       <ul class="setting-list">
-        
+        <li>
+          <div class="type">github</div>
+          <div class="info">
+            <span class="bind"
+                  v-if="~personalInfo.bindType.indexOf('github')">已绑定 <span class="del-bind"
+                    @click="deletaAuth">解绑</span> </span>
+            <a class="no-bind"
+               v-else
+               :href="githubBindUrl">未绑定，点击绑定</a>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
@@ -11,6 +21,7 @@
 
 <script>
 import { cookie } from '../../../utils/cookie.js'
+import { mapState } from 'vuex'
 export default {
   name: 'ResetPassword',
   metaInfo () {
@@ -23,12 +34,25 @@ export default {
   },
   data () {
     return {
-      
+      githubBindUrl: ''
     }
   },
+  mounted () {
+    this.initUrl()
+  },
   methods: {
-    
-  }
+    initUrl () {
+      this.githubBindUrl = `/api-client/v1/oauth/github-oauth?state=${this.personalInfo.user.uid}`
+    },
+    deletaAuth () {
+      this.$store.dispatch('common/DELETE_OAUTN', { identity_type: 'github' }).then(result => {
+        this.$store.dispatch('PERSONAL_INFO')
+      })
+    },
+  },
+  computed: {
+    ...mapState(['personalInfo'])
+  },
 }
 </script>
 
@@ -47,8 +71,25 @@ export default {
       border-bottom: 1px solid #f1f1f1;
     }
     .setting-list {
-      
-
+      li {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        .type {
+        }
+        .info {
+          .bind {
+            color: #ffc107;
+            .del-bind {
+              color: #f46e65;
+              cursor: pointer;
+            }
+          }
+          .no-bind {
+            color: #f46e65;
+          }
+        }
+      }
     }
   }
 }

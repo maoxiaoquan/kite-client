@@ -45,6 +45,7 @@
 
 <script>
 import ClientOnly from 'vue-client-only'
+import { mapState } from 'vuex'
 export default {
   name: 'Setting',
   metaInfo () {
@@ -61,9 +62,7 @@ export default {
     }
   },
   computed: {
-    personalInfo () { // 登录后的个人信息
-      return this.$store.state.personalInfo || {}
-    }
+    ...mapState(['personalInfo'])
   },
   components: {
     ClientOnly

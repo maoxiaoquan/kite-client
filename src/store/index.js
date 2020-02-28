@@ -7,13 +7,14 @@ import modules from './module'
 
 Vue.use(Vuex)
 
-export function createStore() {
+export function createStore () {
   return new Vuex.Store({
     state: {
       personalInfo: {
         islogin: false,
         user: {},
-        user_info: {}
+        user_info: {},
+        bindType: []
       } // 登录后的用户个人信息
     },
     actions,

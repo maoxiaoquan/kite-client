@@ -23,7 +23,7 @@ module.exports = {
       changeOrigin: true,
       secure: false,
       pathRewrite: {
-        '^/client': '/client',
+        '^/api-client': '/api-client',
         '^/graphql': '/graphql',
         '^/default': '/default',
         '^/upload': '/upload'
