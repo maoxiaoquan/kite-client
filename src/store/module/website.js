@@ -4,19 +4,20 @@ const state = () => ({
   meta: {},
   config: {},
   notice: [],
-  advertise: []
+  advertise: [],
+  oauths: []
 })
 
 const mutations = {
-  SET_WEBSITE_INFO (state, data) {
+  SET_WEBSITE_INFO(state, data) {
     //  设置网站信息
     state.meta = data
   },
-  SET_WEBSITE_CONFIG (state, data) {
+  SET_WEBSITE_CONFIG(state, data) {
     //  设置网站信息
     state.config = data
   },
-  SET_NOTICE_LIST (state, data) {
+  SET_NOTICE_LIST(state, data) {
     //  设置网站通知信息
     let arr = []
     data.map(item => {
@@ -24,18 +25,21 @@ const mutations = {
     })
     state.notice = arr
   },
-  SET_ADVERTISE_LIST (state, data) {
+  SET_ADVERTISE_LIST(state, data) {
     //  设置网站通知信息
     let arr = []
     data.map(item => {
       arr.push(JSON.parse(item.option_value))
     })
     state.advertise = arr
+  },
+  SET_OAUTH(state, data) {
+    state.oauths = data
   }
 }
 
 const actions = {
-  GET_WEBSITE_INFO ({ commit, dispatch, state }) {
+  GET_WEBSITE_INFO({ commit, dispatch, state }) {
     // 获取网站信息
     return fetch({
       url: '/website/info',
@@ -46,6 +50,7 @@ const actions = {
       commit('SET_WEBSITE_CONFIG', result.data.config)
       commit('SET_NOTICE_LIST', result.data.notice)
       commit('SET_ADVERTISE_LIST', result.data.advertise)
+      commit('SET_OAUTH', result.data.oauths)
       return result
     })
   }

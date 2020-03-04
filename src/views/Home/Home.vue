@@ -206,7 +206,7 @@ export default {
     .article-view {
       /deep/ .article-item {
         padding: 20px;
-        border-bottom: 1px solid rgba(178, 186, 194, 0.15);
+        border-bottom: 1px solid #f7f7f7;
       }
     }
   }

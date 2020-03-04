@@ -22,12 +22,12 @@
                     <i class="el-icon-lock"></i> 密码修改
                   </router-link>
                 </li>
-                <li>
+                <!-- <li>
                   <router-link :to='{name:"ThirdParty"}'
                                class="dropdown-item">
                     <i class="el-icon-connection"></i> 第三方绑定
                   </router-link>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
