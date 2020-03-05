@@ -53,7 +53,7 @@ export default {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 25px 20px 15px;
+  padding: 20px 5px 10px;
   border-bottom: 1px solid rgba(178, 186, 194, 0.15);
   &.recommend-collection {
     .nav-items {
@@ -81,9 +81,9 @@ export default {
       .nav-more-btn {
         position: absolute;
         right: 25px;
-        top: 27px;
+        top: 22px;
         font-size: 13px;
-        line-height: 32px;
+        line-height: 28px;
         text-align: center;
         cursor: pointer;
         background: none;
@@ -91,13 +91,6 @@ export default {
         border-radius: 3px;
         width: 56px;
         height: 28px;
-        display: -webkit-box;
-        display: flex;
-        justify-content: center;
-        border-radius: -1px;
-        vertical-align: center;
-        line-height: 28px;
-        padding: 0;
         color: #8590a6;
         font-size: 14px;
       }

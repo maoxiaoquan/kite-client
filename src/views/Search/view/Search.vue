@@ -25,9 +25,9 @@
               </ul>
               <div class="article-view">
                 <div class="article-item"
-                     v-for="(item,key) in searchArticle.article_list">
-                  <ArticleItem :articleItem="item"
-                               :key="key" />
+                     v-for="(item,key) in searchArticle.article_list"
+                     :key="key">
+                  <ArticleItem :articleItem="item" />
                 </div>
               </div>
 
@@ -139,15 +139,6 @@ export default {
         }
         &.active {
           border-bottom: 2px solid #646464;
-        }
-      }
-    }
-    .list-container {
-      padding: 20px;
-      .article-view {
-        /deep/ .article-item {
-          padding: 20px 0;
-          border-bottom: 1px solid rgba(178, 186, 194, 0.15);
         }
       }
     }

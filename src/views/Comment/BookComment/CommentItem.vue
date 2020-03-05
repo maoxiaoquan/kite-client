@@ -206,7 +206,6 @@ export default {
     margin-left: 50px;
     margin-top: 30px;
     padding-left: 20px;
-    border-left: 1px solid #f1f1f1;
     .comment-item {
       margin-bottom: 15px;
       padding-bottom: 10px;

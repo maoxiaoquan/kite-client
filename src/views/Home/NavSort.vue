@@ -1,6 +1,22 @@
 <template>
   <nav class="list-nav">
+
     <ul class="nav-list left">
+      <li class="nav-item"
+          :class="{'active':!$route.query.type}">
+        <router-link :to="{name:'column',params:{en_name:$route.params.en_name}}">全部</router-link>
+      </li>
+      <li class="nav-item"
+          v-for="item in articleType"
+          :key="item"
+          :class="{'active':$route.query.type===item}">
+        <router-link :to="{name:'column',params:{en_name:$route.params.en_name},query:{type:item}}">
+          {{articleTypeText[item]}}
+        </router-link>
+      </li>
+    </ul>
+
+    <ul class="nav-list right">
       <li class="nav-item"
           v-for="(item,key) in navList"
           :key="key"
@@ -10,31 +26,6 @@
       </li>
     </ul>
 
-    <!-- <div class="right">
-      <router-link class="menu"
-                   :to="{name:'home'}">
-        <i class="el-icon-s-home"></i>
-      </router-link>
-      <span class="menu">
-        <Popover :visible.sync="faceVisible">
-          <div class="nav-items">
-            <span v-for="columnItem in articleColumn.homeColumn"
-                  :key="columnItem.column_id"
-                  :class="{'active':articleColumn.currColumnEnName===columnItem.en_name}"
-                  @click="switchNav({name:'column',params:{en_name:columnItem.en_name}})">
-              {{columnItem.name}}
-            </span>
-            <router-link :to="{name:'columnAll'}">
-              更多...
-            </router-link>
-          </div>
-
-          <i slot="button"
-             class="el-icon-menu"></i>
-        </Popover>
-      </span>
-    </div> -->
-
   </nav>
 </template>
 
@@ -42,11 +33,17 @@
 
 import { Popover } from "@components";
 import { mapState } from 'vuex'
+import {
+  articleType,
+  articleTypeText
+} from '@utils/constant'
 export default {
   name: "NavSort",
   data () {
     return {
       faceVisible: false,
+      articleType,
+      articleTypeText,
       navList: [
         {
           name: "newest",
@@ -67,12 +64,6 @@ export default {
   methods: {
     dafauleNav () {
       this.current_nav = "newest";
-    },
-    switchNav (val) {
-      this.faceVisible = false
-      if (this.articleColumn.currColumnEnName !== val.params.en_name) {
-        this.$router.push(val)
-      }
     },
     _navTap (val) {
       this.$emit("navTap", val);
@@ -100,14 +91,15 @@ export default {
     position: relative;
     display: flex;
     justify-content: space-between;
-    padding: 25px 0;
+    padding: 15px 0;
     .active {
       a {
         color: #ea6f5a;
       }
     }
   }
-  .left {
+  .left,
+  .right {
     .nav-item {
       padding: 0 15px;
       font-size: 14px;
@@ -118,44 +110,6 @@ export default {
       &:last-child {
         border-right: none;
       }
-    }
-  }
-  .right {
-    display: flex;
-    align-items: center;
-    .menu {
-      width: 50px;
-      display: inline-block;
-      text-align: center;
-      line-height: 50px;
-      height: 50px;
-      cursor: pointer;
-      i {
-        font-size: 18px;
-        color: #666;
-      }
-      /deep/.pop-view {
-        right: 0;
-        width: 500px;
-      }
-    }
-  }
-}
-
-.nav-items {
-  a,
-  span {
-    display: inline-block;
-    margin-right: 10px;
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 3px;
-    background: #f1f1f1;
-    margin-bottom: 10px;
-    &.active {
-      font-weight: 500;
-      color: #f46e65;
-      background-color: #f46e653b;
     }
   }
 }

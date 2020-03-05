@@ -4,36 +4,31 @@
       <div class="block-title">关于作者</div>
       <div class="block-body">
         <div class="user-item item">
-          <div
-            class="lazy avatar avatar loaded"
-            :style="`background-image: url(&quot;${userInfo.avatar}&quot;);`"
-          ></div>
+          <div class="lazy avatar avatar loaded"
+               :style="`background-image: url(&quot;${userInfo.avatar}&quot;);`"></div>
           <div class="info-box">
-            <router-link
-              class="username"
-              :to="{
+            <router-link class="username"
+                         :to="{
                 name: 'user',
                 params: { uid: userInfo.uid, routeType: 'article' }
-              }"
-            >
-              {{ userInfo.nickname }}</router-link
-            >
+              }">
+              {{ userInfo.nickname }}</router-link>
             <div class="position">
               {{ userInfo.profession }} @ {{ userInfo.company }}
             </div>
           </div>
         </div>
 
-        <div class="btn-group" v-if="userInfo.uid !== personalInfo.user.uid">
-          <button class="btn btn-private-chat" @click="privateChat">
+        <div class="btn-group"
+             v-if="userInfo.uid !== personalInfo.user.uid">
+          <button class="btn btn-private-chat"
+                  @click="privateChat">
             <i class="iconfont"></i>
             <span>私聊</span>
           </button>
-          <button
-            class="btn"
-            @click="onUserAttention(isAttention.is_attention)"
-            :class="isAttention.is_attention ? 'has' : 'no'"
-          >
+          <button class="btn"
+                  @click="onUserAttention(isAttention.is_attention)"
+                  :class="isAttention.is_attention ? 'has' : 'no'">
             <i class="iconfont"></i>
             <span>{{ isAttention.text }}</span>
           </button>
@@ -41,10 +36,8 @@
 
         <div class="stat-item item">
           <i class="el-icon-document"></i>
-          <span class="content"
-            >文章总数
-            <em class="count">{{ userInfo.articleCount || 0 }}</em></span
-          >
+          <span class="content">文章总数
+            <em class="count">{{ userInfo.articleCount || 0 }}</em></span>
         </div>
         <div class="stat-item item">
           <i class="el-icon-chat-line-square"></i>
@@ -56,16 +49,15 @@
       </div>
     </div>
 
-    <div class="sidebar-block related-entry-sidebar-block client-card">
+    <div class="sidebar-block related-entry-sidebar-block client-card"
+         v-if="recommendArticle.length&&recommendArticle.length>0">
       <div class="block-title">最新文章</div>
       <div class="block-body">
         <div class="entry-list">
-          <router-link
-            class="item"
-            v-for="(item, key) in recommendArticle"
-            :key="key"
-            :to="{ name: 'article', params: { aid: item.aid } }"
-          >
+          <router-link class="item"
+                       v-for="(item, key) in recommendArticle"
+                       :key="key"
+                       :to="{ name: 'article', params: { aid: item.aid } }">
             <div class="entry-title">
               {{ item.title }}
             </div>
@@ -91,26 +83,26 @@ import { mapState } from 'vuex'
 import { modelType, userLevel } from '@utils/constant'
 
 export default {
-  data() {
+  data () {
     return {
       userInfo: {},
       recommendArticle: []
     }
   },
-  mounted() {
+  mounted () {
     this.getUserInfo() // 获取用户的信息
   },
   watch: {
-    $route(to, from) {
+    $route (to, from) {
       this.getUserInfo()
     }
   },
   computed: {
-    article() {
+    article () {
       return this.$store.state.article.article || {}
     },
     ...mapState(['website', 'personalInfo', 'user']),
-    isAttention() {
+    isAttention () {
       // 是否关注
       if (
         ~this.user.associateInfo.userAttentionId.indexOf(
@@ -130,7 +122,7 @@ export default {
     }
   },
   methods: {
-    privateChat() {
+    privateChat () {
       if (!this.personalInfo.islogin) {
         this.$router.push({ name: 'signIn' })
         return false
@@ -144,7 +136,7 @@ export default {
         query: { uid: this.userInfo.uid, nickname: this.userInfo.nickname }
       })
     },
-    onUserAttention(type) {
+    onUserAttention (type) {
       if (!this.personalInfo.islogin) {
         this.$router.push({ name: 'signIn' })
         return false
@@ -174,7 +166,7 @@ export default {
           })
       })
     },
-    getUserInfo() {
+    getUserInfo () {
       this.$store
         .dispatch('graphql/GET_USER_INFO', { uid: this.article.uid })
         .then(result => {
@@ -195,7 +187,7 @@ export default {
       padding: 12px 15px;
       font-size: 14px;
       color: #333;
-      border-bottom: 1px solid hsla(0, 0%, 58.8%, 0.1);
+      border-bottom: 1px solid #f7f7f7;
     }
     .item {
       display: flex;
@@ -292,7 +284,7 @@ export default {
   .related-entry-sidebar-block {
     .item {
       display: block;
-      padding: 12px 15px;
+      padding: 10px 15px;
     }
     .entry-title {
       font-size: 14px;

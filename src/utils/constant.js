@@ -18,15 +18,19 @@ export const statusListText = {
 export const articleType = {
   // 文章的类型
   article: 1, // 文章
-  note: 2, // 笔记
-  draft: 3 // 草稿
+  discuss: 2, // 讨论或者提问
+  share: 3, // 分享
+  recourse: 4, // 求助
+  note: 5 // 笔记
 }
 
 export const articleTypeText = {
   // 文章的类型
   [articleType.article]: '文章', // 文章
-  [articleType.note]: '笔记', // 笔记
-  [articleType.draft]: '草稿' // 草稿
+  [articleType.discuss]: '讨论', // 讨论或者提问
+  [articleType.share]: '分享', // 分享
+  [articleType.recourse]: '求助', // 求助
+  [articleType.note]: '笔记' // 笔记
 }
 
 export const dynamicType = {

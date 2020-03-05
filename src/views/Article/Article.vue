@@ -30,8 +30,9 @@
                     <span class="views-count">阅读 {{ article.read_count }}</span>
                     <span class="comments-count">评论 {{ article.comment_count }}</span>
                     <span class="likes-count">点赞 {{ article.thumb_count }}</span>
-                    <span class="source">{{ sourceTypeList[article.source] }}
-                      {{ articleTypeList[article.type] }}</span>
+                    <em class="source">{{ sourceTypeList[article.source] }}</em>
+                    <em class="type"
+                        :class="`type${article.type}`">{{ articleTypeList[article.type] }}</em>
                   </div>
                 </div>
               </div>
@@ -264,7 +265,7 @@ export default {
   .main {
     width: 100%;
     flex: 1;
-    padding: 30px;
+    padding: 15px 30px;
     .article-view {
       .article-title {
         margin-bottom: 40px;
@@ -316,17 +317,46 @@ export default {
               }
             }
             .meta {
-              margin-top: 5px;
               font-size: 12px;
               color: #969696;
-              span {
-                padding-right: 5px;
+              span + span::before {
+                display: inline;
+                content: " \B7 ";
+                color: #9b9b9b;
+                padding-left: 2px;
+                padding-right: 2px;
               }
               .source {
                 background: #ea6f5a;
                 padding: 1px 5px;
                 border-radius: 3px;
                 color: #fff;
+                margin-left: 15px;
+                margin-right: 5px;
+              }
+              .type {
+                padding: 2px 5px;
+                border-radius: 5px;
+                @for $i from 1 through 5 {
+                  &.type#{$i} {
+                    @if $i==1 {
+                      background-color: rgb(253, 239, 207);
+                      color: rgb(255, 174, 14);
+                    } @else if $i==2 {
+                      background-color: rgb(245, 243, 231);
+                      color: rgb(135, 125, 106);
+                    } @else if $i==3 {
+                      background-color: rgb(231, 243, 240);
+                      color: rgb(145, 203, 186);
+                    } @else if $i==4 {
+                      background-color: rgb(135, 198, 179);
+                      color: rgb(255, 255, 255);
+                    } @else if $i==5 {
+                      background-color: rgb(245, 243, 231);
+                      color: rgb(135, 125, 106);
+                    }
+                  }
+                }
               }
             }
           }

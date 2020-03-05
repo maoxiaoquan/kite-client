@@ -3,19 +3,25 @@
     <router-link class="top-tabs-link"
                  :to="{name:'home'}">推荐</router-link>
     <router-link class="top-tabs-link"
-                 :to="{name: 'column', params: { en_name: 'all' }}">专栏</router-link>
-    <router-link class="top-tabs-link"
-                 v-if="personalInfo.islogin"
-                 :to="{name:'AttentionMessage'}">关注</router-link>
+                 v-for="item in articleType"
+                 :key="item"
+                 :to="{name:'home',query:{type:item}}">{{articleTypeText[item]}}</router-link>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import {
+  articleType,
+  articleTypeText
+} from '@utils/constant'
 export default {
   name: 'NavHeader',
-  props: {
-    navItem: Array
+  data () {
+    return {
+      articleType,
+      articleTypeText
+    }
   },
   computed: {
     ...mapState(['articleColumn', 'personalInfo'])
@@ -28,9 +34,8 @@ export default {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  border-bottom: 1px solid #f6f6f6;
-  height: 62px;
-  border-bottom: 1px solid #f0f2f7;
+  border-bottom: 1px solid #f7f7f7;
+  height: 60px;
   .top-tabs-link {
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -38,9 +43,9 @@ export default {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
-    margin: 0 22px;
+    margin: 0 18px;
     &.exact-active {
       color: #ea6f5a;
     }

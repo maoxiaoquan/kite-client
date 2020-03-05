@@ -5,16 +5,16 @@
       <h3 class="title">写下你想说的</h3>
       <div class="issue-btn">
         <a href="javascript:;"
+           @click="createArticle"
+           class="btn-note">
+          <i class="el-icon-edit"></i>
+          <span class="label-title">写新贴</span>
+        </a>
+        <a href="javascript:;"
            @click="createDynamic"
            class="btn-dynamic">
           <i class="el-icon-chat-line-round"></i>
           <span class="label-title">发片刻</span>
-        </a>
-        <a href="javascript:;"
-           @click="createArticle"
-           class="btn-note">
-          <i class="el-icon-edit"></i>
-          <span class="label-title">写文章</span>
         </a>
         <a href="javascript:;"
            @click="createBooks"

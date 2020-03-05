@@ -1,38 +1,30 @@
 <template>
-  <div class="home-lay index-box-container"
+  <div class="home-lay index-container"
        id="index">
-    <div class="index-container">
-      <div class="row">
-        <div class="col-xs-12 col-sm-8--4 col-md-8--4">
-          <!--home-lay layout-content start-->
-          <section class="home-main layout-content client-card">
-            <NavHeader />
-            <NavColumn :navItem="articleColumn.homeColumn" />
-            <NavSort @navTap="navTap"
-                     ref="navSort"></NavSort>
+    <div class="row">
+      <div class="col-xs-12 col-sm-8--4 col-md-8--4">
+        <!--home-lay layout-content start-->
+        <section class="client-card">
+          <NavColumn :navItem="articleColumn.homeColumn" />
+          <NavSort @navTap="navTap"
+                   ref="navSort"></NavSort>
+          <scroll-loading @scroll-loading="infiniteHandler"
+                          :isLoading="isLoading"
+                          :isMore="isMore">
+            <ArticleItem v-for="(item,key) in home.article.article_list"
+                         :key="key"
+                         :articleItem="item" />
 
-            <div class="article-view"
-                 id="article-view">
-              <scroll-loading @scroll-loading="infiniteHandler"
-                              :isLoading="isLoading"
-                              :isMore="isMore">
-                <div class="article-item"
-                     v-for="(item,key) in home.article.article_list"
-                     :key="key">
-                  <ArticleItem :articleItem="item" />
-                </div>
-              </scroll-loading>
-            </div>
-          </section>
-          <!--home-lay layout-content end-->
+          </scroll-loading>
+        </section>
+        <!--home-lay layout-content end-->
+      </div>
+      <div class="col-xs-12 col-sm-3--6 col-md-3--6">
+        <!--aside.html start-->
+        <div class="home-aside">
+          <ColumnAside />
         </div>
-        <div class="col-xs-12 col-sm-3--6 col-md-3--6">
-          <!--aside.html start-->
-          <div class="home-aside">
-            <ColumnAside />
-          </div>
-          <!--aside.html end-->
-        </div>
+        <!--aside.html end-->
       </div>
     </div>
   </div>
@@ -92,7 +84,8 @@ export default {
         en_name: route.params.en_name || ""
       }),
       store.dispatch("home/GET_INDEX_COLUMN_ARTICLE_LIST", {
-        columnEnName: route.params.en_name || ""
+        columnEnName: route.params.en_name || "",
+        type: route.query.type || '',
       })
     ]);
   },
@@ -139,6 +132,7 @@ export default {
       this.$store
         .dispatch("home/GET_INDEX_ARTICLE_LIST", {
           columnEnName: this.$route.params.en_name,
+          type: this.$route.query.type || '',
           sort: this.sort,
           page: this.page
         })
@@ -171,30 +165,12 @@ export default {
 
 <style scoped lang="scss">
 .home-lay {
-  .main-top {
-    width: 100%;
-    padding: 15px 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 1px 3px rgba(27, 95, 160, 0.1);
-    .main-top-view {
-      padding-left: 70px;
-      > h3 {
-        font-weight: bold;
-      }
-      .info {
-        color: #999;
-        font-size: 14px;
-      }
-    }
-  }
-  .layout-content {
+  .client-card {
     position: relative;
     border-radius: 2px;
-    .article-view {
-      /deep/ .article-item {
-        padding: 20px;
-        border-bottom: 1px solid rgba(178, 186, 194, 0.15);
-      }
+    padding: 0 15px;
+    /deep/ .article {
+      border-bottom: 1px solid #f7f7f7;
     }
   }
 }
