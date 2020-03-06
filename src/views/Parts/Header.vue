@@ -24,8 +24,6 @@
                   <div class="dropdown-menu-view">
                     <router-link :to="{ name: 'home' }"
                                  class="dropdown-menu-item">首页</router-link>
-                    <router-link :to="{name: 'column', params: { en_name: 'all' }}"
-                                 class="dropdown-menu-item">专栏</router-link>
                     <router-link :to="{
                         name: 'dynamics',
                         params: { dynamicTopicId: 'newest' }
@@ -64,11 +62,6 @@
                     :class="{'active':$route.name==='home'}">
                   <router-link :to="{ name: 'home' }"
                                class="nav-link">首页</router-link>
-                </li>
-                <li class="nav-item"
-                    :class="{'active':$route.name==='column'}">
-                  <router-link :to="{name: 'column', params: { en_name: 'all' }}"
-                               class="nav-link">专栏</router-link>
                 </li>
                 <li class="nav-item"
                     :class="{'active':$route.name==='dynamics'}">

@@ -4,13 +4,13 @@
     <ul class="nav-list left">
       <li class="nav-item"
           :class="{'active':!$route.query.type}">
-        <router-link :to="{name:'column',params:{en_name:$route.params.en_name}}">全部</router-link>
+        <router-link :to="{name:$route.name,params:{en_name:$route.params.en_name}}">全部</router-link>
       </li>
       <li class="nav-item"
           v-for="item in articleType"
           :key="item"
           :class="{'active':$route.query.type===item}">
-        <router-link :to="{name:'column',params:{en_name:$route.params.en_name},query:{type:item}}">
+        <router-link :to="{name:$route.name,params:{en_name:$route.params.en_name},query:{type:item}}">
           {{articleTypeText[item]}}
         </router-link>
       </li>
@@ -83,7 +83,7 @@ export default {
 .list-nav {
   display: flex;
   justify-content: space-between;
-  padding: 0 25px;
+  padding: 0 12px;
   border-bottom: 1px solid rgba(178, 186, 194, 0.15);
   .nav-list {
     align-items: center;
@@ -101,9 +101,8 @@ export default {
   .left,
   .right {
     .nav-item {
-      padding: 0 15px;
+      padding: 0 12px;
       font-size: 14px;
-      border-right: 1px solid hsla(0, 0%, 59.2%, 0.2);
       &:first-child {
         padding-left: 0;
       }

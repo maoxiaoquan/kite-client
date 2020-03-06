@@ -114,8 +114,8 @@ export default {
 
 .box-comment {
   .box-comment-part {
-    margin-top: 60px;
-    margin-bottom: 60px;
+    margin-top: 38px;
+    margin-bottom: 45px;
     .box-comment-part-title {
       font-size: 20px;
       color: #393939;

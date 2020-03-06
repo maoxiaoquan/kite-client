@@ -94,7 +94,7 @@
             :close-on-click-modal="false"
             :close-on-press-escape="false"
             width="380px">
-      <div class="buy-books-view"
+      <div class="buy-view"
            v-loading="isBuyLoading">
         <h3 class="title">购买信息确认</h3>
         <ul>
@@ -322,48 +322,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.buy-books-view {
-  .title {
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    padding-bottom: 15px;
-  }
-  ul {
-    li {
-      text-align: center;
-      line-height: 30px;
-    }
-    .p-name {
-      em {
-        color: #333;
-        font-weight: bold;
-      }
-    }
-    .p-pay-type {
-      em {
-        color: #e67e7e;
-        font-weight: bold;
-      }
-    }
-    .p-pay-price {
-      em {
-        color: #e67e7e;
-        font-weight: bold;
-      }
-    }
-  }
-  .footer-view {
-    padding-top: 15px;
-    text-align: center;
-    .btn {
-      font-size: 14px;
-    }
-    .btn-buy {
-      background: #e67e7e;
-    }
-  }
-}
 .book-view {
   .client-card {
     margin-bottom: 10px;

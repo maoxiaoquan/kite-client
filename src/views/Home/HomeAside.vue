@@ -280,14 +280,13 @@ export default {
       display: inline-block;
       a {
         border: 1px solid #f5f5f5;
-        border-radius: 17px;
+        border-radius: 4px;
         height: 32px;
         margin-right: 8px;
         color: #888;
         margin-bottom: 8px;
-        padding: 5px 10px;
+        padding: 4px 7px;
         background: rgba(0, 0, 0, 0.03);
-        line-height: 22px;
         display: block;
         font-size: 14px;
       }

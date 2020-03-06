@@ -83,13 +83,13 @@
             <select class="box-select"
                     v-model="write.type">
               <option :value="key"
-                      v-for="(item, key) in articleTypeList"
+                      v-for="(item, key) in articleTypeText"
                       :key="key">{{ item }}</option>
             </select>
           </div>
         </div>
 
-        <div class="tag-warp">
+        <div class="tag-warp mrg-bm20">
           <p class="common-title">
             文章标签
             <span>
@@ -131,6 +131,63 @@
           </div>
         </div>
 
+        <div class="row mrg-bm20">
+          <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
+            <label class="box-label"
+                   for="">是否添加附件</label>
+            <select class="box-select"
+                    v-model="write.is_attachment">
+              <option :value="key"
+                      v-for="(item, key) in attachmentTypeList"
+                      :key="key">{{ item }}</option>
+            </select>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-6 box-form-group"
+               v-if="Number(write.is_attachment)===1">
+            <label class="box-label"
+                   for="">开启付费</label>
+            <select class="box-select"
+                    v-model="write.is_free">
+              <option :value="key"
+                      v-for="(item,key) in isFreeText"
+                      :key="key">{{item}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mrg-bm20"
+             v-if="Number(write.is_free||1)!==isFree.free">
+          <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
+            <label class="box-label"
+                   for="">支付类型</label>
+            <select class="box-select"
+                    v-model="write.pay_type">
+              <option :value="key"
+                      v-for="(item,key) in payTypeText"
+                      :key="key">{{item}}</option>
+            </select>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
+            <label class="box-label"
+                   for="">价格 ￥({{payTypeText[write.pay_type]}})</label>
+            <input type="text"
+                   class="box-input"
+                   v-model="write.price">
+          </div>
+        </div>
+
+        <div class="row mrg-bm20"
+             v-if="Number(write.is_attachment)===1">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <label class="box-label"
+                   for="">附件内容(支持markdown)</label>
+            <textarea class="box-textarea"
+                      cols="30"
+                      v-model="write.attachment"
+                      rows="10"></textarea>
+          </div>
+        </div>
+
         <div class="write-footer clearfix">
           <button class="send-article"
                   @click="saveArticle">发布文章</button>
@@ -150,7 +207,10 @@ import {
   statusList,
   articleType,
   statusListText,
-  articleTypeText
+  articleTypeText,
+  payTypeText,
+  isFree,
+  isFreeText
 } from '@utils/constant'
 export default {
   name: 'write',
@@ -177,10 +237,19 @@ export default {
         content: '', // 文章的内容
         blog_ids: '', // 文章所属专栏ID
         type: '1', // 文章的类型
-        is_public: 1 // 是否公开 1公开 0仅自己可见
+        is_public: 1, // 是否公开 1公开 0仅自己可见
+        is_attachment: 0, // 是否添加附件
+        is_free: 1, // 免费还是付费
+        pay_type: 1,// 支付类型
+        price: 0, // 价格
+        attachment: ''
       },
       publicTypeList: ['仅自己可见', '公开'], // 文章类型列表
-      articleTypeList: articleTypeText,
+      attachmentTypeList: ['关闭', '开启'], // 文章类型列表
+      payTypeText,
+      isFree,
+      isFreeText,
+      articleTypeText,
       blog: {
         name: ''
       },
@@ -223,8 +292,7 @@ export default {
         trash: true, // 清空
         save: false, // 保存（触发events中的save事件）
         /* 1.4.2 */
-      },
-      editArticleInfo: {} // 修改文章的信息
+      }
     }
   },
   created () {
@@ -263,19 +331,25 @@ export default {
             aid: this.$route.params.type
           })
           .then(result => {
-            this.write = result.data.article
-            this.editArticleInfo = result.data.article
-            this.write.is_public = Number(result.data.article.is_public)
-            this.write.content = result.data.article.origin_content
+            const articleInfo = result.data.article
+            const articleAnnexInfo = result.data.articleAnnex
+            this.write = { ...articleInfo, ...articleAnnexInfo }
+            this.write.is_public = Number(articleInfo.is_public)
+            this.write.content = articleInfo.origin_content
             this.articleTagAll.map(item => {
               if (
-                ~this.editArticleInfo.tag_ids
+                ~articleInfo.tag_ids
                   .split(',')
                   .indexOf(String(item.tag_id))
               ) {
                 this.currentArticleTagArr.push(item)
               }
             })
+
+            if (result.data.articleAnnex) { // 附件
+              this.write.is_attachment = articleInfo.is_attachment ? 1 : 0
+              this.write.attachment = articleAnnexInfo.origin_attachment
+            }
             this.renderCurrentArticleTag()
           })
       }
@@ -376,7 +450,12 @@ export default {
         })
     },
     saveArticle () {
-      var params = {
+      const { is_attachment,
+        is_free,
+        pay_type,
+        price,
+        attachment } = this.write
+      let params = {
         title: this.write.title, //文章的标题
         content: marked(this.write.content, { breaks: true }) /*主内容*/,
         origin_content: this.write.content /*源内容*/,
@@ -384,7 +463,14 @@ export default {
         type: this.write.type, // 类型 （1:文章;2:日记,3:草稿 ）
         is_public: this.write.is_public,
         blog_ids: this.write.blog_ids,
-        tag_ids: this.getObjectValues(this.currentArticleTagArr).join(',')
+        tag_ids: this.getObjectValues(this.currentArticleTagArr).join(','),
+        // 2020.3.6加
+        is_attachment,
+        is_free,
+        pay_type,
+        price: Number(price),
+        attachment: attachment ? marked(attachment, { breaks: true }) : '' /*主内容*/,
+        origin_attachment: attachment /*源内容*/,
       }
       this.$route.params.type !== 'create' &&
         (params.aid = this.$route.params.type)
@@ -398,7 +484,6 @@ export default {
         .dispatch(dispatch_url, params)
         .then(res => {
           if (res.state === 'success') {
-            this.create_show_modal = false
             this.$message.success(res.message)
             this.$router.push({
               name: 'user',
@@ -459,6 +544,23 @@ export default {
   }
   .box-select {
     height: 36px;
+  }
+
+  .box-label {
+    display: block;
+  }
+  .box-input {
+    font-size: 14px;
+    border: 1px solid #9199a1;
+    border-radius: 6px;
+    width: 100%;
+    height: 36px;
+    padding: 0 20px;
+  }
+  .box-textarea {
+    margin-top: 10px;
+    border: 1px solid #9199a1;
+    height: 100px;
   }
 
   .blog-warp {

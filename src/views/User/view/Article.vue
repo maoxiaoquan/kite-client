@@ -41,11 +41,17 @@
     </ul>
 
     <ul class="article-type">
+      <li :class="{active: !$route.query.type}">
+        <router-link :to="{
+            name: 'user',
+            query: { blog_id: $route.query.blog_id || 'all', type: '' },
+            params: { routeType: 'article' }
+          }">
+          <span class="name">全部</span>
+        </router-link>
+      </li>
       <li v-for="(articleItem, key) in articleTypeList"
-          :class="{
-          active: $route.query.type === key,
-          'index-active': !$route.query.type && key === '1'
-        }"
+          :class="{active: $route.query.type === key}"
           :key="key">
         <router-link :to="{
             name: 'user',
@@ -120,7 +126,7 @@ export default {
         .dispatch('user/USER_MY_ARTICLE', {
           uid: this.$route.params.uid,
           blog_id: this.$route.query.blog_id || 'all',
-          type: this.$route.query.type || articleType.article,
+          type: this.$route.query.type || '',
           page: this.myArticle.page || 1,
           pageSize: this.myArticle.pageSize || 10
         })

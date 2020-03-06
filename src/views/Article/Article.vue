@@ -32,17 +32,36 @@
                     <span class="likes-count">点赞 {{ article.thumb_count }}</span>
                     <em class="source">{{ sourceTypeList[article.source] }}</em>
                     <em class="type"
-                        :class="`type${article.type}`">{{ articleTypeList[article.type] }}</em>
+                        :class="`type${article.type}`">{{ articleTypeText[article.type] }}</em>
                   </div>
                 </div>
               </div>
             </div>
-            <article class="article-content box-article-view"
-                     v-html="article.content"></article>
 
-            <div class="show-foot clearfix">
-              <div class="copyright">© 著作权归作者所有</div>
+            <div class="article-content box-article-view"
+                 v-html="article.content"></div>
+
+            <div class="attachment"
+                 v-if="article.is_attachment">
+              <div class="title">附件</div>
+              <div class="price-info">
+                此内容需要支付{{articleAnnex.price}}贝壳，才可继续查看 <em @click="onBuy">支付</em>
+              </div>
             </div>
+
+            <ul class="tag-body">
+              <li v-for="(itemTag,key) in article.tag"
+                  :key="key">
+                <router-link class="tag-class frontend"
+                             :to="{name:'article_tag',params:{en_name:itemTag.en_name}}">
+                  <div class="img"
+                       :alt="itemTag.name"
+                       :style="`background-image: url(${itemTag.icon})`"></div>
+                  {{itemTag.name}}
+                </router-link>
+
+              </li>
+            </ul>
 
             <div class="meta-bottom clearfix">
               <div class="meta-bottom-item like"
@@ -87,6 +106,28 @@
         <ArticleAside />
       </div>
     </div>
+
+    <Dialog :visible.sync="isBuyDialog"
+            :close-on-click-modal="false"
+            :close-on-press-escape="false"
+            width="380px">
+      <div class="buy-view"
+           v-loading="isBuyLoading">
+        <h3 class="title">购买信息确认</h3>
+        <ul>
+          <li class="p-name">商品名称：<em>文章附件</em></li>
+          <li class="p-pay-type">支付方式：<em>{{payTypeText[articleAnnex.pay_type]}}</em></li>
+          <li class="p-pay-price">价格：<em>￥{{articleAnnex.price}}</em> </li>
+        </ul>
+        <div class="footer-view">
+          <button class="btn btn-buy"
+                  @click="enterBuy">确认购买</button>
+          <button class="btn btn-cancel"
+                  @click="isBuyDialog=false">取消</button>
+        </div>
+      </div>
+    </Dialog>
+
   </section>
   <!--home-lay layout-content end-->
 </template>
@@ -97,13 +138,15 @@ import ArticleAside from '@views/Article/component/ArticleAside'
 import { share, baidu, google } from '@utils'
 import { mapState } from 'vuex'
 import googleMixin from '@mixins/google'
-import { Dropdown } from '@components'
+import { Dropdown, Dialog } from '@components'
 import {
   statusList,
   articleType,
   statusListText,
   articleTypeText,
-  modelType
+  modelType,
+  productType,
+  payTypeText
 } from '@utils/constant'
 export default {
   name: 'Article',
@@ -176,15 +219,18 @@ export default {
   data () {
     return {
       sourceTypeList: ['', '原创', '转载'],
-      articleTypeList: articleTypeText
+      articleTypeText,
+      payTypeText,
+      productType,
+      isBuyDialog: false,
+      isBuyLoading: false,
+      articleAnnex: {} // 文章附件信息
     }
   },
+  mounted () {
+    this.getArticleAnnex()
+  },
   methods: {
-    getArticle () {
-      this.$store.dispatch('article/GET_ARTICLE', {
-        aid: this.$route.params.aid
-      })
-    },
     isThumb (item) {
       // 是否收藏
       if (this.personalInfo.islogin) {
@@ -199,6 +245,32 @@ export default {
       } else {
         return false
       }
+    },
+    onBuy () { // 
+      if (!this.personalInfo.islogin) {
+        this.$message.warning('请先登录，再继续操作');
+        return false
+      }
+      this.isBuyDialog = true
+    },
+    enterBuy () {
+      if (!this.personalInfo.islogin) {
+        this.$message.warning('请先登录，再继续操作');
+        return false
+      }
+      this.isBuyLoading = true
+      this.$store.dispatch('shop/BUY', {
+        product_id: this.articleAnnex.id,
+        product_type: this.productType.article_annex
+      }).then(result => {
+        this.isBuyLoading = false
+        if (result.state === 'success') {
+          this.isBuyDialog = false
+          this.$message.success(result.message);
+        } else {
+          this.$message.warning(result.message);
+        }
+      })
     },
     onUserThumbArticle () {
       /*用户like 文章*/
@@ -217,6 +289,23 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    getArticleAnnex () {
+      this.$store
+        .dispatch('article/GET_ARTICLE_ANNEX', {
+          aid: this.article.aid,
+        })
+        .then(result => {
+          if (result.state === 'success') {
+            this.articleAnnex = result.data.articleAnnex
+          } else {
+            this.$message.warning(result.message)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
     },
     shareChange (val) {
       // 分享到其他
@@ -254,6 +343,7 @@ export default {
   components: {
     ArticleComment,
     Dropdown,
+    Dialog,
     ArticleAside
   }
 }
@@ -265,7 +355,7 @@ export default {
   .main {
     width: 100%;
     flex: 1;
-    padding: 15px 30px;
+    padding: 15px 25px;
     .article-view {
       .article-title {
         margin-bottom: 40px;
@@ -384,42 +474,62 @@ export default {
           border-radius: 20px;
         }
       }
-      .show-foot {
-        margin-bottom: 30px;
-        .copyright {
-          float: right;
-          margin-top: 5px;
-          font-size: 12px;
-          line-height: 1.7;
-          color: #c8c8c8;
+      .attachment {
+        background: #f2f2f2;
+        padding: 10px;
+        margin-bottom: 15px;
+        .title {
+          font-size: 15px;
         }
-        .modal-wrap {
-          float: right;
-          margin-top: 5px;
-          margin-right: 20px;
+      }
+      .tag-body {
+        display: -webkit-box;
+        display: flex;
+        li {
+          position: relative;
+          list-style: none;
+          margin: 0 15px 15px 0;
           font-size: 12px;
-          line-height: 1.7;
           > a {
-            color: #c8c8c8;
+            color: var(--layer-color);
+            padding: 2px 5px;
+            border: 1px solid transparent;
+            position: relative;
+            white-space: nowrap;
+            word-wrap: normal;
+            display: block;
+            background-color: var(--light);
+            border-radius: 3px 3px 3px 3px;
+            line-height: 21px;
+            .img {
+              border-radius: 2px 2px 2px 2px;
+              height: 16px;
+              width: 16px;
+              float: left;
+              margin: 2px 3px 0 0;
+              background-color: rgba(0, 0, 0, 0.02);
+              background-size: cover;
+              background-repeat: no-repeat;
+              background-position: 50%;
+            }
           }
         }
       }
+
       .meta-bottom {
-        margin-top: 40px;
-        margin-bottom: 80px;
-        text-align: center;
+        margin-top: 20px;
         .meta-bottom-item {
           display: inline-block;
-          width: 45px;
-          height: 45px;
-          line-height: 45px;
+          width: 38px;
+          height: 38px;
+          line-height: 38px;
           border: 1px solid #e0e0e0;
           text-align: center;
           margin: 0 8px;
           cursor: pointer;
-          border-radius: 90px;
+          border-radius: 20px;
           i {
-            font-size: 18px;
+            font-size: 16px;
             color: #333;
           }
           &.active {

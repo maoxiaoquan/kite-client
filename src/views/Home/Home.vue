@@ -5,8 +5,10 @@
       <div class="col-xs-12 col-sm-8--4 col-md-8--4">
         <!--home-lay layout-content start-->
         <section class="client-card">
-          <NavHeader />
-
+          <!-- <NavHeader /> -->
+          <NavColumn :navItem="articleColumn.homeColumn" />
+          <NavSort @navTap="navTap"
+                   ref="navSort"></NavSort>
           <scroll-loading @scroll-loading="infiniteHandler"
                           :isLoading="isLoading"
                           :isMore="isMore">
@@ -33,6 +35,7 @@
 import HomeAside from "@views/Home/HomeAside";
 import NavHeader from "@views/Home/NavHeader";
 import NavColumn from "@views/Home/NavColumn";
+import NavSort from "@views/Home/NavSort";
 import ArticleItem from "@views/Article/component/ArticleItem";
 import { mapState } from "vuex";
 import { ScrollLoading } from "@components";
@@ -135,6 +138,10 @@ export default {
     this.$store.dispatch("home/GET_POPULAR_ARTICLE_TAG"); // 获取热门文章标签
   },
   methods: {
+    navTap (val) {
+      this.sort = val;
+      this.initHomeDate();
+    },
     initHomeDate () {
       this.$store.commit("home/SET_INIT_INDEX_ARTICLE_LIST"); // 重置文章列表数据
       this.isMore = true;
@@ -170,6 +177,7 @@ export default {
     HomeAside,
     NavColumn,
     ArticleItem,
+    NavSort,
     ScrollLoading
   }
 };

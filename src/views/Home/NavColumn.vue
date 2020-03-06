@@ -1,6 +1,9 @@
 <template>
   <nav class="nav-header recommend-collection">
     <div class="nav-items">
+      <router-link class="nav-item"
+                   :class="{'active':$route.name==='home'}"
+                   :to="{name:'home'}">推荐</router-link>
       <a class="nav-item"
          v-for="column_item in navItem"
          :key="column_item.column_id"
@@ -80,15 +83,15 @@ export default {
       width: 80px;
       .nav-more-btn {
         position: absolute;
-        right: 25px;
-        top: 22px;
+        right: 15px;
+        top: 21px;
         font-size: 13px;
         line-height: 28px;
         text-align: center;
         cursor: pointer;
         background: none;
         border: 1px solid;
-        border-radius: 3px;
+        border-radius: 2px;
         width: 56px;
         height: 28px;
         color: #8590a6;

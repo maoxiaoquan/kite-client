@@ -5,7 +5,8 @@
       <h3 class="title">关于专栏</h3>
       <div class="column-content">
         <div class="AnswerAuthor-user">
-          <div class="AnswerAuthor-user-avatar">
+          <div class="AnswerAuthor-user-avatar"
+               v-if="articleColumn.column.icon">
             <span class="UserLink">
               <img class="Avatar Avatar--large UserLink-avatar"
                    width="60"

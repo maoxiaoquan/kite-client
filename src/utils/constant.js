@@ -183,65 +183,32 @@ export const isFreeText = {
 
 export const productType = {
   // 商品类型
-  other: 1, // 其他
-  user: 2, // 用户
   article: 3, // 文章
-  article_blog: 4, // 文章个人专栏
-  book: 5, // 小书章节
   books: 6, // 小书
-  dynamic: 7, // 片刻
-  system: 8 // 系统
+  article_annex: 21 // 文章附件
 }
 
 export const productTypeInfo = {
   // 商品类型
-  [productType.other]: {
-    model: 'other',
-    name: '其他',
-    isUse: false,
-    idKey: ''
-  }, // 其他
-  [productType.user]: {
-    model: 'user',
-    name: '用户',
-    isUse: false,
-    idKey: 'uid'
-  }, // 用户
   [productType.article]: {
     model: 'article',
     name: '文章',
     isUse: false,
     idKey: 'aid'
   }, // 文章
-  [productType.article_blog]: {
-    model: 'article_blog',
-    name: '文章专栏',
-    isUse: false,
-    idKey: 'blog_id'
-  }, // 文章个人专栏
-  [productType.book]: {
-    model: 'book',
-    name: '小书章节',
-    isUse: false,
-    idKey: 'book_id'
-  }, // 小书章节
+  [productType.article_annex]: {
+    model: 'article_annex',
+    name: '文章附件',
+    isUse: true,
+    idKey: 'id'
+  }, // 文章
+
   [productType.books]: {
     model: 'books',
     name: '小书',
     isUse: true,
     idKey: 'books_id'
-  }, // 小书
-  [productType.dynamic]: {
-    model: 'dynamic',
-    name: '片刻',
-    isUse: false,
-    idKey: 'id'
-  }, // 片刻
-  [productType.system]: {
-    model: 'system',
-    isUse: false,
-    idKey: ''
-  } // 系统
+  } // 小书
 }
 
 export const trialRead = {

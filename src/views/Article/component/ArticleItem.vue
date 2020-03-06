@@ -178,6 +178,14 @@ export default {
             }
           }
         }
+
+        .tag-class + .tag-class::before {
+          display: inline;
+          content: " \B7 ";
+          color: #9b9b9b;
+          padding-left: 2px;
+          padding-right: 2px;
+        }
       }
       .item + .item::before {
         display: inline;

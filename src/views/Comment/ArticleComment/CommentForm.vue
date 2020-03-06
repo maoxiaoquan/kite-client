@@ -151,8 +151,8 @@ export default {
       float: left;
       font-family: "Microsoft Yahei", sans-serif;
       &.textarea {
-        height: 100px;
-        border-radius: 20px;
+        height: 70px;
+        border-radius: 10px;
       }
     }
     .input-view {
@@ -173,13 +173,14 @@ export default {
     }
     .form-btn {
       display: inline-block;
-      border-radius: 40px;
+      border-radius: 7px;
       box-sizing: border-box;
+      font-size: 15px;
       border: none;
       background: #f50;
       color: #fff;
       text-align: center;
-      line-height: 40px;
+      line-height: 30px;
       cursor: pointer;
       padding: 0 30px;
       margin-left: 10px;

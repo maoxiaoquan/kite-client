@@ -202,7 +202,7 @@ export default {
       font-size: 13px;
       outline: 0;
       border: 1px solid #00bb29;
-      border-radius: 30px;
+      border-radius: 3px;
       padding: 2px 10px;
       color: #888585;
       margin-right: 10px;

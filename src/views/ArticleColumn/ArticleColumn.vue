@@ -14,20 +14,24 @@
 
       <div class="content">
 
-        <div class="column-view">
+        <div class="column-view clearfix">
           <div class="column-item"
                v-for="(item_column,key) in articleColumn.column_list.list"
+               v-if="item_column.en_name!=='all'"
                :key="key">
             <div class="column-item-box">
               <h2 class="title">{{item_column.name}}</h2>
               <ul class="tag-body">
-                <li class="tag-popup"
-                    v-for="(item_tag,key) in item_column.tag"
+                <li v-for="(itemTag,key) in item_column.tag"
                     :key="key">
-                  <router-link class="tag"
-                               :to="{name:'article_tag',params:{en_name:item_tag.en_name}}">
-                    {{item_tag.name}}
+                  <router-link class="tag-class frontend"
+                               :to="{name:'article_tag',params:{en_name:itemTag.en_name}}">
+                    <div class="img"
+                         :alt="itemTag.name"
+                         :style="`background-image: url(${itemTag.icon})`"></div>
+                    {{itemTag.name}}
                   </router-link>
+
                 </li>
               </ul>
             </div>
@@ -107,7 +111,7 @@ export default {
 <style scoped lang="scss">
 #article-column {
   .client-card {
-    padding: 20px;
+    padding: 25px 35px;
   }
   .switch-list-nav {
     display: flex;
@@ -144,8 +148,9 @@ export default {
       display: flex;
       flex-wrap: wrap;
       .column-item {
-        flex-basis: 25%;
-        margin-bottom: 5px;
+        flex-basis: 33.333%;
+        position: relative;
+        margin-bottom: 30px;
         .column-item-box {
           padding: 0 7px;
           .title {
@@ -154,26 +159,40 @@ export default {
             font-weight: bold;
             font-size: 14px;
             color: #333;
+            margin-bottom: 15px;
             border-bottom: 1px solid rgba(178, 186, 194, 0.15);
           }
+
           .tag-body {
-            padding: 20px 0;
-            margin-bottom: 0;
-            .tag-popup {
+            display: block;
+            li {
+              position: relative;
+              list-style: none;
+              margin: 0 15px 15px 0;
+              font-size: 12px;
               display: inline-block;
-              margin-right: 5px;
-              margin-bottom: 5px;
-              .tag {
-                display: inline-block;
-                padding: 0 6px;
-                color: #017e66;
-                background-color: rgba(1, 126, 102, 0.08);
-                height: 22px;
-                line-height: 22px;
-                border-radius: 15px;
-                font-weight: normal;
-                font-size: 13px;
-                text-align: center;
+              > a {
+                color: var(--layer-color);
+                padding: 2px 5px;
+                border: 1px solid transparent;
+                position: relative;
+                white-space: nowrap;
+                word-wrap: normal;
+                display: block;
+                background-color: var(--light);
+                border-radius: 3px 3px 3px 3px;
+                line-height: 21px;
+                .img {
+                  border-radius: 2px 2px 2px 2px;
+                  height: 16px;
+                  width: 16px;
+                  float: left;
+                  margin: 2px 3px 0 0;
+                  background-color: rgba(0, 0, 0, 0.02);
+                  background-size: cover;
+                  background-repeat: no-repeat;
+                  background-position: 50%;
+                }
               }
             }
           }
