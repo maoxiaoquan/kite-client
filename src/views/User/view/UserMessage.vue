@@ -61,9 +61,6 @@ export default {
       },
     }
   },
-  created () {
-    this.$store.dispatch('user/GET_UNREAD_MESSAGE_COUNT')
-  },
   mounted () {
     this.getUserMessageList()
   },
@@ -74,6 +71,7 @@ export default {
         pageSize: this.userMessage.pageSize || 10,
       }).then(result => {
         this.userMessage = result.data
+        this.$store.dispatch('user/GET_UNREAD_MESSAGE_COUNT')
         this.isLoading = false
       }).catch(() => {
         this.isLoading = false

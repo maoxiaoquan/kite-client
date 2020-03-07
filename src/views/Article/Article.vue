@@ -44,8 +44,30 @@
             <div class="attachment"
                  v-if="article.is_attachment">
               <div class="title">附件</div>
-              <div class="price-info">
-                此内容需要支付{{articleAnnex.price}}贝壳，才可继续查看 <em @click="onBuy">支付</em>
+              <div class="attachment"
+                   v-if="articleAnnex.attachment&&personalInfo.islogin"
+                   v-html="articleAnnex.attachment"></div>
+
+              <div class="price-info"
+                   v-if="articleAnnex.is_free===isFree.pay&&!articleAnnex.isBuy">
+                <div class="price-info-view"> 此内容需要
+                  <em class="login"
+                      @click="$router.push({name:'signIn'})"
+                      v-if="!personalInfo.islogin">登录</em>
+                  <em class="buy"
+                      @click="onBuy">支付</em>
+                  {{articleAnnex.price}}贝壳，才可继续查看
+                </div>
+              </div>
+
+              <div class="price-info"
+                   v-else-if="articleAnnex.is_free===isFree.free&&!personalInfo.islogin">
+                <div class="price-info-view"> 此内容需要
+                  <em class="login"
+                      @click="$router.push({name:'signIn'})"
+                      v-if="!personalInfo.islogin">登录</em>
+                  ，才可继续查看
+                </div>
               </div>
             </div>
 
@@ -146,7 +168,8 @@ import {
   articleTypeText,
   modelType,
   productType,
-  payTypeText
+  payTypeText,
+  isFree
 } from '@utils/constant'
 export default {
   name: 'Article',
@@ -222,13 +245,14 @@ export default {
       articleTypeText,
       payTypeText,
       productType,
+      isFree,
       isBuyDialog: false,
       isBuyLoading: false,
       articleAnnex: {} // 文章附件信息
     }
   },
   mounted () {
-    this.getArticleAnnex()
+    if (this.article.is_attachment) { this.getArticleAnnex() }
   },
   methods: {
     isThumb (item) {
@@ -249,6 +273,7 @@ export default {
     onBuy () { // 
       if (!this.personalInfo.islogin) {
         this.$message.warning('请先登录，再继续操作');
+        this.$router.push({ name: 'signIn' })
         return false
       }
       this.isBuyDialog = true
@@ -266,6 +291,7 @@ export default {
         this.isBuyLoading = false
         if (result.state === 'success') {
           this.isBuyDialog = false
+          if (this.article.is_attachment) { this.getArticleAnnex() }
           this.$message.success(result.message);
         } else {
           this.$message.warning(result.message);
@@ -480,6 +506,19 @@ export default {
         margin-bottom: 15px;
         .title {
           font-size: 15px;
+        }
+        .price-info {
+          font-size: 15px;
+          .buy,
+          .login {
+            cursor: pointer;
+          }
+          .buy {
+            color: #ea6f5a;
+          }
+          .login {
+            color: #42c02e;
+          }
         }
       }
       .tag-body {
