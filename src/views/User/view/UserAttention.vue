@@ -56,14 +56,14 @@
 
 import { Page } from '@components'
 import { mapState } from 'vuex'
-import { modelType } from '@utils/constant'
+import { modelName } from '@utils/constant'
 
 export default {
   name: 'UserAttention',
   data () {
     return {
       isLoading: false,
-      modelType,
+      modelName,
       userAttentionList: {
         count: 0,
         page: 1,
@@ -121,7 +121,7 @@ export default {
       this.$store
         .dispatch('common/SET_ATTENTION', {
           associate_id: item.user.uid,
-          type: modelType.user,
+          type: modelName.user,
           moreConfig: { direct: true }
         })
         .then(result => {

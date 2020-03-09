@@ -1,35 +1,41 @@
 <template>
-  <div class="dynamic-item" v-show="isShowDynamic">
+  <div class="dynamic-item"
+       v-show="isShowDynamic">
     <div class="dynamic-header-row">
       <div class="account-group">
         <div class="user-popover-box">
-          <router-link
-            class="user-link"
-            :to="{
+          <router-link class="user-link"
+                       :to="{
               name: 'user',
               params: { uid: dynamicItem.user.uid, routeType: 'article' }
             }"
-            v-if="dynamicItem.user.uid !== 'tree'"
-          >
-            <img v-lazy="dynamicItem.user.avatar" class="avatar" alt="" />
+                       v-if="dynamicItem.user.uid !== 'tree'">
+            <img v-lazy="dynamicItem.user.avatar"
+                 class="avatar"
+                 alt="" />
           </router-link>
 
-          <a href="javascript:;" target="_blank" class="user-link" v-else>
-            <img v-lazy="dynamicItem.user.avatar" class="avatar" alt="" />
+          <a href="javascript:;"
+             target="_blank"
+             class="user-link"
+             v-else>
+            <img v-lazy="dynamicItem.user.avatar"
+                 class="avatar"
+                 alt="" />
           </a>
         </div>
         <div class="dynamic-header-content">
           <div class="user-popover-box">
-            <router-link
-              :to="{
+            <router-link :to="{
                 name: 'user',
                 params: { uid: dynamicItem.user.uid, routeType: 'article' }
               }"
-              class="username"
-              v-if="dynamicItem.user.uid !== 'tree'"
-              >{{ dynamicItem.user.nickname }}</router-link
-            >
-            <a href="javascript:;" target="_blank" class="username" v-else>
+                         class="username"
+                         v-if="dynamicItem.user.uid !== 'tree'">{{ dynamicItem.user.nickname }}</router-link>
+            <a href="javascript:;"
+               target="_blank"
+               class="username"
+               v-else>
               {{ dynamicItem.user.nickname }}
             </a>
           </div>
@@ -38,30 +44,30 @@
               @ {{ dynamicItem.user.introduction }}
             </div>
             <div class="dot">·</div>
-            <a href="javascript:;" target="_blank" rel="" class="time-box">
-              <time :title="dynamicItem.create_dt" class="time">{{
+            <a href="javascript:;"
+               target="_blank"
+               rel=""
+               class="time-box">
+              <time :title="dynamicItem.create_dt"
+                    class="time">{{
                 dynamicItem.create_dt
               }}</time>
             </a>
           </div>
         </div>
       </div>
-      <div
-        class="header-action"
-        v-if="
+      <div class="header-action"
+           v-if="
           dynamicItem.user.uid !== 'tree' &&
             personalInfo.islogin &&
             personalInfo.user.uid !== dynamicItem.user.uid
-        "
-      >
-        <button
-          class="subscribe-btn follow-button"
-          :class="[
+        ">
+        <button class="subscribe-btn follow-button"
+                :class="[
             { active: isAttention(dynamicItem || '') },
             `user-attention-${dynamicItem.user.uid}`
           ]"
-          @click="setUserAttention"
-        >
+                @click="setUserAttention">
           {{ isAttention(dynamicItem) ? '已关注' : '关注' }}
         </button>
       </div>
@@ -74,98 +80,91 @@
       </div>
     </div>
 
-    <div class="dynamic-image-row" v-if="dynamicItem.type === dynamicType.img">
-      <img
-        style="width: 100px; height: 100px"
-        class="preview-picture"
-        v-lazy="url"
-        v-for="(url, key) in imgAnalyze(dynamicItem.attach)"
-        :key="key"
-        v-if="url"
-        @click="previewImg(url)"
-        alt=""
-      />
+    <div class="dynamic-image-row"
+         v-if="dynamicItem.type === dynamicType.img">
+      <img style="width: 100px; height: 100px"
+           class="preview-picture"
+           v-lazy="url"
+           v-for="(url, key) in imgAnalyze(dynamicItem.attach)"
+           :key="key"
+           v-if="url"
+           @click="previewImg(url)"
+           alt="" />
     </div>
 
-    <div class="dynamic-link-row" v-if="dynamicItem.type === dynamicType.link">
-      <a :href="dynamicItem.attach" target="_block">{{ dynamicItem.attach }}</a>
+    <div class="dynamic-link-row"
+         v-if="dynamicItem.type === dynamicType.link">
+      <a :href="dynamicItem.attach"
+         target="_block">{{ dynamicItem.attach }}</a>
     </div>
 
-    <div class="dynamic-topic-row" v-if="dynamicItem.topic">
-      <router-link
-        :to="{
+    <div class="dynamic-topic-row"
+         v-if="dynamicItem.topic">
+      <router-link :to="{
           name: 'dynamicTopicView',
           params: { dynamicTopicId: dynamicItem.topic.topic_id }
         }"
-        class="topic-title"
-        >{{ dynamicItem.topic.name }}</router-link
-      >
+                   class="topic-title">{{ dynamicItem.topic.name }}</router-link>
     </div>
 
     <div class="dynamic-action-row">
       <div class="action-box">
-        <div
-          class="like-action action"
-          :class="{
+        <div class="like-action action"
+             :class="{
             active: ~user.associateInfo.dynamicThumdId.indexOf(
               dynamicItem.id || ''
             )
           }"
-          @click="userThumdDynamic"
-        >
+             @click="userThumdDynamic">
           <i class="el-icon-thumb"></i>
           <span class="action-title">{{ dynamicItem.thumb_count }}</span>
         </div>
-        <div class="comment-action action" @click="isCommnet = !isCommnet">
+        <div class="comment-action action"
+             @click="isCommnet = !isCommnet">
           <i class="el-icon-chat-line-round"></i>
           <span class="action-title">{{ dynamicItem.comment_count }}</span>
         </div>
         <div class="share-action action">
           <Dropdown>
-            <div class="el-dropdown-link" slot="button">
+            <div class="el-dropdown-link"
+                 slot="button">
               <i class="el-icon-share"></i>
             </div>
             <div class="dropdown-menu-view">
-              <div
-                class="dropdown-menu-item"
-                @click="shareChange({ type: 'qq', data: dynamicItem })"
-              >
+              <div class="dropdown-menu-item"
+                   @click="shareChange({ type: 'qq', data: dynamicItem })">
                 分享到QQ
               </div>
-              <div
-                class="dropdown-menu-item"
-                @click="shareChange({ type: 'sina', data: dynamicItem })"
-              >
+              <div class="dropdown-menu-item"
+                   @click="shareChange({ type: 'sina', data: dynamicItem })">
                 分享到新浪
               </div>
-              <div
-                class="dropdown-menu-item"
-                @click="shareChange({ type: 'qzone', data: dynamicItem })"
-              >
+              <div class="dropdown-menu-item"
+                   @click="shareChange({ type: 'qzone', data: dynamicItem })">
                 分享到QQ空间
               </div>
             </div>
           </Dropdown>
         </div>
-        <div
-          class="share-action action"
-          v-if="isShowDeleteBtn()"
-          @click="deleteDynamic"
-        >
+        <div class="share-action action"
+             v-if="isShowDeleteBtn()"
+             @click="deleteDynamic">
           <span class="action-title">删除</span>
         </div>
       </div>
     </div>
 
-    <div class="dynamic-comment-row" v-if="isCommnet && dfIsCommnet">
-      <dynamic-comment
-        @dynamicCommentChange="dynamicCommentChange"
-        :dynamicId="dynamicItem.id"
-      />
+    <div class="dynamic-comment-row"
+         v-if="isCommnet && dfIsCommnet">
+      <dynamic-comment @dynamicCommentChange="dynamicCommentChange"
+                       :dynamicId="dynamicItem.id" />
     </div>
 
-    <Dialog :visible.sync="isPreviewImg" width="550px">
-      <img :src="previewImgUrl" style="width:100%" alt="" />
+    <Dialog :visible.sync="isPreviewImg"
+            width="550px">
+      <img :src="previewImgUrl"
+           style="width:100%"
+           alt="" />
     </Dialog>
   </div>
 </template>
@@ -175,7 +174,7 @@ import DynamicComment from '../../Comment/DynamicComment'
 import { faceQQ, Dropdown, Dialog } from '@components'
 import { mapState } from 'vuex'
 import { share } from '@utils'
-import { dynamicType, modelType, dynamicTypeText } from '@utils/constant'
+import { dynamicType, modelName, dynamicTypeText } from '@utils/constant'
 
 export default {
   name: 'dynamicItem',
@@ -190,25 +189,25 @@ export default {
       default: true
     }
   },
-  data() {
+  data () {
     return {
       isCommnet: false,
       isPreviewImg: false, // 图片预览
       previewImgUrl: '',
       isShowDynamic: true, // 是否显示动态
       dynamicType,
-      modelType,
+      modelName,
       dynamicTypeText
     }
   },
   methods: {
-    previewImg(url) {
+    previewImg (url) {
       // 图片预览
       console.log('url', url)
       this.previewImgUrl = url
       this.isPreviewImg = true
     },
-    setUserAttention() {
+    setUserAttention () {
       // 设置用户关注用户
       if (!this.personalInfo.islogin) {
         this.$message.warning('请先登录')
@@ -217,7 +216,7 @@ export default {
       this.$store
         .dispatch('common/SET_ATTENTION', {
           associate_id: this.dynamicItem.user.uid,
-          type: modelType.user
+          type: modelName.user
         })
         .then(result => {
           if (result.state === 'success') {
@@ -229,7 +228,7 @@ export default {
           }
         })
     },
-    selectAttentionUserClass(type) {
+    selectAttentionUserClass (type) {
       let userAttentionAll = document.querySelectorAll(
         `.user-attention-${this.dynamicItem.user.uid}`
       )
@@ -243,7 +242,7 @@ export default {
         }
       }
     },
-    isAttention(item) {
+    isAttention (item) {
       // 是否收藏
       if (
         this.user.associateInfo.userAttentionId &&
@@ -254,7 +253,7 @@ export default {
         return false
       }
     },
-    isShowDeleteBtn() {
+    isShowDeleteBtn () {
       // 是否显示删除按钮
       return (
         this.personalInfo.islogin &&
@@ -262,7 +261,7 @@ export default {
         this.$route.name !== 'dynamicView'
       )
     },
-    deleteDynamic() {
+    deleteDynamic () {
       // 删除动态
       this.$confirm('此操作将永久删除此条片刻?', '提示', {
         confirmButtonText: '确定',
@@ -283,14 +282,14 @@ export default {
               }
             })
         })
-        .catch(() => {})
+        .catch(() => { })
     },
-    dynamicCommentChange() {
+    dynamicCommentChange () {
       // 动态一级子评论提交成功
       this.dynamicItem.comment_count =
         Number(this.dynamicItem.comment_count) + 1
     },
-    contentRender(val) {
+    contentRender (val) {
       let content = val
       faceQQ.map(faceItem => {
         content = content.replace(
@@ -300,7 +299,7 @@ export default {
       })
       return content
     },
-    userThumdDynamic() {
+    userThumdDynamic () {
       if (!this.personalInfo.islogin) {
         this.$message.warning('请先登录')
         return false
@@ -309,7 +308,7 @@ export default {
       this.$store
         .dispatch('common/SET_THUMB', {
           associate_id: this.dynamicItem.id,
-          type: modelType.dynamic
+          type: modelName.dynamic
         })
         .then(res => {
           if (res.state === 'success') {
@@ -324,16 +323,16 @@ export default {
             this.$message.warning(res.message)
           }
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log(err)
         })
     },
-    imgAnalyze(attach) {
+    imgAnalyze (attach) {
       let urlArr = attach.split(',') || []
       let length = attach.split(',').length
       return length > 0 ? urlArr : []
     },
-    shareChange(val) {
+    shareChange (val) {
       // 分享到其他
       let urlOrigin = window.location.origin // 源地址
       if (val.type === 'sina') {

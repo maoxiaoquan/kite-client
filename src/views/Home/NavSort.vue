@@ -9,7 +9,7 @@
       <li class="nav-item"
           v-for="item in articleType"
           :key="item"
-          :class="{'active':$route.query.type===item}">
+          :class="{'active':$route.query.type==item}">
         <router-link :to="{name:$route.name,params:{en_name:$route.params.en_name},query:{type:item}}">
           {{articleTypeText[item]}}
         </router-link>

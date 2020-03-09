@@ -8,69 +8,55 @@
               <h3 class="title">我的订单</h3>
 
               <ul class="nav-item-view">
-                <li
-                  class="nav-item"
-                  :class="{ active: !currProductType }"
-                  @click="switchType('', '')"
-                >
-                  <a href="javascript:;" class="collection-name">
+                <li class="nav-item"
+                    :class="{ active: !currProductType }"
+                    @click="switchType('', '')">
+                  <a href="javascript:;"
+                     class="collection-name">
                     全部
                   </a>
                 </li>
-                <li
-                  class="nav-item"
-                  :class="{ active: key == currProductType }"
-                  v-for="(item, key, index) in productTypeInfo"
-                  v-if="item.isUse"
-                  @click="switchType(item, key)"
-                  :key="index"
-                >
-                  <a href="javascript:;" class="collection-name">
+                <li class="nav-item"
+                    :class="{ active: key == currProductType }"
+                    v-for="(item, key, index) in productTypeInfo"
+                    v-if="item.isUse"
+                    @click="switchType(item, key)"
+                    :key="index">
+                  <a href="javascript:;"
+                     class="collection-name">
                     {{ item.name }}
                   </a>
                 </li>
               </ul>
 
               <div class="detail-view row">
-                <div
-                  class="col-xs-12 col-sm-6 col-md-6 detail-item"
-                  v-for="(item, key) in detail.list"
-                  :key="key"
-                >
-                  <div
-                    v-if="item.product_type == productType.books"
-                    class="books"
-                  >
+                <div class="col-xs-12 col-sm-6 col-md-6 detail-item"
+                     v-for="(item, key) in detail.list"
+                     :key="key">
+                  <div v-if="item.product_type == modelName.books"
+                       class="books">
                     <div class="library-item__thumb">
-                      <router-link
-                        :to="{
+                      <router-link :to="{
                           name: 'book',
                           params: { books_id: item.productInfo.books_id }
-                        }"
-                      >
-                        <img
-                          v-lazy="item.productInfo.cover_img"
-                          class="img-full"
-                          lazy="loaded"
-                        />
+                        }">
+                        <img v-lazy="item.productInfo.cover_img"
+                             class="img-full"
+                             lazy="loaded" />
                       </router-link>
                     </div>
                     <div class="library-item__body">
-                      <router-link
-                        class="library-item__title"
-                        :to="{
+                      <router-link class="library-item__title"
+                                   :to="{
                           name: 'book',
                           params: { books_id: item.productInfo.books_id }
-                        }"
-                      >
+                        }">
                         {{ item.productInfo.title }}
                         <span class="tag-buy">已购买</span>
                       </router-link>
                       <div class="library-item__info">
-                        <span
-                          ><i class="el-icon-view"></i>
-                          {{ item.productInfo.read_count || 0 }} </span
-                        ><span style="margin-left: 8px;">
+                        <span><i class="el-icon-view"></i>
+                          {{ item.productInfo.read_count || 0 }} </span><span style="margin-left: 8px;">
                           <i class="el-icon-notebook-2"></i>
                           {{ item.productInfo.bookCount || 0 }}
                         </span>
@@ -80,12 +66,10 @@
                 </div>
               </div>
 
-              <Page
-                :total="Number(detail.count)"
-                :pageSize="Number(detail.pageSize)"
-                :page="Number(detail.page) || 1"
-                @pageChange="pageChange"
-              ></Page>
+              <Page :total="Number(detail.count)"
+                    :pageSize="Number(detail.pageSize)"
+                    :page="Number(detail.page) || 1"
+                    @pageChange="pageChange"></Page>
             </div>
           </div>
 
@@ -108,16 +92,14 @@ import {
   userMessageAction,
   virtualPlusLess,
   virtualPlusLessText,
-  virtualType,
-  productType,
+  modelName,
   statusList,
-  productTypeInfo,
-  modelType
+  productTypeInfo
 } from '@utils/constant'
 
 export default {
   name: 'order',
-  metaInfo() {
+  metaInfo () {
     return {
       title: '个人中心',
       htmlAttrs: {
@@ -125,15 +107,13 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       virtualPlusLess,
       virtualPlusLessText,
       productTypeInfo,
-      virtualType,
+      modelName,
       statusList,
-      productType,
-      modelType,
       currProductType: '',
       detail: {
         list: [],
@@ -144,19 +124,19 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.getList()
   },
   methods: {
-    pageChange(val) {
+    pageChange (val) {
       this.detail.page = val
       this.getList()
     },
-    switchType(item, key) {
+    switchType (item, key) {
       this.currProductType = key
       this.getList()
     },
-    getList() {
+    getList () {
       this.$store
         .dispatch('shop/GET_ORDER_LIST', {
           uid: this.personalInfo.user.uid,

@@ -133,7 +133,7 @@ import {
   payTypeText,
   isFree,
   isFreeText,
-  modelType
+  modelName
 } from '@utils/constant'
 
 
@@ -182,7 +182,7 @@ export default {
       childNavItem: '',
       isFree,
       isFreeText,
-      modelType,
+      modelName,
       statusList,
       statusListText,
     };
@@ -206,7 +206,7 @@ export default {
     collectBooks (books_id) { // 用户收藏小书
       this.$store.dispatch('common/SET_COLLECT', {
         associate_id: books_id,
-        type: modelType.books
+        type: modelName.books
       })
         .then(result => {
           if (result.state === 'success') {

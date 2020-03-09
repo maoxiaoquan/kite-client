@@ -129,8 +129,7 @@ import {
   payTypeText,
   isFree,
   isFreeText,
-  productType,
-  modelType
+  modelName
 } from '@utils/constant'
 
 export default {
@@ -201,7 +200,7 @@ export default {
       statusList,
       statusListText,
       payTypeText,
-      productType,
+      modelName,
       isBuyLoading: false,
       isBuyBooksDialog: false // 是否开启购买按钮
     };
@@ -223,7 +222,7 @@ export default {
       }
       this.$store.dispatch('common/SET_COLLECT', {
         associate_id: books_id,
-        type: modelType.books
+        type: modelName.books
       })
         .then(result => {
           if (result.state === 'success') {
@@ -253,7 +252,7 @@ export default {
       this.isBuyLoading = true
       this.$store.dispatch('shop/BUY', {
         product_id: this.books.booksInfo.books_id,
-        product_type: this.productType.books
+        product_type: this.modelName.books
       }).then(result => {
         this.isBuyLoading = false
         if (result.state === 'success') {

@@ -80,7 +80,7 @@ import { ScrollLoading } from "@components";
 import { baidu, google } from '@utils'
 import googleMixin from '@mixins/google'
 import {
-  modelType
+  modelName
 } from '@utils/constant'
 
 export default {
@@ -175,7 +175,7 @@ export default {
       })
     },
     async subscribeDynamicTopic () { // 订阅动态话题
-      await this.$store.dispatch('common/SET_ATTENTION', { associate_id: this.topicInfo.id, type: modelType.dynamic_topic })
+      await this.$store.dispatch('common/SET_ATTENTION', { associate_id: this.topicInfo.id, type: modelName.dynamic_topic })
         .then(res => {
           // this.$store.dispatch('articleTag/MY_SUBSCRIBE_TAG_LIST')
           if (res.state === 'success') {

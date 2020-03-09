@@ -137,26 +137,26 @@
                    for="">是否添加附件</label>
             <select class="box-select"
                     v-model="write.is_attachment">
-              <option :value="key"
-                      v-for="(item, key) in attachmentTypeList"
-                      :key="key">{{ item }}</option>
+              <option :value="item"
+                      v-for="item in isOpen"
+                      :key="item">{{ isOpenInfo[item] }}</option>
             </select>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6 box-form-group"
-               v-if="Number(write.is_attachment)===1">
+               v-if="Number(write.is_attachment)===isOpen.yes">
             <label class="box-label"
                    for="">开启付费</label>
             <select class="box-select"
                     v-model="write.is_free">
-              <option :value="key"
-                      v-for="(item,key) in isFreeText"
-                      :key="key">{{item}}</option>
+              <option :value="item"
+                      v-for="item in isFree"
+                      :key="item">{{isFreeText[item]}}</option>
             </select>
           </div>
         </div>
 
         <div class="row mrg-bm20"
-             v-if="Number(write.is_free||1)!==isFree.free">
+             v-if="Number(write.is_free||1)!==isFree.free&&Number(write.is_attachment)===isOpen.yes">
           <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
             <label class="box-label"
                    for="">支付类型</label>
@@ -172,12 +172,13 @@
                    for="">价格 ￥({{payTypeText[write.pay_type]}})</label>
             <input type="text"
                    class="box-input"
-                   v-model="write.price">
+                   v-model="write.price"
+                   keyup.native="isFloor">
           </div>
         </div>
 
         <div class="row mrg-bm20"
-             v-if="Number(write.is_attachment)===1">
+             v-if="Number(write.is_attachment)===isOpen.yes">
           <div class="col-xs-12 col-sm-12 col-md-12">
             <label class="box-label"
                    for="">附件内容(支持markdown)</label>
@@ -210,7 +211,9 @@ import {
   articleTypeText,
   payTypeText,
   isFree,
-  isFreeText
+  isFreeText,
+  isOpen,
+  isOpenInfo
 } from '@utils/constant'
 export default {
   name: 'write',
@@ -245,10 +248,11 @@ export default {
         attachment: ''
       },
       publicTypeList: ['仅自己可见', '公开'], // 文章类型列表
-      attachmentTypeList: ['关闭', '开启'], // 文章类型列表
       payTypeText,
       isFree,
       isFreeText,
+      isOpen,
+      isOpenInfo,
       articleTypeText,
       blog: {
         name: ''
@@ -347,12 +351,26 @@ export default {
             })
 
             if (result.data.articleAnnex) { // 附件
-              this.write.is_attachment = articleInfo.is_attachment ? 1 : 0
+              this.write.is_attachment = articleInfo.is_attachment
               this.write.attachment = articleAnnexInfo.origin_attachment
             }
             this.renderCurrentArticleTag()
           })
       }
+    },
+    isFloor (e, type) {
+      if (type == 'floor') {
+        var val = e.target.value;
+        //限制只能输入一个小数点
+        if (val.indexOf(".") != -1) {
+          var str = val.substr(val.indexOf(".") + 1);
+          if (str.indexOf(".") != -1) {
+            val = val.substr(0, val.indexOf(".") + str.indexOf(".") + 1);
+          }
+        }
+        e.target.value = val.replace(/[^\d^\.]+/g, '');
+      }
+
     },
     initArticleTagAll () {
       this.searchShowArticleTagAll = this.articleTagAll

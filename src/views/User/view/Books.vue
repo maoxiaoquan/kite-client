@@ -91,8 +91,7 @@ import {
   statusListText,
   payTypeText,
   isFree,
-  isFreeText,
-  productType
+  isFreeText
 } from '@utils/constant'
 
 export default {

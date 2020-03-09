@@ -22,7 +22,7 @@
 <script>
 import { mapState } from "vuex";
 import {
-  modelType
+  modelName
 } from '@utils/constant'
 
 export default {
@@ -30,7 +30,7 @@ export default {
   props: ['dynamicTopicItem'],
   methods: {
     subscribeDynamicTopic () { // 订阅动态话题
-      this.$store.dispatch('common/SET_ATTENTION', { associate_id: this.dynamicTopicItem.id, type: modelType.dynamic_topic })
+      this.$store.dispatch('common/SET_ATTENTION', { associate_id: this.dynamicTopicItem.id, type: modelName.dynamic_topic })
         .then(res => {
           // this.$store.dispatch('articleTag/MY_SUBSCRIBE_TAG_LIST')
           if (res.state === 'success') {

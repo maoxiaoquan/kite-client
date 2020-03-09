@@ -200,7 +200,7 @@
 <script>
 import { Page, UploadImage, Dialog, Dropdown } from '@components'
 import { mapState } from 'vuex'
-import { modelType } from '@utils/constant'
+import { modelName } from '@utils/constant'
 
 export default {
   name: 'Blog',
@@ -213,7 +213,7 @@ export default {
   },
   data () {
     return {
-      modelType,
+      modelName,
       isCreateBlogShow: false,
       isCreate: true,
       isLoading: false,
@@ -353,7 +353,7 @@ export default {
       this.$store
         .dispatch('common/SET_COLLECT', {
           associate_id: blog_id,
-          type: modelType.article_blog
+          type: modelName.article_blog
         })
         .then(result => {
           if (result.state === 'success') {

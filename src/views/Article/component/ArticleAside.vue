@@ -80,7 +80,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { modelType, userLevel } from '@utils/constant'
+import { modelName, userLevel } from '@utils/constant'
 
 export default {
   data () {
@@ -154,7 +154,7 @@ export default {
         this.$store
           .dispatch('common/SET_ATTENTION', {
             associate_id: this.userInfo.uid,
-            type: modelType.user
+            type: modelName.user
           })
           .then(result => {
             if (result.state === 'success') {

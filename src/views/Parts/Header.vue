@@ -1,8 +1,6 @@
 <template>
-  <div class="main-header"
-       id="main-header">
-    <header class="navbar navbar-visible"
-            id="header-view">
+  <div class="main-header">
+    <header class="navbar navbar-visible">
       <div class="container navbar-view">
         <router-link :to="{ name: 'home' }"
                      class="navbar-brand logo-img"

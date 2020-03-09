@@ -73,8 +73,25 @@
 <script>
 import { sendCode } from '@components'
 import ClientOnly from 'vue-client-only'
+import { mapState } from 'vuex'
 export default {
   name: 'SignUp',
+  metaInfo () {
+    return {
+      title: `${this.website.website_name}-注册`,
+      htmlAttrs: {
+        lang: 'zh'
+      }
+    }
+  },
+  asyncData ({ store, route, accessToken = '' }) {
+    // 触发 action 后，会返回 Promise
+    return Promise.all([
+      store.dispatch('PERSONAL_INFO', { accessToken }),
+      store.dispatch('website/GET_WEBSITE_INFO'),
+      store.dispatch('articleTag/GET_ARTICLE_TAG_ALL')
+    ])
+  },
   data () {
     return {
       isSendCode: false,
@@ -118,6 +135,9 @@ export default {
     tapSign () {
       this.$router.push({ name: 'signIn' })
     }
+  },
+  computed: {
+    ...mapState(['website'])
   },
   components: {
     'send-code': sendCode,

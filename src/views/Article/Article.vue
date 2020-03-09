@@ -42,7 +42,7 @@
                  v-html="article.content"></div>
 
             <div class="attachment"
-                 v-if="article.is_attachment">
+                 v-if="article.is_attachment===isOpen.yes">
               <div class="title">附件</div>
               <div class="attachment"
                    v-if="articleAnnex.attachment&&personalInfo.islogin"
@@ -166,10 +166,10 @@ import {
   articleType,
   statusListText,
   articleTypeText,
-  modelType,
-  productType,
+  modelName,
   payTypeText,
-  isFree
+  isFree,
+  isOpen
 } from '@utils/constant'
 export default {
   name: 'Article',
@@ -244,15 +244,16 @@ export default {
       sourceTypeList: ['', '原创', '转载'],
       articleTypeText,
       payTypeText,
-      productType,
       isFree,
+      isOpen,
+      modelName,
       isBuyDialog: false,
       isBuyLoading: false,
       articleAnnex: {} // 文章附件信息
     }
   },
   mounted () {
-    if (this.article.is_attachment) { this.getArticleAnnex() }
+    if (this.article.is_attachment == this.isOpen.yes) { this.getArticleAnnex() }
   },
   methods: {
     isThumb (item) {
@@ -286,12 +287,12 @@ export default {
       this.isBuyLoading = true
       this.$store.dispatch('shop/BUY', {
         product_id: this.articleAnnex.id,
-        product_type: this.productType.article_annex
+        product_type: this.modelName.article_annex
       }).then(result => {
         this.isBuyLoading = false
         if (result.state === 'success') {
           this.isBuyDialog = false
-          if (this.article.is_attachment) { this.getArticleAnnex() }
+          if (this.article.is_attachment == this.isOpen.yes) { this.getArticleAnnex() }
           this.$message.success(result.message);
         } else {
           this.$message.warning(result.message);
@@ -303,7 +304,7 @@ export default {
       this.$store
         .dispatch('common/SET_THUMB', {
           associate_id: this.article.aid,
-          type: modelType.article
+          type: modelName.article
         })
         .then(result => {
           if (result.state === 'success') {

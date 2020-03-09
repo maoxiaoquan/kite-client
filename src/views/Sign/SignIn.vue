@@ -70,6 +70,14 @@ import ClientOnly from 'vue-client-only'
 import { mapState } from 'vuex'
 export default {
   name: 'SignIn',
+  metaInfo () {
+    return {
+      title: `${this.website.website_name}-登录`,
+      htmlAttrs: {
+        lang: 'zh'
+      }
+    }
+  },
   asyncData ({ store, route, accessToken = '' }) {
     // 触发 action 后，会返回 Promise
     return Promise.all([

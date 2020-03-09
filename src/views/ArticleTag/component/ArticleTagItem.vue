@@ -38,7 +38,7 @@
 
 <script>
 import {
-  modelType
+  modelName
 } from '@utils/constant'
 
 export default {
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     async subscribeTag () { // 订阅标签
-      await this.$store.dispatch('common/SET_ATTENTION', { associate_id: this.articleTagItem.id, type: modelType.article_tag })
+      await this.$store.dispatch('common/SET_ATTENTION', { associate_id: this.articleTagItem.id, type: modelName.article_tag })
         .then(res => {
           this.$store.dispatch('articleTag/MY_SUBSCRIBE_TAG_LIST')
           if (res.state === 'success') {

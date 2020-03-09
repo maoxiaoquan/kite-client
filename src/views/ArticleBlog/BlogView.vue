@@ -115,7 +115,7 @@ import websiteNotice from '@views/Parts/websiteNotice'
 import { share, baidu, google } from '@utils'
 import googleMixin from '@mixins/google'
 import {
-  modelType
+  modelName
 } from '@utils/constant'
 export default {
   name: "ArticleBlogView",
@@ -155,7 +155,7 @@ export default {
   },
   data () {
     return {
-      modelType
+      modelName
     }
   },
   methods: {
@@ -190,7 +190,7 @@ export default {
     setLikeArticleBlog (blog_id) { // 用户关注blog
       this.$store.dispatch('common/SET_COLLECT', {
         associate_id: blog_id,
-        type: modelType.article_blog
+        type: modelName.article_blog
       })
         .then(result => {
           if (result.state === 'success') {

@@ -8,52 +8,47 @@
               <h3>经验明细</h3>
               <div class="amount">
                 等级：<span class="amount-num">Lv {{ getLevel() || 0 }} </span>
-                总经验：<span class="amount-num"
-                  >{{ personalInfo.user_info.experience || 0 }}
+                总经验：<span class="amount-num">{{ personalInfo.user_info.experience || 0 }}
                 </span>
               </div>
 
               <table class="table-view">
                 <tr>
-                  <td style="width:20%" class="hd">时间</td>
-                  <td style="width:20%" class="hd">数额</td>
-                  <td style="width:20%" class="hd">描述</td>
+                  <td style="width:20%"
+                      class="hd">时间</td>
+                  <td style="width:20%"
+                      class="hd">数额</td>
+                  <td style="width:20%"
+                      class="hd">描述</td>
                 </tr>
-                <tr v-for="(detailItem, key) in detail.list" :key="key">
+                <tr v-for="(detailItem, key) in detail.list"
+                    :key="key">
                   <td style="width:20%">{{ detailItem.create_dt }}</td>
                   <td style="width:20%">
                     <span class="balance"> +{{ detailItem.value }} </span>
                   </td>
                   <td style="width:20%">
                     {{ detailItem.actionText + detailItem.typeText }}
-                    <router-link
-                      style="color:#df5858"
-                      v-if="detailItem.type === modelType.article"
-                      :to="{
+                    <router-link style="color:#df5858"
+                                 v-if="detailItem.type === modelName.article"
+                                 :to="{
                         name: 'article',
                         params: { aid: detailItem.content.aid }
-                      }"
-                      >{{ detailItem.content.title }}</router-link
-                    >
-                    <router-link
-                      style="color:#df5858"
-                      v-if="detailItem.type === modelType.dynamic"
-                      :to="{
+                      }">{{ detailItem.content.title }}</router-link>
+                    <router-link style="color:#df5858"
+                                 v-if="detailItem.type === modelName.dynamic"
+                                 :to="{
                         name: 'dynamicView',
                         params: { dynamicId: detailItem.content.id }
-                      }"
-                      >{{ detailItem.content.content }}</router-link
-                    >
+                      }">{{ detailItem.content.content }}</router-link>
                   </td>
                 </tr>
               </table>
 
-              <Page
-                :total="Number(detail.count)"
-                :pageSize="Number(detail.pageSize)"
-                :page="Number(detail.page) || 1"
-                @pageChange="pageChange"
-              ></Page>
+              <Page :total="Number(detail.count)"
+                    :pageSize="Number(detail.pageSize)"
+                    :page="Number(detail.page) || 1"
+                    @pageChange="pageChange"></Page>
             </div>
           </div>
 
@@ -72,11 +67,11 @@ import Collect from './PersonalView/Collect'
 import { mapState } from 'vuex'
 import ClientOnly from 'vue-client-only'
 import { Page, faceQQ, Dropdown } from '@components'
-import { userMessageAction, modelType, userLevel } from '@utils/constant'
+import { userMessageAction, modelName, userLevel } from '@utils/constant'
 
 export default {
   name: 'Personal',
-  metaInfo() {
+  metaInfo () {
     return {
       title: '个人中心',
       htmlAttrs: {
@@ -84,9 +79,9 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
-      modelType,
+      modelName,
       userLevel,
       detail: {
         list: [],
@@ -96,15 +91,15 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.getVirtualList()
   },
   methods: {
-    pageChange(val) {
+    pageChange (val) {
       this.detail.page = val
       this.getVirtualList()
     },
-    getVirtualList() {
+    getVirtualList () {
       this.$store
         .dispatch('common/GET_EXPERIENCE_LIST', {
           uid: this.personalInfo.user.uid,
@@ -115,7 +110,7 @@ export default {
           this.detail = result.data
         })
     },
-    getLevel() {
+    getLevel () {
       let l = 0
       let x = this.user.user_info.experience
       if (x < this.userLevel.one) {

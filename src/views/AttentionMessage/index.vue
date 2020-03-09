@@ -24,13 +24,13 @@
                   <div class="content">
                     {{MessageItem.actionText}}{{MessageItem.typeText}}
                     <router-link style="color:#df5858"
-                                 v-if="MessageItem.type===modelType.article"
+                                 v-if="MessageItem.type===modelName.article"
                                  :to="{name:'article',params:{aid:MessageItem.associateInfo.aid}}">{{MessageItem.associateInfo.title}}</router-link>
                     <router-link style="color:#df5858"
-                                 v-if="MessageItem.type===modelType.dynamic"
+                                 v-if="MessageItem.type===modelName.dynamic"
                                  :to="{name:'dynamicView',params:{dynamicId:MessageItem.associateInfo.id}}">{{MessageItem.associateInfo.content}}</router-link>
                     <router-link style="color:#df5858"
-                                 v-if="MessageItem.type===modelType.books"
+                                 v-if="MessageItem.type===modelName.books"
                                  :to="{name:'book',params:{books_id:MessageItem.associateInfo.books_id}}">{{MessageItem.associateInfo.title}}</router-link>
 
                   </div>
@@ -56,14 +56,14 @@
 import { Page } from '@components'
 import { mapState } from 'vuex'
 import {
-  modelType
+  modelName
 } from '@utils/constant'
 export default {
   name: 'UserMessage',
   data () {
     return {
       isLoading: false,
-      modelType,
+      modelName,
       messageList: {
         // 用户消息
         list: [],

@@ -15,16 +15,16 @@
       <div class="content">
         {{userMessageTypeText[MessageItem.type][MessageItem.action]}}
         <router-link style="color:#df5858"
-                     v-if="MessageItem.type===modelType.article"
+                     v-if="MessageItem.type===modelName.article"
                      :to="{name:'article',params:{aid:MessageItem.article.aid}}">{{MessageItem.article.title}}</router-link>
         <router-link style="color:#df5858"
-                     v-if="MessageItem.type===modelType.dynamic"
+                     v-if="MessageItem.type===modelName.dynamic"
                      :to="{name:'dynamicView',params:{dynamicId:MessageItem.dynamic.id}}">{{MessageItem.dynamic.content}}</router-link>
         <router-link style="color:#df5858"
-                     v-if="MessageItem.type===modelType.books"
+                     v-if="MessageItem.type===modelName.books"
                      :to="{name:'book',params:{books_id:MessageItem.books.books_id}}">{{MessageItem.books.title}}</router-link>
         <router-link style="color:#df5858"
-                     v-if="MessageItem.type===modelType.book"
+                     v-if="MessageItem.type===modelName.book"
                      :to="{name:'BookView',params:{books_id: MessageItem.book.books_id, book_id: MessageItem.book.book_id}}">{{MessageItem.book.title}}</router-link>
       </div>
 
@@ -53,7 +53,7 @@ import { faceQQ } from '@components'
 import {
   statusList,
   statusListText,
-  modelType,
+  modelName,
   userMessageTypeText,
   userMessageAction,
   userMessageActionText
@@ -68,7 +68,7 @@ export default {
   data () {
     return {
       statusList,
-      modelType,
+      modelName,
       userMessageTypeText,
       typeList: ["", "系统消息", "喜欢文章", "关注标签", "用户关注", "评论", "动态评论"]
     };

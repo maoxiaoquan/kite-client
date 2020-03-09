@@ -60,7 +60,7 @@
 import { mapState } from 'vuex'
 import { Page } from '@components'
 import {
-  modelType
+  modelName
 } from '@utils/constant'
 
 export default {
@@ -75,7 +75,7 @@ export default {
   },
   data () {
     return {
-      modelType,
+      modelName,
       collectBooksInfo: {
         count: 0,
         list: [],
@@ -103,7 +103,7 @@ export default {
     collectBooks (books_id) { // 用户收藏小书
       this.$store.dispatch('common/SET_COLLECT', {
         associate_id: books_id,
-        type: modelType.books
+        type: modelName.books
       })
         .then(result => {
           if (result.state === 'success') {

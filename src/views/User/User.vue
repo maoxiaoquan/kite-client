@@ -1,57 +1,51 @@
 <template>
   <client-only>
-    <section class="user-lay layout-content" id="user-center-article">
+    <section class="user-lay layout-content"
+             id="user-center-article">
       <div class="container  box-container">
         <div class="row">
           <div class="col-xs-12 col-sm-8 col-md-8 main">
             <div class="client-card">
               <div class="main-top clearfix">
-                <router-link
-                  :to="{
+                <router-link :to="{
                     name: 'user',
                     params: { uid: user.user.uid, routeType: 'article' }
                   }"
-                  class="avatar"
-                >
+                             class="avatar">
                   <div class="avatar-img">
-                    <img v-lazy="user.user.avatar" class="box-image" alt="" />
+                    <img v-lazy="user.user.avatar"
+                         class="box-image"
+                         alt="" />
                   </div>
                 </router-link>
 
                 <div class="title">
-                  <router-link
-                    :to="{
+                  <router-link :to="{
                       name: 'user',
                       params: { uid: user.user.uid, routeType: 'article' }
                     }"
-                    class="name"
-                  >
+                               class="name">
                     {{ user.user.nickname }}
                     <i class="level-num">Lv{{ getLevel() }}</i>
-                    <i
-                      v-if="~[1, 2].indexOf(user.user.sex)"
-                      :class="
+                    <i v-if="~[1, 2].indexOf(user.user.sex)"
+                       :class="
                         user.user.sex === 1
                           ? 'male el-icon-male'
                           : 'female el-icon-female'
-                      "
-                    ></i>
+                      "></i>
                   </router-link>
                 </div>
 
-                <div
-                  class="btn-group"
-                  v-if="user.user.uid !== personalInfo.user.uid"
-                >
-                  <button class="btn btn-private-chat" @click="privateChat">
+                <div class="btn-group"
+                     v-if="user.user.uid !== personalInfo.user.uid">
+                  <button class="btn btn-private-chat"
+                          @click="privateChat">
                     <i class="iconfont"></i>
                     <span>私聊</span>
                   </button>
-                  <button
-                    class="btn"
-                    @click="onUserAttention(isAttention.is_attention)"
-                    :class="isAttention.is_attention ? 'has' : 'no'"
-                  >
+                  <button class="btn"
+                          @click="onUserAttention(isAttention.is_attention)"
+                          :class="isAttention.is_attention ? 'has' : 'no'">
                     <i class="iconfont"></i>
                     <span>{{ isAttention.text }}</span>
                   </button>
@@ -61,13 +55,11 @@
                   <ul>
                     <li>
                       <div class="meta-block">
-                        <router-link
-                          :to="{
+                        <router-link :to="{
                             name: 'user',
                             params: { routeType: 'attention' },
                             query: { any: 'me' }
-                          }"
-                        >
+                          }">
                           <p>{{ user.userAttentionCount }}</p>
                           <strong>
                             关注的人
@@ -77,13 +69,11 @@
                     </li>
                     <li>
                       <div class="meta-block">
-                        <router-link
-                          :to="{
+                        <router-link :to="{
                             name: 'user',
                             params: { routeType: 'attention' },
                             query: { any: 'other' }
-                          }"
-                        >
+                          }">
                           <p>{{ user.otherUserAttentionCount }}</p>
                           <strong>粉丝</strong>
                         </router-link>
@@ -91,24 +81,20 @@
                     </li>
                     <li>
                       <div class="meta-block">
-                        <router-link
-                          :to="{
+                        <router-link :to="{
                             name: 'user',
                             params: { routeType: 'article' }
-                          }"
-                        >
+                          }">
                           <p>{{ user.userArticleCount }}</p>
                           <strong>文章</strong>
                         </router-link>
                       </div>
                     </li>
 
-                    <li
-                      v-if="
+                    <li v-if="
                         user.user.uid === personalInfo.user.uid &&
                           personalInfo.islogin
-                      "
-                    >
+                      ">
                       <div class="meta-block">
                         <router-link :to="{ name: 'shellDetail' }">
                           <p>{{ user.user_info.shell_balance || 0 }}</p>
@@ -124,49 +110,35 @@
             <div class="client-card">
               <ul class="trigger-menu">
                 <li>
-                  <router-link
-                    :to="{ name: 'user', params: { routeType: 'article' } }"
-                  >
+                  <router-link :to="{ name: 'user', params: { routeType: 'article' } }">
                     文章
                   </router-link>
                 </li>
                 <li>
-                  <router-link
-                    :to="{ name: 'user', params: { routeType: 'dynamic' } }"
-                  >
+                  <router-link :to="{ name: 'user', params: { routeType: 'dynamic' } }">
                     片刻
                   </router-link>
                 </li>
                 <li>
-                  <router-link
-                    :to="{ name: 'user', params: { routeType: 'books' } }"
-                  >
+                  <router-link :to="{ name: 'user', params: { routeType: 'books' } }">
                     小书
                   </router-link>
                 </li>
                 <li>
-                  <router-link
-                    :to="{ name: 'user', params: { routeType: 'blog' } }"
-                  >
+                  <router-link :to="{ name: 'user', params: { routeType: 'blog' } }">
                     个人专栏
                   </router-link>
                 </li>
                 <li>
-                  <router-link
-                    :to="{ name: 'user', params: { routeType: 'attention' } }"
-                  >
+                  <router-link :to="{ name: 'user', params: { routeType: 'attention' } }">
                     关注
                   </router-link>
                 </li>
-                <li
-                  v-if="
+                <li v-if="
                     personalInfo.islogin &&
                       personalInfo.user.uid === user.user.uid
-                  "
-                >
-                  <router-link
-                    :to="{ name: 'user', params: { routeType: 'message' } }"
-                  >
+                  ">
+                  <router-link :to="{ name: 'user', params: { routeType: 'message' } }">
                     消息
                   </router-link>
                 </li>
@@ -175,12 +147,8 @@
               <BlogView v-if="$route.params.routeType === 'blog'" />
               <BooksView v-else-if="$route.params.routeType === 'books'" />
               <DynamicView v-else-if="$route.params.routeType === 'dynamic'" />
-              <UserAttentionView
-                v-else-if="$route.params.routeType === 'attention'"
-              />
-              <UserMessageView
-                v-else-if="$route.params.routeType === 'message'"
-              />
+              <UserAttentionView v-else-if="$route.params.routeType === 'attention'" />
+              <UserMessageView v-else-if="$route.params.routeType === 'message'" />
               <ArticleView v-else />
             </div>
           </div>
@@ -204,11 +172,11 @@ import BooksView from './view/Books'
 import DynamicView from './view/Dynamic'
 import UserAttentionView from './view/UserAttention'
 import UserMessageView from './view/UserMessage'
-import { modelType, userLevel } from '@utils/constant'
+import { modelName, userLevel } from '@utils/constant'
 
 export default {
   name: 'User',
-  metaInfo() {
+  metaInfo () {
     return {
       title: this.user.user.nickname,
       titleTemplate: `%s - ${this.website.meta.website_name || ''}`,
@@ -217,19 +185,19 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
-      modelType,
+      modelName,
       userLevel
     }
   },
-  async asyncData({ store, route }) {
+  async asyncData ({ store, route }) {
     return Promise.all([
       store.dispatch('user/GET_USER_INFO_ALL', { uid: route.params.uid })
     ])
   },
   methods: {
-    privateChat() {
+    privateChat () {
       if (!this.personalInfo.islogin) {
         this.$router.push({ name: 'signIn' })
         return false
@@ -243,7 +211,7 @@ export default {
         query: { uid: this.user.user.uid, nickname: this.user.user.nickname }
       })
     },
-    getLevel() {
+    getLevel () {
       let l = 0
       let x = this.user.user_info.experience
       if (x < this.userLevel.one) {
@@ -261,7 +229,7 @@ export default {
       }
       return l
     },
-    onUserAttention(type) {
+    onUserAttention (type) {
       if (!this.personalInfo.islogin) {
         this.$router.push({ name: 'signIn' })
         return false
@@ -279,7 +247,7 @@ export default {
         this.$store
           .dispatch('common/SET_ATTENTION', {
             associate_id: this.$route.params.uid,
-            type: modelType.user
+            type: modelName.user
           })
           .then(result => {
             if (result.state === 'success') {
@@ -294,7 +262,7 @@ export default {
   },
   computed: {
     ...mapState(['personalInfo', 'user', 'website']), // personalInfo:个人信息  user:登录后的个人信息当前用户
-    isAttention() {
+    isAttention () {
       // 是否关注
       if (
         ~this.user.associateInfo.userAttentionId.indexOf(
