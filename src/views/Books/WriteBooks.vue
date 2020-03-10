@@ -89,6 +89,7 @@
                        for="">价格 ￥({{payTypeText[write.pay_type]}})</label>
                 <input type="text"
                        class="box-input"
+                       @keyup="isFloor"
                        v-model="write.price">
               </div>
             </div>
@@ -278,6 +279,19 @@ export default {
             });
             this.renderCurrentArticleTag();
           });
+      }
+    },
+    isFloor (e, type) {
+      if (type == 'floor') {
+        var val = e.target.value;
+        //限制只能输入一个小数点
+        if (val.indexOf(".") != -1) {
+          var str = val.substr(val.indexOf(".") + 1);
+          if (str.indexOf(".") != -1) {
+            val = val.substr(0, val.indexOf(".") + str.indexOf(".") + 1);
+          }
+        }
+        e.target.value = val.replace(/[^\d^\.]+/g, '');
       }
     },
     changeUploadCoverImg ({ formData, config }) { // 上传封面图片

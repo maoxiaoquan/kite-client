@@ -1,92 +1,113 @@
 <template>
-  <div class="user-center-message-item attention"
-       ref="user_message_list">
-    <div class="title">{{MessageItem.actionText}} {{MessageItem.create_dt}}</div>
-
-    <div class="main clearfix">
-      <router-link class="user-info"
-                   :to="{name:'user',params:{uid:MessageItem.sender.uid,routeType:'article'}}">
-        <img class="avatar"
-             v-lazy="MessageItem.sender.avatar"
-             alt />
-        <span class="nickname">{{MessageItem.sender.nickname}}</span>
-      </router-link>
-      <div class="content">
-        {{userMessageTypeText[MessageItem.type][MessageItem.action]}}
-        <router-link style="color:#df5858"
-                     v-if="MessageItem.type===modelName.books"
-                     :to="{name:'book',params:{books_id:MessageItem.books.books_id}}">{{MessageItem.books.title}}</router-link>
-      </div>
-      <span class="delete-message"
-            @click="deleteUserMessage(MessageItem.id)">删除</span>
+  <div class="user-center-message-item attention" ref="user_message_list">
+    <div class="title">
+      {{ MessageItem.actionText }} {{ MessageItem.create_dt }}
     </div>
 
+    <div class="main clearfix">
+      <router-link
+        class="user-info"
+        :to="{
+          name: 'user',
+          params: { uid: MessageItem.sender.uid, routeType: 'article' }
+        }"
+      >
+        <img class="avatar" v-lazy="MessageItem.sender.avatar" alt />
+        <span class="nickname">{{ MessageItem.sender.nickname }}</span>
+      </router-link>
+      <span class="action">{{
+        userMessageTypeText[MessageItem.type][MessageItem.action]
+      }}</span>
+      <span class="delete-message" @click="deleteUserMessage(MessageItem.id)"
+        >删除</span
+      >
+    </div>
+
+    <div class="content">
+      <router-link
+        style="color:#df5858"
+        v-if="MessageItem.type === modelName.books"
+        :to="{
+          name: 'book',
+          params: { books_id: MessageItem.books.books_id }
+        }"
+        >{{ MessageItem.books.title }}</router-link
+      >
+      <router-link
+        style="color:#df5858"
+        v-else-if="MessageItem.type === modelName.article_annex"
+        :to="{
+          name: 'article',
+          params: { aid: MessageItem.article_annex.aid }
+        }"
+        v-html="MessageItem.article_annex.attachment"
+      ></router-link>
+    </div>
   </div>
 </template>
 
 <script>
-
 import {
   statusList,
   statusListText,
   modelName,
   userMessageTypeText,
   userMessageAction,
-  userMessageActionText,
+  userMessageActionText
 } from '@utils/constant'
 
 export default {
-  name: "UserMessageItem",
+  name: 'UserMessageItem',
   props: {
     MessageItem: {
       type: Object
     }
   },
-  data () {
+  data() {
     return {
       statusList,
       modelName,
       userMessageTypeText
-    };
+    }
   },
   methods: {
-    deleteUserMessage (id) {
-      this.$confirm("此操作将永久该消息, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+    deleteUserMessage(id) {
+      this.$confirm('此操作将永久该消息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
           this.$store
-            .dispatch("user/DELETE_USER_MESSAGE", {
+            .dispatch('user/DELETE_USER_MESSAGE', {
               user_message_id: id
             })
             .then(result => {
-              if (result.state === "success") {
-                this.$message.success(result.message);
-                this.$emit("delete-change");
+              if (result.state === 'success') {
+                this.$message.success(result.message)
+                this.$emit('delete-change')
               } else {
-                this.$message.warning(result.message);
+                this.$message.warning(result.message)
               }
             })
             .catch(err => {
-              console.log(err);
-            });
+              console.log(err)
+            })
         })
-        .catch(() => { });
+        .catch(() => {})
     },
-    commentRender (val) {
-      let newComment = val;
+    commentRender(val) {
+      let newComment = val
       faceQQ.map(faceItem => {
         newComment = newComment.replace(
-          new RegExp("\\" + faceItem.face_text, "g"),
+          new RegExp('\\' + faceItem.face_text, 'g'),
           faceItem.face_view
-        );
-      });
-      return newComment;
+        )
+      })
+      return newComment
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
@@ -114,7 +135,8 @@ export default {
     }
   }
   .content {
-    margin-top: 7px;
+    margin-top: 15px;
+    padding-left: 50px;
     display: inline-block;
     font-size: 14px;
     p {

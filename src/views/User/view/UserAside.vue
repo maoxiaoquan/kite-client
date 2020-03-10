@@ -273,6 +273,7 @@ export default {
         -webkit-box-pack: center;
         -ms-flex-pack: center;
         justify-content: center;
+        font-size: 20px;
         -webkit-box-align: end;
         -ms-flex-align: end;
         align-items: flex-end;

@@ -241,7 +241,8 @@ export const userMessageTypeText = {
     [userMessageAction.attention]: '关注了你' // 用户1
   },
   [modelName.article]: {
-    [userMessageAction.comment]: '评论了你的文章' // 文章2
+    [userMessageAction.comment]: '评论了你的文章', // 文章2
+    [userMessageAction.reply]: '在你的文章有回复' // 文章2
   },
   [modelName.article_blog]: {
     [userMessageAction.collect]: '收藏了你的专栏' // 文章个人专栏3
@@ -250,20 +251,23 @@ export const userMessageTypeText = {
     [userMessageAction.reply]: '文章中回复你的' // 文章评论4
   },
   [modelName.book]: {
-    [userMessageAction.comment]: '评论了你的小书章节' // 小书章节5
+    [userMessageAction.comment]: '评论了你的小书章节', // 小书章节5
+    [userMessageAction.reply]: '在你的小书章节有回复' // 文章2
   },
   [modelName.book_comment]: {
     [userMessageAction.reply]: '小书章节中回复你的' // 小书章节评论6
   },
   [modelName.books]: {
     [userMessageAction.comment]: '评论了你的小书', // 小书7
-    [userMessageAction.sell]: '卖出小书' // 小书7
+    [userMessageAction.sell]: '卖出小书', // 小书7
+    [userMessageAction.reply]: '在你的小书有回复' // 文章2
   },
   [modelName.books_comment]: {
     [userMessageAction.reply]: '小书中回复你的' // 小书评论8
   },
   [modelName.dynamic]: {
-    [userMessageAction.comment]: '评论了你片刻' // 片刻9
+    [userMessageAction.comment]: '评论了你片刻', // 片刻9
+    [userMessageAction.reply]: '在你的片刻有回复' // 文章2
   },
   [modelName.dynamic_comment]: {
     [userMessageAction.comment]: '片刻中回复你的' // 片刻评论10
@@ -278,7 +282,7 @@ export const userMessageTypeText = {
     [userMessageAction.collect]: '收藏你的' // 收藏你的专栏
   },
   [modelName.article_annex]: {
-    [userMessageAction.sell]: '卖出' // 小书7
+    [userMessageAction.sell]: '卖出文章附件' // 小书7
   }
 }
 

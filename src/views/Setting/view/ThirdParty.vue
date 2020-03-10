@@ -6,12 +6,10 @@
         <li>
           <div class="type">github</div>
           <div class="info">
-            <span class="bind"
-                  v-if="~personalInfo.bindType.indexOf('github')">已绑定 <span class="del-bind"
-                    @click="deletaAuth">解绑</span> </span>
-            <a class="no-bind"
-               v-else
-               :href="githubBindUrl">未绑定，点击绑定</a>
+            <span class="bind" v-if="~personalInfo.bindType.indexOf('github')"
+              >已绑定 <span class="del-bind" @click="deletaAuth">解绑</span>
+            </span>
+            <a class="no-bind" v-else :href="githubBindUrl">未绑定，点击绑定</a>
           </div>
         </li>
       </ul>
@@ -24,7 +22,7 @@ import { cookie } from '../../../utils/cookie.js'
 import { mapState } from 'vuex'
 export default {
   name: 'ResetPassword',
-  metaInfo () {
+  metaInfo() {
     return {
       title: '个人设置-重置密码',
       htmlAttrs: {
@@ -32,27 +30,29 @@ export default {
       }
     }
   },
-  data () {
+  data() {
     return {
       githubBindUrl: ''
     }
   },
-  mounted () {
+  mounted() {
     this.initUrl()
   },
   methods: {
-    initUrl () {
+    initUrl() {
       this.githubBindUrl = `/api-client/v1/oauth/github-oauth?state=${this.personalInfo.user.uid}`
     },
-    deletaAuth () {
-      this.$store.dispatch('common/DELETE_OAUTN', { identity_type: 'github' }).then(result => {
-        this.$store.dispatch('PERSONAL_INFO')
-      })
-    },
+    deletaAuth() {
+      this.$store
+        .dispatch('common/DELETE_OAUTN', { identity_type: 'github' })
+        .then(result => {
+          this.$store.dispatch('PERSONAL_INFO')
+        })
+    }
   },
   computed: {
     ...mapState(['personalInfo'])
-  },
+  }
 }
 </script>
 
@@ -75,6 +75,7 @@ export default {
         display: flex;
         justify-content: space-between;
         padding: 10px 0;
+        font-size: 15px;
         .type {
         }
         .info {

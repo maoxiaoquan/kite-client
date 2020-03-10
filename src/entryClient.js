@@ -4,6 +4,7 @@ import { createApp } from './app'
 import NProgress from 'nprogress'
 import { loading } from './directive'
 import VueLazyload from 'vue-lazyload'
+
 const { app, router, store } = createApp()
 
 NProgress.configure({
@@ -25,7 +26,7 @@ Vue.use(VueLazyload, {
 })
 
 Vue.mixin({
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     const { asyncData } = this.$options
     if (asyncData) {
       asyncData({
@@ -91,7 +92,7 @@ router.afterEach(() => {
   NProgress.done()
 })
 
-function isLocalhost () {
+function isLocalhost() {
   return /^http(s)?:\/\/localhost/.test(location.href)
 }
 

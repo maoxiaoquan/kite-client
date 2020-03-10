@@ -96,7 +96,7 @@
                     编辑当前章节
                   </div>
                 </div>
-                <div class="entry-content article-content box-article-view"
+                <div class="entry-content article-content"
                      v-if="book.bookInfo.isLook"
                      v-html="book.bookInfo.content">
                 </div>

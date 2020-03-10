@@ -2,114 +2,151 @@
   <section class="article layout-content container">
     <div class="article-lay row">
       <div class="col-xs-12 col-sm-8--4 col-md-8--4">
-
         <main class="main client-card">
-          <div class="article-view"
-               v-if="article.aid">
-            <div class="article-title">
-              <h1>{{ article.title }}</h1>
+          <h1 class="article-title">{{ article.title }}</h1>
+
+          <div class="article-view" v-if="article.aid">
+            <div class="article-user-info">
               <div class="author">
-                <router-link :to="{
-                  name: 'user',
-                  params: { uid: article.user.uid, routeType: 'article' }
-                }"
-                             class="avatar">
-                  <img v-lazy="article.user.avatar"
-                       alt />
+                <router-link
+                  :to="{
+                    name: 'user',
+                    params: { uid: article.user.uid, routeType: 'article' }
+                  }"
+                  class="avatar"
+                >
+                  <img v-lazy="article.user.avatar" alt />
                 </router-link>
                 <div class="info">
                   <div class="name">
-                    <router-link :to="{
-                      name: 'user',
-                      params: { uid: article.user.uid, routeType: 'article' }
-                    }">{{ article.user.nickname }}</router-link>
+                    <router-link
+                      :to="{
+                        name: 'user',
+                        params: { uid: article.user.uid, routeType: 'article' }
+                      }"
+                      >{{ article.user.nickname }}</router-link
+                    >
                   </div>
                   <!-- 文章数据信息 -->
                   <div class="meta">
                     <span class="publish-time">{{ article.create_dt }}</span>
-                    <span class="views-count">阅读 {{ article.read_count }}</span>
-                    <span class="comments-count">评论 {{ article.comment_count }}</span>
-                    <span class="likes-count">点赞 {{ article.thumb_count }}</span>
+                    <span class="views-count"
+                      >阅读 {{ article.read_count }}</span
+                    >
+                    <span class="comments-count"
+                      >评论 {{ article.comment_count }}</span
+                    >
+                    <span class="likes-count"
+                      >点赞 {{ article.thumb_count }}</span
+                    >
                     <em class="source">{{ sourceTypeList[article.source] }}</em>
-                    <em class="type"
-                        :class="`type${article.type}`">{{ articleTypeText[article.type] }}</em>
+                    <em class="type" :class="`type${article.type}`">{{
+                      articleTypeText[article.type]
+                    }}</em>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="article-content box-article-view"
-                 v-html="article.content"></div>
+            <div class="article-content" v-html="article.content"></div>
 
-            <div class="attachment"
-                 v-if="article.is_attachment===isOpen.yes">
+            <div class="attachment" v-if="article.is_attachment === isOpen.yes">
               <div class="title">附件</div>
-              <div class="attachment"
-                   v-if="articleAnnex.attachment&&personalInfo.islogin"
-                   v-html="articleAnnex.attachment"></div>
+              <div
+                class="attachment"
+                v-if="articleAnnex.attachment && personalInfo.islogin"
+                v-html="articleAnnex.attachment"
+              ></div>
 
-              <div class="price-info"
-                   v-if="articleAnnex.is_free===isFree.pay&&!articleAnnex.isBuy">
-                <div class="price-info-view"> 此内容需要
-                  <em class="login"
-                      @click="$router.push({name:'signIn'})"
-                      v-if="!personalInfo.islogin">登录</em>
-                  <em class="buy"
-                      @click="onBuy">支付</em>
-                  {{articleAnnex.price}}贝壳，才可继续查看
+              <div
+                class="price-info"
+                v-if="
+                  articleAnnex.is_free === isFree.pay && !articleAnnex.isBuy
+                "
+              >
+                <div class="price-info-view">
+                  此内容需要
+                  <em
+                    class="login"
+                    @click="$router.push({ name: 'signIn' })"
+                    v-if="!personalInfo.islogin"
+                    >登录</em
+                  >
+                  <em class="buy" @click="onBuy">支付</em>
+                  {{ articleAnnex.price }}贝壳，才可继续查看
                 </div>
               </div>
 
-              <div class="price-info"
-                   v-else-if="articleAnnex.is_free===isFree.free&&!personalInfo.islogin">
-                <div class="price-info-view"> 此内容需要
-                  <em class="login"
-                      @click="$router.push({name:'signIn'})"
-                      v-if="!personalInfo.islogin">登录</em>
+              <div
+                class="price-info"
+                v-else-if="
+                  articleAnnex.is_free === isFree.free && !personalInfo.islogin
+                "
+              >
+                <div class="price-info-view">
+                  此内容需要
+                  <em
+                    class="login"
+                    @click="$router.push({ name: 'signIn' })"
+                    v-if="!personalInfo.islogin"
+                    >登录</em
+                  >
                   ，才可继续查看
                 </div>
               </div>
             </div>
 
             <ul class="tag-body">
-              <li v-for="(itemTag,key) in article.tag"
-                  :key="key">
-                <router-link class="tag-class frontend"
-                             :to="{name:'article_tag',params:{en_name:itemTag.en_name}}">
-                  <div class="img"
-                       :alt="itemTag.name"
-                       :style="`background-image: url(${itemTag.icon})`"></div>
-                  {{itemTag.name}}
+              <li v-for="(itemTag, key) in article.tag" :key="key">
+                <router-link
+                  class="tag-class frontend"
+                  :to="{
+                    name: 'article_tag',
+                    params: { en_name: itemTag.en_name }
+                  }"
+                >
+                  <div
+                    class="img"
+                    :alt="itemTag.name"
+                    :style="`background-image: url(${itemTag.icon})`"
+                  ></div>
+                  {{ itemTag.name }}
                 </router-link>
-
               </li>
             </ul>
 
             <div class="meta-bottom clearfix">
-              <div class="meta-bottom-item like"
-                   @click="onUserThumbArticle"
-                   :class="{ active: isThumb(article) }">
-                <i :class="
-                  isThumb(article) ? 'el-icon-thumb' : 'el-icon-thumb'
-                "></i>
+              <div
+                class="meta-bottom-item like"
+                @click="onUserThumbArticle"
+                :class="{ active: isThumb(article) }"
+              >
+                <i
+                  :class="isThumb(article) ? 'el-icon-thumb' : 'el-icon-thumb'"
+                ></i>
               </div>
               <div class="meta-bottom-item share">
                 <Dropdown>
-                  <div class="el-dropdown-link"
-                       slot="button">
+                  <div class="el-dropdown-link" slot="button">
                     <i class="el-icon-share"></i>
                   </div>
                   <div class="dropdown-menu-view">
-                    <div class="dropdown-menu-item"
-                         @click="shareChange({ type: 'qq', data: article })">
+                    <div
+                      class="dropdown-menu-item"
+                      @click="shareChange({ type: 'qq', data: article })"
+                    >
                       分享到QQ
                     </div>
-                    <div class="dropdown-menu-item"
-                         @click="shareChange({ type: 'sina', data: article })">
+                    <div
+                      class="dropdown-menu-item"
+                      @click="shareChange({ type: 'sina', data: article })"
+                    >
                       分享到新浪
                     </div>
-                    <div class="dropdown-menu-item"
-                         @click="shareChange({ type: 'qzone', data: article })">
+                    <div
+                      class="dropdown-menu-item"
+                      @click="shareChange({ type: 'qzone', data: article })"
+                    >
                       分享到QQ空间
                     </div>
                   </div>
@@ -120,8 +157,7 @@
             <!--文章评论-->
             <ArticleComment />
           </div>
-          <p class="no-aricle"
-             v-else>文章不存在</p>
+          <p class="no-aricle" v-else>文章不存在</p>
         </main>
       </div>
       <div class="col-xs-12 col-sm-3--6 col-md-3--6 aside">
@@ -129,27 +165,31 @@
       </div>
     </div>
 
-    <Dialog :visible.sync="isBuyDialog"
-            :close-on-click-modal="false"
-            :close-on-press-escape="false"
-            width="380px">
-      <div class="buy-view"
-           v-loading="isBuyLoading">
+    <Dialog
+      :visible.sync="isBuyDialog"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      width="380px"
+    >
+      <div class="buy-view" v-loading="isBuyLoading">
         <h3 class="title">购买信息确认</h3>
         <ul>
           <li class="p-name">商品名称：<em>文章附件</em></li>
-          <li class="p-pay-type">支付方式：<em>{{payTypeText[articleAnnex.pay_type]}}</em></li>
-          <li class="p-pay-price">价格：<em>￥{{articleAnnex.price}}</em> </li>
+          <li class="p-pay-type">
+            支付方式：<em>{{ payTypeText[articleAnnex.pay_type] }}</em>
+          </li>
+          <li class="p-pay-price">
+            价格：<em>￥{{ articleAnnex.price }}</em>
+          </li>
         </ul>
         <div class="footer-view">
-          <button class="btn btn-buy"
-                  @click="enterBuy">确认购买</button>
-          <button class="btn btn-cancel"
-                  @click="isBuyDialog=false">取消</button>
+          <button class="btn btn-buy" @click="enterBuy">确认购买</button>
+          <button class="btn btn-cancel" @click="isBuyDialog = false">
+            取消
+          </button>
         </div>
       </div>
     </Dialog>
-
   </section>
   <!--home-lay layout-content end-->
 </template>
@@ -161,6 +201,7 @@ import { share, baidu, google } from '@utils'
 import { mapState } from 'vuex'
 import googleMixin from '@mixins/google'
 import { Dropdown, Dialog } from '@components'
+import hljs from '@utils/highlight.pack'
 import {
   statusList,
   articleType,
@@ -174,7 +215,7 @@ import {
 export default {
   name: 'Article',
   mixins: [googleMixin], //混合谷歌分析
-  metaInfo () {
+  metaInfo() {
     return {
       title: this.article.title || '',
       titleTemplate: `%s - ${this.website.meta.website_name || ''}`,
@@ -233,13 +274,16 @@ export default {
       __dangerouslyDisableSanitizers: ['script']
     }
   },
-  asyncData ({ store, route, accessToken = '' }) {
+  asyncData({ store, route, accessToken = '' }) {
     // 触发 action 后，会返回 Promise
     return Promise.all([
-      store.dispatch('article/GET_ARTICLE', { aid: route.params.aid, accessToken })
+      store.dispatch('article/GET_ARTICLE', {
+        aid: route.params.aid,
+        accessToken
+      })
     ])
   },
-  data () {
+  data() {
     return {
       sourceTypeList: ['', '原创', '转载'],
       articleTypeText,
@@ -252,11 +296,20 @@ export default {
       articleAnnex: {} // 文章附件信息
     }
   },
-  mounted () {
-    if (this.article.is_attachment == this.isOpen.yes) { this.getArticleAnnex() }
+  mounted() {
+    if (this.article.is_attachment == this.isOpen.yes) {
+      this.getArticleAnnex()
+    }
+    this.initHljs()
   },
   methods: {
-    isThumb (item) {
+    initHljs() {
+      let blocks = document.querySelectorAll('pre code')
+      blocks.forEach(block => {
+        hljs.highlightBlock(block)
+      })
+    },
+    isThumb(item) {
       // 是否收藏
       if (this.personalInfo.islogin) {
         if (
@@ -271,35 +324,40 @@ export default {
         return false
       }
     },
-    onBuy () { // 
+    onBuy() {
+      //
       if (!this.personalInfo.islogin) {
-        this.$message.warning('请先登录，再继续操作');
+        this.$message.warning('请先登录，再继续操作')
         this.$router.push({ name: 'signIn' })
         return false
       }
       this.isBuyDialog = true
     },
-    enterBuy () {
+    enterBuy() {
       if (!this.personalInfo.islogin) {
-        this.$message.warning('请先登录，再继续操作');
+        this.$message.warning('请先登录，再继续操作')
         return false
       }
       this.isBuyLoading = true
-      this.$store.dispatch('shop/BUY', {
-        product_id: this.articleAnnex.id,
-        product_type: this.modelName.article_annex
-      }).then(result => {
-        this.isBuyLoading = false
-        if (result.state === 'success') {
-          this.isBuyDialog = false
-          if (this.article.is_attachment == this.isOpen.yes) { this.getArticleAnnex() }
-          this.$message.success(result.message);
-        } else {
-          this.$message.warning(result.message);
-        }
-      })
+      this.$store
+        .dispatch('shop/BUY', {
+          product_id: this.articleAnnex.id,
+          product_type: this.modelName.article_annex
+        })
+        .then(result => {
+          this.isBuyLoading = false
+          if (result.state === 'success') {
+            this.isBuyDialog = false
+            if (this.article.is_attachment == this.isOpen.yes) {
+              this.getArticleAnnex()
+            }
+            this.$message.success(result.message)
+          } else {
+            this.$message.warning(result.message)
+          }
+        })
     },
-    onUserThumbArticle () {
+    onUserThumbArticle() {
       /*用户like 文章*/
       this.$store
         .dispatch('common/SET_THUMB', {
@@ -317,10 +375,10 @@ export default {
           console.log(err)
         })
     },
-    getArticleAnnex () {
+    getArticleAnnex() {
       this.$store
         .dispatch('article/GET_ARTICLE_ANNEX', {
-          aid: this.article.aid,
+          aid: this.article.aid
         })
         .then(result => {
           if (result.state === 'success') {
@@ -332,9 +390,8 @@ export default {
         .catch(err => {
           console.log(err)
         })
-
     },
-    shareChange (val) {
+    shareChange(val) {
       // 分享到其他
       let urlOrigin = window.location.origin // 源地址
       if (val.type === 'sina') {
@@ -362,7 +419,7 @@ export default {
     }
   },
   computed: {
-    article () {
+    article() {
       return this.$store.state.article.article || {}
     },
     ...mapState(['website', 'personalInfo', 'user'])
@@ -383,22 +440,21 @@ export default {
     width: 100%;
     flex: 1;
     padding: 15px 25px;
+    .article-title {
+      text-align: left;
+      max-width: 100%;
+      margin-top: 15px;
+      margin-bottom: 10px;
+      position: static;
+      color: #48494d;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
     .article-view {
-      .article-title {
-        margin-bottom: 40px;
-        > h1 {
-          text-align: left;
-          max-width: 100%;
-          margin-top: 15px;
-          margin-bottom: 10px;
-          position: static;
-          color: #48494d;
-          font-size: 28px;
-          font-weight: 700;
-          line-height: 1.3;
-        }
+      .article-user-info {
+        padding: 30px 0 15px;
         .author {
-          margin: 30px 0 40px;
           .avatar {
             width: 48px;
             height: 48px;
@@ -438,7 +494,7 @@ export default {
               color: #969696;
               span + span::before {
                 display: inline;
-                content: " \B7 ";
+                content: ' \B7 ';
                 color: #9b9b9b;
                 padding-left: 2px;
                 padding-right: 2px;
