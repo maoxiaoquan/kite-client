@@ -63,6 +63,16 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="article-annex"
+                       v-if="item.product_type == modelName.article_annex">
+                    <div class="library-item__body">
+                      <router-link class="library-item__title"
+                                   :to="{ name: 'article', params: { aid: item.productInfo.aid } }">{{ item.productInfo.title }}
+                        <span class="tag-buy">已购买</span>
+                      </router-link>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -88,6 +98,7 @@ import Collect from './PersonalView/Collect'
 import { mapState } from 'vuex'
 import ClientOnly from 'vue-client-only'
 import { Page, faceQQ, Dropdown } from '@components'
+import shopModule from '../../store/module/shop'
 import {
   userMessageAction,
   virtualPlusLess,
@@ -125,6 +136,10 @@ export default {
     }
   },
   mounted () {
+    this.$store.registerModule('shop', shopModule)
+    if (!this.personalInfo.islogin) {
+      this.$router.push({ name: 'signIn' })
+    }
     this.getList()
   },
   methods: {
@@ -157,6 +172,9 @@ export default {
     ClientOnly,
     Collect,
     Page
+  },
+  destroyed () {
+    this.$store.unregisterModule('shop')
   }
 }
 </script>
@@ -197,7 +215,8 @@ export default {
   }
   .detail-view {
     .detail-item {
-      .books {
+      .books,
+      .article-annex {
         height: 100px;
         display: flex;
         padding: 10px;

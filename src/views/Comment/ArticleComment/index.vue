@@ -39,9 +39,11 @@ import commentItem from './CommentItem'
 import { Page } from '@components'
 import commentForm from './CommentForm'
 import { mapState } from 'vuex'
+import articleCommentModule from '../../../store/module/articleComment'
 export default {
   name: 'index',
-  created () {
+  mounted () {
+    this.$store.registerModule('articleComment', articleCommentModule)
     this.getCommentList() // 获取用户的评论
   },
   data () {
@@ -105,6 +107,9 @@ export default {
     'comment-item': commentItem,
     'comment-form': commentForm,
     Page
+  },
+  destroyed () {
+    this.$store.unregisterModule('articleComment')
   }
 }
 </script>

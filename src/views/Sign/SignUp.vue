@@ -74,6 +74,7 @@
 import { sendCode } from '@components'
 import ClientOnly from 'vue-client-only'
 import { mapState } from 'vuex'
+import signModule from '../../store/module/sign'
 export default {
   name: 'SignUp',
   metaInfo () {
@@ -106,6 +107,9 @@ export default {
         double_password: ''
       }
     }
+  },
+  mounted () {
+    this.$store.registerModule('sign', signModule)
   },
   methods: {
     sendCode () { // 发送注册验证码
@@ -142,6 +146,9 @@ export default {
   components: {
     'send-code': sendCode,
     ClientOnly
+  },
+  destroyed () {
+    this.$store.unregisterModule('sign')
   }
 }
 </script>

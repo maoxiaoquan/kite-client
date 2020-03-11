@@ -7,27 +7,22 @@
             <div class="chat-message-main">
               <div class="chat-title">与{{ $route.query.nickname }}的私聊</div>
               <div class="chat-message-content">
-                <div class="chat-message-scroll" id="message-scroll">
-                  <div class="chat-message-list" id="chat-message-list">
-                    <span
-                      class="loading-history-data"
-                      @click="getPrivateChatMsgList('click')"
-                      v-if="isHistoryData"
-                      >查看更多历史聊天</span
-                    >
-                    <div
-                      class="chat-message-item"
-                      v-for="(item, key) in messageList"
-                      :class="{
+                <div class="chat-message-scroll"
+                     id="message-scroll">
+                  <div class="chat-message-list"
+                       id="chat-message-list">
+                    <span class="loading-history-data"
+                          @click="getPrivateChatMsgList('click')"
+                          v-if="isHistoryData">查看更多历史聊天</span>
+                    <div class="chat-message-item"
+                         v-for="(item, key) in messageList"
+                         :class="{
                         me: personalInfo.user.uid === item.sendUser.uid
-                      }"
-                    >
+                      }">
                       <div class="avatar">
-                        <img
-                          class="avatar-img"
-                          :src="item.sendUser.avatar"
-                          alt=""
-                        />
+                        <img class="avatar-img"
+                             :src="item.sendUser.avatar"
+                             alt="" />
                       </div>
                       <div class="msg-view">
                         <div class="user-info">
@@ -42,19 +37,17 @@
                       </div>
                     </div>
                   </div>
-                  <span class="new-message" v-show="isNewMessage"
-                    >有新的消息</span
-                  >
+                  <span class="new-message"
+                        v-show="isNewMessage">有新的消息</span>
                 </div>
               </div>
               <div class="chat-message-footer clearfix">
-                <textarea
-                  rows="3"
-                  cols="20"
-                  class="message-input"
-                  v-model="message"
-                ></textarea>
-                <button @click="sendMessage" class="send-message">发送</button>
+                <textarea rows="3"
+                          cols="20"
+                          class="message-input"
+                          v-model="message"></textarea>
+                <button @click="sendMessage"
+                        class="send-message">发送</button>
               </div>
             </div>
           </div>
@@ -71,13 +64,14 @@
 import ClientOnly from 'vue-client-only'
 import UserAside from '../view/UserAside'
 import { mapState } from 'vuex'
+import chatModule from '../../../store/module/chat'
 
-function debounce(func, wait, immediate) {
+function debounce (func, wait, immediate) {
   var timeout
-  return function() {
+  return function () {
     var context = this,
       args = arguments
-    var later = function() {
+    var later = function () {
       timeout = null
       if (!immediate) func.apply(context, args)
     }
@@ -90,7 +84,7 @@ function debounce(func, wait, immediate) {
 
 export default {
   name: 'PrivateChat',
-  data() {
+  data () {
     return {
       messageList: [],
       message: '',
@@ -102,7 +96,11 @@ export default {
       chatInfo: {} // 用户私聊信息
     }
   },
-  mounted() {
+  mounted () {
+    if (!this.personalInfo.islogin) {
+      this.$router.push({ name: 'signIn' })
+    }
+    this.$store.registerModule('chat', chatModule)
     this.scrollChatView()
     this.getPrivateChatInfo()
     this.$socket.on('privateMessage', data => {
@@ -116,14 +114,14 @@ export default {
     })
   },
   methods: {
-    compare(property) {
-      return function(a, b) {
+    compare (property) {
+      return function (a, b) {
         let i = a[property]
         let j = b[property]
         return i - j
       }
     },
-    getPrivateChatInfo() {
+    getPrivateChatInfo () {
       this.$store
         .dispatch('chat/GET_PRIVATE_CHAT_INFO', {
           receive_uid: this.$route.query.uid
@@ -139,7 +137,7 @@ export default {
           }
         })
     },
-    getPrivateChatMsgList(type) {
+    getPrivateChatMsgList (type) {
       this.$store
         .dispatch('chat/GET_PRIVATE_CHAT_MSG_LIST', {
           receive_uid: this.$route.query.uid,
@@ -159,7 +157,7 @@ export default {
           }
         })
     },
-    joinPrivateChat() {
+    joinPrivateChat () {
       // 用户聊天加入私聊
       this.$store
         .dispatch('chat/JOIN_PRIVATE_CHAT', {
@@ -169,7 +167,7 @@ export default {
           this.getPrivateChatInfo()
         })
     },
-    sendMessage() {
+    sendMessage () {
       // 发送消息
       this.$store
         .dispatch('chat/SEND_PRIVATE_CHAT_MESSAGE', {
@@ -183,13 +181,13 @@ export default {
           this.scrollToBottom()
         })
     },
-    privateChatRead() {
+    privateChatRead () {
       // 用户聊天消息阅读
       this.$store.dispatch('chat/PRIVATE_CHAT_READ', {
         chat_id: this.chatInfo.chat_id
       })
     },
-    scrollChatView() {
+    scrollChatView () {
       this.$nextTick(() => {
         setTimeout(() => {
           document
@@ -198,13 +196,13 @@ export default {
         })
       })
     },
-    setScrollTop(length) {
+    setScrollTop (length) {
       this.$nextTick(() => {
         const messageDom = document.querySelector('#message-scroll')
         messageDom.scrollTop = 98 * length
       })
     },
-    handleScroll() {
+    handleScroll () {
       const messageDom = document.querySelector('#message-scroll')
       const scrollTop = messageDom.scrollTop
       const messageHeight = document.querySelector('#chat-message-list')
@@ -216,7 +214,7 @@ export default {
         this.isNewMessage = false
       }
     },
-    scrollToBottom() {
+    scrollToBottom () {
       this.$nextTick(() => {
         if (!this.isLockList) {
           const messageDom = this.$el.querySelector('#message-scroll')
@@ -231,6 +229,9 @@ export default {
   components: {
     ClientOnly,
     UserAside
+  },
+  destroyed () {
+    this.$store.unregisterModule('chat')
   }
 }
 </script>

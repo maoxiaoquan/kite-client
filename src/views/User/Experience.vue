@@ -92,6 +92,9 @@ export default {
     }
   },
   mounted () {
+    if (!this.personalInfo.islogin) {
+      this.$router.push({ name: 'signIn' })
+    }
     this.getVirtualList()
   },
   methods: {

@@ -281,17 +281,18 @@ export default {
           });
       }
     },
-    isFloor (e, type) {
-      if (type == 'floor') {
-        var val = e.target.value;
-        //限制只能输入一个小数点
-        if (val.indexOf(".") != -1) {
-          var str = val.substr(val.indexOf(".") + 1);
-          if (str.indexOf(".") != -1) {
-            val = val.substr(0, val.indexOf(".") + str.indexOf(".") + 1);
-          }
-        }
-        e.target.value = val.replace(/[^\d^\.]+/g, '');
+    isFloor () {
+      var obj = event.target
+      var t = obj.value.charAt(0)
+      obj.value = obj.value
+        .replace('.', '$#$') //把第一个字符'.'替换成'$#$'
+        .replace(/\./g, '') //把其余的字符'.'替换为空
+        .replace('$#$', '.') //把字符'$#$'替换回原来的'.'
+        .replace(/[^\d.]/g, '') //只能输入数字和'.'
+        .replace(/^\./g, '') //不能以'.'开头
+        .replace(/([0-9]+\.[0-9]{2})[0-9]*/, '$1') //只保留2位小数
+      if (t == '-') {
+        obj.value = '-' + obj.value
       }
     },
     changeUploadCoverImg ({ formData, config }) { // 上传封面图片
@@ -363,7 +364,7 @@ export default {
       var formData = new FormData();
       formData.append('file', $file);
       this.$store
-        .dispatch("editor/UPLOAD_ARTICLE_PICTURE", formData)
+        .dispatch("books/UPLOAD_BOOKS_COVER_IMG", formData)
         .then(res => {
           if (res.state === "success") {
             this.$message.success("上传小书图片成功");

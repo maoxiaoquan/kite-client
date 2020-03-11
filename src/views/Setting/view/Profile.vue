@@ -8,27 +8,23 @@
           <span class="title">头像</span>
           <div class="avatar-uploader avatar-uploader">
             <div class="avatar">
-              <img
-                v-lazy="
+              <img v-lazy="
                   formData.avatar_review_status === 1 ||
                   formData.avatar_review_status === 3
                     ? formData.avatar_review
                     : formData.avatar
                 "
-                class="box-image"
-                alt=""
-              />
+                   class="box-image"
+                   alt="" />
             </div>
             <div class="action-box">
               <div class="hint">
                 支持 jpg、png 格式大小 1M 以内的图片
-                <span
-                  class="hint-review"
-                  v-if="
+                <span class="hint-review"
+                      v-if="
                     formData.avatar_review_status === 1 ||
                       formData.avatar_review_status === 3
-                  "
-                >
+                  ">
                   ({{
                     formData.avatar_review_status === 1
                       ? '新头像正在审核中，审核通过则显示，否则将换回原头像'
@@ -36,44 +32,35 @@
                   }})
                 </span>
               </div>
-              <upload-image class="upload-image" @changeUpload="changeAvatar"
-                >上传图片</upload-image
-              >
+              <upload-image class="upload-image"
+                            @changeUpload="changeAvatar">上传图片</upload-image>
             </div>
           </div>
         </li>
         <li class="item-view">
           <span class="title">昵称</span>
           <div class="input-box profile-input profile-input">
-            <input
-              v-model="formData.nickname"
-              placeholder="填写你的昵称"
-              class="input"
-            />
+            <input v-model="formData.nickname"
+                   placeholder="填写你的昵称"
+                   class="input" />
           </div>
         </li>
 
         <li class="item-view">
           <span class="title">性别</span>
           <div class="input-box profile-radio">
-            <input
-              type="radio"
-              name="sex"
-              value="1"
-              v-model="formData.sex"
-            /><span>男</span>
-            <input
-              type="radio"
-              name="sex"
-              value="2"
-              v-model="formData.sex"
-            /><span>女</span>
-            <input
-              type="radio"
-              name="sex"
-              value="0"
-              v-model="formData.sex"
-            /><span>保密</span>
+            <input type="radio"
+                   name="sex"
+                   value="1"
+                   v-model="formData.sex" /><span>男</span>
+            <input type="radio"
+                   name="sex"
+                   value="2"
+                   v-model="formData.sex" /><span>女</span>
+            <input type="radio"
+                   name="sex"
+                   value="0"
+                   v-model="formData.sex" /><span>保密</span>
           </div>
         </li>
 
@@ -94,47 +81,40 @@
         <li class="item-view">
           <span class="title">职业</span>
           <div class="input-box profile-input profile-input">
-            <input
-              placeholder="填写你的职业"
-              v-model="formData.profession"
-              class="input"
-            />
+            <input placeholder="填写你的职业"
+                   v-model="formData.profession"
+                   class="input" />
           </div>
         </li>
         <li class="item-view">
           <span class="title">公司</span>
           <div class="input-box profile-input profile-input">
-            <input
-              placeholder="填写你的公司"
-              v-model="formData.company"
-              class="input"
-            />
+            <input placeholder="填写你的公司"
+                   v-model="formData.company"
+                   class="input" />
           </div>
         </li>
         <li class="item-view">
           <span class="title">个人介绍</span>
           <div class="input-box profile-input profile-input">
-            <input
-              v-model="formData.introduction"
-              placeholder="填写职业技能、擅长的事情、喜欢的事情等"
-              class="input"
-            />
+            <input v-model="formData.introduction"
+                   placeholder="填写职业技能、擅长的事情、喜欢的事情等"
+                   class="input" />
           </div>
         </li>
         <li class="item-view">
           <span class="title">个人主页</span>
           <div class="input-box profile-input profile-input">
-            <input
-              placeholder="填写你的个人主页"
-              v-model="formData.home_page"
-              class="input"
-            />
+            <input placeholder="填写你的个人主页"
+                   v-model="formData.home_page"
+                   class="input" />
           </div>
         </li>
       </ul>
 
       <div class="footer-view">
-        <button class="button button-save" @click="updateUserInfo">保存</button>
+        <button class="button button-save"
+                @click="updateUserInfo">保存</button>
       </div>
     </div>
   </div>
@@ -145,11 +125,11 @@ import { UploadImage } from '@components'
 import { share, baidu, google } from '@utils'
 import { mapState } from 'vuex'
 import googleMixin from '@mixins/google'
-
+import settingModule from '../../../store/module/setting'
 export default {
   name: 'profile',
   mixins: [googleMixin], //混合谷歌分析
-  metaInfo() {
+  metaInfo () {
     return {
       title: '个人设置-修改信息',
       htmlAttrs: {
@@ -165,7 +145,7 @@ export default {
       __dangerouslyDisableSanitizers: ['script']
     }
   },
-  data() {
+  data () {
     return {
       user_info: '',
       formData: {
@@ -183,18 +163,21 @@ export default {
       file: {}
     }
   },
-  created() {
+  created () {
     this.initInfo()
   },
+  mounted () {
+    this.$store.registerModule('setting', settingModule)
+  },
   methods: {
-    initInfo() {
+    initInfo () {
       this.formData = {
         ...this.personalInfo.user,
         ...this.personalInfo.user_info
       }
       this.user_info = this.personalInfo.user_info
     },
-    updateUserInfo() {
+    updateUserInfo () {
       this.$store
         .dispatch('setting/PERSONAL_UPLOAD_INFO', this.formData)
         .then(result => {
@@ -208,11 +191,11 @@ export default {
           })
         })
     },
-    changeAvatar({ formData, config }) {
+    changeAvatar ({ formData, config }) {
       this.$store
         .dispatch('setting/PERSONAL_UPLOAD_AVATAR', formData)
         .then(result => {
-          this.$nextTick(function() {
+          this.$nextTick(function () {
             if (result.state === 'success') {
               this.$message.success('上传用户头像成功，头像正在审核中')
               this.$store.dispatch('PERSONAL_INFO')
@@ -228,6 +211,9 @@ export default {
   },
   components: {
     UploadImage
+  },
+  destroyed () {
+    this.$store.unregisterModule('setting')
   }
 }
 </script>

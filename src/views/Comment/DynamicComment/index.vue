@@ -32,6 +32,7 @@
 import commentItem from "./CommentItem";
 import { Page } from "@components";
 import commentForm from "./CommentForm";
+import { fetch } from '@request'
 import { mapState } from "vuex";
 export default {
   name: "index",
@@ -55,13 +56,18 @@ export default {
     getCommentList () {
       // 获取评论列表
       this.isLoading = true
-      this.$store
-        .dispatch("dynamicComment/DYNAMIC_COMMENT_LIST", {
-          dynamic_id: this.dynamicId,
-          page: this.page,
-          childPageSize: 5,
-          pageSize: this.pageSize
-        })
+      fetch({
+        url: '/dynamic-comment/list',
+        method: 'get',
+        parameter: {
+          params: {
+            dynamic_id: this.dynamicId,
+            page: this.page,
+            childPageSize: 5,
+            pageSize: this.pageSize
+          }
+        }
+      })
         .then(result => {
           this.commentList = result.data.list
           this.isLoading = false

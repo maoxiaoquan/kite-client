@@ -122,6 +122,7 @@ import BookComment from './component/BookComment'
 import { Dialog } from '@components'
 import { mapState } from 'vuex'
 import { share, baidu, google } from '@utils'
+import shopModule from '../../store/module/shop'
 import googleMixin from '@mixins/google'
 import {
   statusList,
@@ -212,6 +213,7 @@ export default {
     ]);
   },
   mounted () {
+    this.$store.registerModule('shop', shopModule)
     this.$store.dispatch("books/GET_BOOKS_BOOK_ALL", { books_id: this.$route.params.books_id })
   },
   methods: {
@@ -316,6 +318,9 @@ export default {
     BookInfo,
     BookComment,
     Dialog
+  },
+  destroyed () {
+    this.$store.unregisterModule('shop')
   }
 };
 </script>

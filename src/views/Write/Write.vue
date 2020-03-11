@@ -5,98 +5,86 @@
         <!-- this component will only be rendered on client-side -->
 
         <div class="write-top  box-form-group">
-          <input
-            class="box-input title"
-            v-model="write.title"
-            type="text"
-            placeholder="请输入文章标题"
-          />
+          <input class="box-input title"
+                 v-model="write.title"
+                 type="text"
+                 placeholder="请输入文章标题" />
         </div>
 
         <div class="write mrg-bm20">
-          <mavon-editor
-            defaultOpen="edit"
-            :boxShadow="false"
-            v-model="write.content"
-            :toolbars="toolbars"
-            ref="mavonEditor"
-            :imageFilter="imageFilter"
-            @imgAdd="$imgAdd"
-          />
+          <mavon-editor defaultOpen="edit"
+                        :boxShadow="false"
+                        v-model="write.content"
+                        :toolbars="toolbars"
+                        ref="mavonEditor"
+                        :imageFilter="imageFilter"
+                        @imgAdd="$imgAdd" />
         </div>
 
         <div class="row mrg-bm20">
           <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
-            <label class="box-label" for="">来源</label>
-            <select class="box-select" v-model="write.source">
-              <option
-                :value="item.id"
-                v-for="(item, key) in sourceList"
-                :key="key"
-                >{{ item.text }}</option
-              >
+            <label class="box-label"
+                   for="">来源</label>
+            <select class="box-select"
+                    v-model="write.source">
+              <option :value="item.id"
+                      v-for="(item, key) in sourceList"
+                      :key="key">{{ item.text }}</option>
             </select>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
-            <label class="box-label" for="">是否公开</label>
-            <select class="box-select" v-model="write.is_public">
-              <option
-                :value="key"
-                v-for="(item, key) in publicTypeList"
-                :key="key"
-                >{{ item }}</option
-              >
+            <label class="box-label"
+                   for="">是否公开</label>
+            <select class="box-select"
+                    v-model="write.is_public">
+              <option :value="key"
+                      v-for="(item, key) in publicTypeList"
+                      :key="key">{{ item }}</option>
             </select>
           </div>
         </div>
 
         <div class="row mrg-bm20">
           <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
-            <label class="box-label" for="">个人专栏（非必选）</label>
-            <select class="box-select" v-model="write.blog_ids">
-              <option
-                :value="item.blog_id"
-                v-for="(item, key) in userArticleBlogAll"
-                :key="key"
-                >{{ item.name }}</option
-              >
+            <label class="box-label"
+                   for="">个人专栏（非必选）</label>
+            <select class="box-select"
+                    v-model="write.blog_ids">
+              <option :value="item.blog_id"
+                      v-for="(item, key) in userArticleBlogAll"
+                      :key="key">{{ item.name }}</option>
             </select>
             <div class="create-blog">
-              <div class="create-blog-view" v-show="isCreateBlogShow">
-                <input
-                  class="create-blog-input box-input"
-                  placeholder="请输入专栏名字"
-                  v-model="blog.name"
-                  type="text"
-                />
-                <button class="btn btn-primary btn-sm" @click="saveCreateBlog">
+              <div class="create-blog-view"
+                   v-show="isCreateBlogShow">
+                <input class="create-blog-input box-input"
+                       placeholder="请输入专栏名字"
+                       v-model="blog.name"
+                       type="text" />
+                <button class="btn btn-primary btn-sm"
+                        @click="saveCreateBlog">
                   保存
                 </button>
-                <button
-                  class="btn btn-primary btn-sm"
-                  @click="isCreateBlogShow = false"
-                >
+                <button class="btn btn-primary btn-sm"
+                        @click="isCreateBlogShow = false">
                   取消
                 </button>
               </div>
-              <button
-                class="btn btn-primary btn-sm"
-                v-show="!isCreateBlogShow"
-                @click="isCreateBlogShow = true"
-              >
+              <button class="btn btn-primary btn-sm"
+                      v-show="!isCreateBlogShow"
+                      @click="isCreateBlogShow = true">
                 创建新个人专栏
               </button>
             </div>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
-            <label class="box-label" for="">文章类型</label>
-            <select class="box-select" v-model="write.type">
-              <option
-                :value="key"
-                v-for="(item, key) in articleTypeText"
-                :key="key"
-                >{{ item }}</option
-              >
+            <label class="box-label"
+                   for="">文章类型</label>
+            <select class="box-select"
+                    v-model="write.type">
+              <option :value="key"
+                      v-for="(item, key) in articleTypeText"
+                      :key="key">{{ item }}</option>
             </select>
           </div>
         </div>
@@ -105,36 +93,29 @@
           <p class="common-title">
             文章标签
             <span>
-              <em id="chosen_tag_num">{{ currentArticleTagArr.length }}</em
-              >/3
+              <em id="chosen_tag_num">{{ currentArticleTagArr.length }}</em>/3
             </span>
           </p>
-          <div class="search-box clearfix" ref="search_box">
-            <div
-              class="clearfix js-chosen-tags"
-              ref="js_chosen_tags"
-              v-show="currentArticleTagArr.length > 0"
-            >
-              <span
-                class="tag-item"
-                v-for="(item, key) in currentArticleTagArr"
-                :key="key"
-                @click="deleteCurrentArticleTag(item)"
-                >{{ item.name }}</span
-              >
+          <div class="search-box clearfix"
+               ref="search_box">
+            <div class="clearfix js-chosen-tags"
+                 ref="js_chosen_tags"
+                 v-show="currentArticleTagArr.length > 0">
+              <span class="tag-item"
+                    v-for="(item, key) in currentArticleTagArr"
+                    :key="key"
+                    @click="deleteCurrentArticleTag(item)">{{ item.name }}</span>
             </div>
-            <input
-              class="search-input"
-              v-show="currentArticleTagArr.length < 3"
-              placeholder="选择下列热门标签或输入关键词检索标签"
-              :style="{ width: searchBoxWidth }"
-              v-model="searchArticleTag"
-            />
+            <input class="search-input"
+                   v-show="currentArticleTagArr.length < 3"
+                   placeholder="选择下列热门标签或输入关键词检索标签"
+                   :style="{ width: searchBoxWidth }"
+                   v-model="searchArticleTag" />
           </div>
-          <p class="search-result js-search-result" v-show="isSearchResultShow">
+          <p class="search-result js-search-result"
+             v-show="isSearchResultShow">
             相关“
-            <span class="js-search-text">{{ searchArticleTag }}</span
-            >”的搜索
+            <span class="js-search-text">{{ searchArticleTag }}</span>”的搜索
             <span class="js-search-num">{{
               searchShowArticleTagAll.length
             }}</span>
@@ -142,87 +123,82 @@
           </p>
           <div class="tag-list-view js-tag-nano has-scrollbar">
             <div class="clearfix js-tag-list">
-              <span
-                class="tag-item"
-                v-for="(item, key) in searchShowArticleTagAll"
-                :key="key"
-                @click="addArticleTag(item)"
-                >{{ item.name }}</span
-              >
+              <span class="tag-item"
+                    v-for="(item, key) in searchShowArticleTagAll"
+                    :key="key"
+                    @click="addArticleTag(item)">{{ item.name }}</span>
             </div>
           </div>
         </div>
 
         <div class="row mrg-bm20">
           <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
-            <label class="box-label" for="">是否添加附件</label>
-            <select class="box-select" v-model="write.is_attachment">
-              <option :value="item" v-for="item in isOpen" :key="item">{{
+            <label class="box-label"
+                   for="">是否添加附件</label>
+            <select class="box-select"
+                    v-model="write.is_attachment">
+              <option :value="item"
+                      v-for="item in isOpen"
+                      :key="item">{{
                 isOpenInfo[item]
               }}</option>
             </select>
           </div>
-          <div
-            class="col-xs-12 col-sm-6 col-md-6 box-form-group"
-            v-if="Number(write.is_attachment) === isOpen.yes"
-          >
-            <label class="box-label" for="">开启付费</label>
-            <select class="box-select" v-model="write.is_free">
-              <option :value="item" v-for="item in isFree" :key="item">{{
+          <div class="col-xs-12 col-sm-6 col-md-6 box-form-group"
+               v-if="Number(write.is_attachment) === isOpen.yes">
+            <label class="box-label"
+                   for="">开启付费</label>
+            <select class="box-select"
+                    v-model="write.is_free">
+              <option :value="item"
+                      v-for="item in isFree"
+                      :key="item">{{
                 isFreeText[item]
               }}</option>
             </select>
           </div>
         </div>
 
-        <div
-          class="row mrg-bm20"
-          v-if="
+        <div class="row mrg-bm20"
+             v-if="
             Number(write.is_free || 1) !== isFree.free &&
               Number(write.is_attachment) === isOpen.yes
-          "
-        >
+          ">
           <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
-            <label class="box-label" for="">支付类型</label>
-            <select class="box-select" v-model="write.pay_type">
-              <option
-                :value="key"
-                v-for="(item, key) in payTypeText"
-                :key="key"
-                >{{ item }}</option
-              >
+            <label class="box-label"
+                   for="">支付类型</label>
+            <select class="box-select"
+                    v-model="write.pay_type">
+              <option :value="key"
+                      v-for="(item, key) in payTypeText"
+                      :key="key">{{ item }}</option>
             </select>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6 box-form-group">
-            <label class="box-label" for=""
-              >价格 ￥({{ payTypeText[write.pay_type] }})</label
-            >
-            <input
-              type="text"
-              class="box-input"
-              @keyup="isFloor"
-              v-model="write.price"
-            />
+            <label class="box-label"
+                   for="">价格 ￥({{ payTypeText[write.pay_type] }})</label>
+            <input type="text"
+                   class="box-input"
+                   @keyup="isFloor"
+                   v-model="write.price" />
           </div>
         </div>
 
-        <div
-          class="row mrg-bm20"
-          v-if="Number(write.is_attachment) === isOpen.yes"
-        >
+        <div class="row mrg-bm20"
+             v-if="Number(write.is_attachment) === isOpen.yes">
           <div class="col-xs-12 col-sm-12 col-md-12">
-            <label class="box-label" for="">附件内容(支持markdown)</label>
-            <textarea
-              class="box-textarea"
-              cols="30"
-              v-model="write.attachment"
-              rows="10"
-            ></textarea>
+            <label class="box-label"
+                   for="">附件内容(支持markdown)</label>
+            <textarea class="box-textarea"
+                      cols="30"
+                      v-model="write.attachment"
+                      rows="10"></textarea>
           </div>
         </div>
 
         <div class="write-footer clearfix">
-          <button class="send-article" @click="saveArticle">发布文章</button>
+          <button class="send-article"
+                  @click="saveArticle">发布文章</button>
         </div>
       </div>
     </section>
@@ -246,9 +222,10 @@ import {
   isOpen,
   isOpenInfo
 } from '@utils/constant'
+import editorModule from '../../store/module/editor'
 export default {
   name: 'write',
-  metaInfo() {
+  metaInfo () {
     return {
       title: '文章编辑',
       htmlAttrs: {
@@ -256,14 +233,14 @@ export default {
       }
     }
   },
-  async asyncData({ store, route, accessToken = '' }) {
+  async asyncData ({ store, route, accessToken = '' }) {
     // 触发 action 后，会返回 Promise
     return Promise.all([
       store.dispatch('PERSONAL_INFO', { accessToken }),
       store.dispatch('articleTag/GET_ARTICLE_TAG_ALL')
     ])
   },
-  data() {
+  data () {
     return {
       write: {
         title: '', // 文章的标题
@@ -330,7 +307,8 @@ export default {
       }
     }
   },
-  created() {
+  mounted () {
+    this.$store.registerModule('editor', editorModule)
     this.initArticleTagAll()
     this.getUserArticleBlogAll()
     if (this.$route.params.type !== 'create') {
@@ -338,7 +316,7 @@ export default {
     }
   },
   watch: {
-    searchArticleTag(val) {
+    searchArticleTag (val) {
       let _arr = []
       for (let item in this.articleTagAll) {
         if (
@@ -358,7 +336,7 @@ export default {
     }
   },
   methods: {
-    isEditArticle() {
+    isEditArticle () {
       if (this.$route.params.type !== 'create') {
         // 判断是不是创建，不是则是修改，同时赋值
         this.$store
@@ -371,6 +349,7 @@ export default {
             this.write = { ...articleInfo, ...articleAnnexInfo }
             this.write.is_public = Number(articleInfo.is_public)
             this.write.content = articleInfo.origin_content
+            this.write.title = articleInfo.title
             this.articleTagAll.map(item => {
               if (
                 ~articleInfo.tag_ids.split(',').indexOf(String(item.tag_id))
@@ -388,7 +367,7 @@ export default {
           })
       }
     },
-    isFloor() {
+    isFloor () {
       var obj = event.target
       var t = obj.value.charAt(0)
       obj.value = obj.value
@@ -402,10 +381,10 @@ export default {
         obj.value = '-' + obj.value
       }
     },
-    initArticleTagAll() {
+    initArticleTagAll () {
       this.searchShowArticleTagAll = this.articleTagAll
     },
-    getUserArticleBlogAll() {
+    getUserArticleBlogAll () {
       if (!this.$store.state.personalInfo.islogin) {
         this.$message.warning('当前用户未登陆，请前往首页登陆后尝试')
         this.$router.push({ name: 'home' })
@@ -419,7 +398,7 @@ export default {
           this.userArticleBlogAll = res.data.list
         })
     },
-    addArticleTag(val) {
+    addArticleTag (val) {
       this.search_article_tag = ''
       let _arr = []
       for (var item in this.currentArticleTagArr) {
@@ -433,7 +412,7 @@ export default {
       }
       this.renderCurrentArticleTag()
     },
-    deleteCurrentArticleTag(val) {
+    deleteCurrentArticleTag (val) {
       for (var item in this.currentArticleTagArr) {
         if (val.name === this.currentArticleTagArr[item].name) {
           this.currentArticleTagArr.splice(item, 1)
@@ -441,7 +420,7 @@ export default {
       }
       this.renderCurrentArticleTag()
     },
-    renderCurrentArticleTag() {
+    renderCurrentArticleTag () {
       this.$nextTick(() => {
         this.searchBoxWidth =
           this.$refs.search_box.offsetWidth -
@@ -450,14 +429,14 @@ export default {
           'px'
       })
     },
-    getObjectValues(object) {
+    getObjectValues (object) {
       var values = []
       for (var property in object) {
         values.push(object[property].tag_id)
       }
       return values
     },
-    saveCreateBlog() {
+    saveCreateBlog () {
       this.$store
         .dispatch('editor/CREATE_ARTICLE_BLOG', {
           blog_name: this.blog.name
@@ -473,7 +452,7 @@ export default {
           }
         })
     },
-    imageFilter(file) {
+    imageFilter (file) {
       if (file.size > 1 * 1024 * 1024) {
         this.$message.success('上传文章图片应该小于1M')
         return false
@@ -481,7 +460,7 @@ export default {
         return true
       }
     },
-    $imgAdd(pos, $file) {
+    $imgAdd (pos, $file) {
       // 第一步.将图片上传到服务器.
       var formData = new FormData()
       formData.append('file', $file)
@@ -497,7 +476,7 @@ export default {
           }
         })
     },
-    saveArticle() {
+    saveArticle () {
       const { is_attachment, is_free, pay_type, price, attachment } = this.write
       let params = {
         title: this.write.title, //文章的标题
@@ -539,7 +518,7 @@ export default {
             this.$message.warning(res.message)
           }
         })
-        .catch(function(err) {
+        .catch(function (err) {
           this.$message.error('出现错误：' + err)
         })
     }
@@ -549,13 +528,16 @@ export default {
     ClientOnly
   },
   computed: {
-    articleTagAll() {
+    articleTagAll () {
       return this.$store.state.articleTag.article_tag_all
     },
-    personalInfo() {
+    personalInfo () {
       // 登录后的个人信息
       return this.$store.state.personalInfo
     }
+  },
+  destroyed () {
+    this.$store.unregisterModule('editor')
   }
 }
 </script>

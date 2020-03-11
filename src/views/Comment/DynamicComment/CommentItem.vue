@@ -68,6 +68,7 @@
 import commentForm from "./CommentForm";
 import { faceQQ } from '@components'
 import commentChildItem from "./CommentChildItem";
+import { fetch } from '@request'
 import {
   statusList,
   statusListText
@@ -99,11 +100,16 @@ export default {
     },
     getCommentList () {
       // 获取评论列表
-      this.$store
-        .dispatch("dynamicComment/DYNAMIC_COMMENT_ALL", {
-          dynamic_id: this.dynamicId,
-          parent_id: this.commentItem.id
-        })
+      fetch({
+        url: '/dynamic-comment/all',
+        method: 'get',
+        parameter: {
+          params: {
+            dynamic_id: this.dynamicId,
+            parent_id: this.commentItem.id
+          }
+        }
+      })
         .then(result => {
           this.commentItem.children = result.data.list;
           this.isChildMore = false
@@ -113,10 +119,11 @@ export default {
       this.commentItem.children.splice(key, 1)
     },
     deleteComment (id) {
-      this.$store
-        .dispatch("dynamicComment/DYNAMIC_COMMENT_DELETE", {
-          comment_id: id
-        })
+      fetch({
+        url: '/dynamic-comment/delete',
+        method: 'post',
+        parameter: { comment_id: id }
+      })
         .then(res => {
           if (res.state === "success") {
             this.$emit('deleteComment', this.comentKey)

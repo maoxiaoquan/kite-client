@@ -45,6 +45,7 @@
 
 <script>
 import { cookie } from '../../../utils/cookie.js'
+import settingModule from '../../../store/module/setting'
 export default {
   name: 'ResetPassword',
   metaInfo () {
@@ -64,6 +65,9 @@ export default {
       }
     }
   },
+  mounted () {
+    this.$store.registerModule('setting', settingModule)
+  },
   methods: {
     tapResetPassword () {
       this.$router.push({ name: 'resetPassword' })
@@ -82,6 +86,9 @@ export default {
           })
         })
     }
+  },
+  destroyed () {
+    this.$store.unregisterModule('setting')
   }
 }
 </script>

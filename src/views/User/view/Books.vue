@@ -162,16 +162,6 @@ export default {
           }
         })
     },
-    changeArticleBlogImg ({ formData, config }) {
-      this.$store.dispatch('articleBlog/UPLOAD_ARTICLE_BLOG_IMG', formData)
-        .then(result => {
-          if (result.state === 'success') {
-            this.blogForm.icon = result.data.img
-          } else {
-            this.$message.warning(result.message)
-          }
-        })
-    },
     setBlogTime (item) { // 设置blog的时间
       if (item.create_date === item.update_date) {
         return `创建于：${item.create_dt}`

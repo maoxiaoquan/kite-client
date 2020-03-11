@@ -7,7 +7,6 @@ const LRU = require('lru-cache')
 const setupDevServer = require('../tools/setup-dev-server')
 const { createBundleRenderer } = require('vue-server-renderer')
 const config = require('../kite.config')
-const fs = require('fs')
 const router = express.Router()
 app.use(cookieParser())
 // 缓存

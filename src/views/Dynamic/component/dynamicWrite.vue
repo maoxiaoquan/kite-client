@@ -243,6 +243,10 @@ export default {
   },
   methods: {
     changeDynamicImage ({ formData, config }) { // 上传图片，并且组合
+      if (!this.personalInfo.islogin) {
+        this.$message.warning("当前用户未登陆，请前往登陆后尝试");
+        return false
+      }
       this.$store.dispatch('dynamic/UPLOAD_DYNAMIC_PICTURE', formData)
         .then(result => {
           this.coverImage += result.data.img + ','
@@ -283,7 +287,7 @@ export default {
     },
     send () { // 发送消息
       if (!this.personalInfo.islogin) {
-        this.$message.warning("当前用户未登陆，请前往首页登陆后尝试");
+        this.$message.warning("当前用户未登陆，请前往登陆后尝试");
         return false
       }
       if (!this.content) {
@@ -293,6 +297,10 @@ export default {
       this.createDynamic()
     },
     createDynamic () { // 提交表单
+      if (!this.personalInfo.islogin) {
+        this.$message.warning("当前用户未登陆，请前往登陆后尝试");
+        return false
+      }
       let attach = ''
       if (this.type === 2) {
         attach = this.coverImage
@@ -317,9 +325,6 @@ export default {
           this.$message.error(result.message);
         }
       })
-    },
-    shareOtherWeb () { // 分享到其他网站
-
     },
   },
   computed: {

@@ -41,6 +41,7 @@
 
 <script>
 import { Popover, Face } from "@components";
+import { fetch } from '@request'
 export default {
   name: 'CommentForm',
   data () {
@@ -87,7 +88,11 @@ export default {
         return false
       }
       var params = this.getParams()
-      this.$store.dispatch("dynamicComment/DYNAMIC_COMMENT_CREATE", params)
+      fetch({
+        url: '/dynamic-comment/create',
+        method: 'post',
+        parameter: params
+      })
         .then(result => {
           this.commentContent = ''
           this.$emit('commentChange', result)

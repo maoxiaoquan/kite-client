@@ -8,35 +8,33 @@
               <div class="title">私聊列表</div>
 
               <div class="chat-user-list-view">
-                <router-link
-                  :to="{
+                <router-link :to="{
                     name: 'privateChat',
                     query: {
                       uid: item.uid,
                       nickname: item.nickname
                     }
                   }"
-                  v-for="(item, key) in chatUserList"
-                  :key="key"
-                  class="chat-user-item clearfix"
-                >
+                             v-for="(item, key) in chatUserList"
+                             :key="key"
+                             class="chat-user-item clearfix">
                   <div class="avatar">
-                    <img v-lazy="item.avatar" class="user-avatar" alt="" />
+                    <img v-lazy="item.avatar"
+                         class="user-avatar"
+                         alt="" />
                   </div>
                   <div class="nickname">{{ item.nickname }}</div>
                   <div class="unread">
-                    <span class="unread-num" v-if="item.unreadNum > 0">
-                      {{ item.unreadNum }}</span
-                    >
+                    <span class="unread-num"
+                          v-if="item.unreadNum > 0">
+                      {{ item.unreadNum }}</span>
                   </div>
                 </router-link>
               </div>
-              <Page
-                :total="Number(count)"
-                :pageSize="Number(pageSize)"
-                :page="Number(page) || 1"
-                @pageChange="pageChange"
-              ></Page>
+              <Page :total="Number(count)"
+                    :pageSize="Number(pageSize)"
+                    :page="Number(page) || 1"
+                    @pageChange="pageChange"></Page>
             </div>
           </div>
           <div class="col-xs-12 col-sm-4 col-md-4">
@@ -53,9 +51,10 @@ import ClientOnly from 'vue-client-only'
 import UserAside from '../view/UserAside'
 import { Page } from '@components'
 import { mapState } from 'vuex'
+import chatModule from '../../../store/module/chat'
 export default {
   name: 'PrivateChat',
-  data() {
+  data () {
     return {
       content: '',
       count: 0,
@@ -64,11 +63,15 @@ export default {
       chatUserList: []
     }
   },
-  mounted() {
+  mounted () {
+    if (!this.personalInfo.islogin) {
+      this.$router.push({ name: 'signIn' })
+    }
+    this.$store.registerModule('chat', chatModule)
     this.getPrivateChatList()
   },
   methods: {
-    getPrivateChatList() {
+    getPrivateChatList () {
       this.$store
         .dispatch('chat/GET_PRIVATE_CHAT_LIST', {
           page: this.page,
@@ -84,7 +87,7 @@ export default {
           })
         })
     },
-    pageChange(val) {
+    pageChange (val) {
       this.page = val
       this.getPrivateChatList()
     }
@@ -96,6 +99,9 @@ export default {
     ClientOnly,
     UserAside,
     Page
+  },
+  destroyed () {
+    this.$store.unregisterModule('chat')
   }
 }
 </script>

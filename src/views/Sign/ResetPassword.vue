@@ -68,6 +68,7 @@
 import { cookie } from '../../utils/cookie.js'
 import { sendCode } from '@components'
 import ClientOnly from 'vue-client-only'
+import signModule from '../../store/module/sign'
 export default {
   name: 'ResetPassword',
   metaInfo () {
@@ -90,6 +91,9 @@ export default {
         repeat_new_password: ''
       }
     }
+  },
+  mounted () {
+    this.$store.registerModule('sign', signModule)
   },
   methods: {
     tapRegister () {
@@ -133,6 +137,9 @@ export default {
   components: {
     'send-code': sendCode,
     ClientOnly
+  },
+  destroyed () {
+    this.$store.unregisterModule('sign')
   }
 }
 </script>

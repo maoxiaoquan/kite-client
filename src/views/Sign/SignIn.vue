@@ -68,6 +68,7 @@
 import { cookie } from '../../utils/cookie.js'
 import ClientOnly from 'vue-client-only'
 import { mapState } from 'vuex'
+import signModule from '../../store/module/sign'
 export default {
   name: 'SignIn',
   metaInfo () {
@@ -85,6 +86,9 @@ export default {
       store.dispatch('website/GET_WEBSITE_INFO'),
       store.dispatch('articleTag/GET_ARTICLE_TAG_ALL')
     ])
+  },
+  mounted () {
+    this.$store.registerModule('sign', signModule)
   },
   data () {
     return {
@@ -121,6 +125,9 @@ export default {
   },
   components: {
     ClientOnly
+  },
+  destroyed () {
+    this.$store.unregisterModule('sign')
   }
 }
 </script>

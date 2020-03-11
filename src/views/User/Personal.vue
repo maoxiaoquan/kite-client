@@ -35,12 +35,17 @@ import { mapState } from 'vuex'
 import ClientOnly from 'vue-client-only'
 export default {
   name: 'Personal',
-  metaInfo() {
+  metaInfo () {
     return {
       title: '个人中心',
       htmlAttrs: {
         lang: 'zh'
       }
+    }
+  },
+  mounted () {
+    if (!this.personalInfo.islogin) {
+      this.$router.push({ name: 'signIn' })
     }
   },
   computed: {

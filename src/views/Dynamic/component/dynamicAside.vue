@@ -46,7 +46,7 @@
       </ul>
     </div>
 
-    <div class="topic-sidebar shadow topics client-card"
+    <!-- <div class="topic-sidebar shadow topics client-card"
          v-if="personalInfo.islogin">
       <div class="title"><span>关注的话题</span>
         <router-link :to="{name:'dynamicTopic'}">
@@ -69,7 +69,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
 
   </aside>
 </template>

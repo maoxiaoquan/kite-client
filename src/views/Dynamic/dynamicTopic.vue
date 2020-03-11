@@ -1,6 +1,6 @@
 <template>
   <div id="dynamic-topic">
-    <div class="container dynamic-main"
+    <!-- <div class="container dynamic-main"
          v-if="personalInfo.islogin">
       <div class="dynamic-main-title">我的话题</div>
       <div class="row">
@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="container dynamic-main">
       <div class="dynamic-main-title">全部话题</div>
       <div class="row">
@@ -89,6 +89,9 @@ export default {
       color: #0e0e0e;
       font-weight: 600;
       margin: 20px 0;
+    }
+    .client-card {
+      margin-bottom: 12px;
     }
     .topic-item {
       display: flex;

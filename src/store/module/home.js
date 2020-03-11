@@ -1,4 +1,4 @@
-import { fetch } from '@request'
+import { fetch, Cachefetch } from '@request'
 
 const state = () => ({
   article: {

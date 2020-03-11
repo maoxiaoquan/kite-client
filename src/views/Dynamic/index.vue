@@ -43,8 +43,7 @@
       </div>
       <div class="row dynamic-main">
         <div class="col-xs-12 col-sm-8 col-md-8">
-          <div class="stream-wrapper client-card"
-               v-if="personalInfo.islogin">
+          <div class="stream-wrapper client-card">
             <dynamic-write @changeDynamicWrite="dynamicSubmit" />
           </div>
 

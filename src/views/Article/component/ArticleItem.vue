@@ -1,49 +1,42 @@
 <template>
   <article class="article">
-    <div class="article-box" v-if="articleItem.aid">
-      <router-link
-        class="title"
-        :to="{ name: 'article', params: { aid: articleItem.aid } }"
-        >{{ articleItem.title }}</router-link
-      >
+    <div class="article-box"
+         v-if="articleItem.aid">
+      <router-link class="title"
+                   :to="{ name: 'article', params: { aid: articleItem.aid } }">{{ articleItem.title }}</router-link>
 
       <ul class="meta-list">
         <li class="item">
-          <span class="type" :class="`type${articleItem.type}`">{{
+          <span class="type"
+                :class="`type${articleItem.type}`">{{
             articleTypeText[articleItem.type]
           }}</span>
         </li>
         <li class="item">
-          <router-link
-            :to="{
+          <router-link :to="{
               name: 'user',
               params: { uid: articleItem.user.uid, routeType: 'article' }
             }"
-            class="name"
-            >{{ articleItem.user.nickname }}</router-link
-          >
+                       class="name">{{ articleItem.user.nickname }}</router-link>
         </li>
         <li class="item">
           <time>{{ articleItem.create_dt }}</time>
         </li>
-        <li class="item tag-view" v-if="articleItem.tag_ids">
-          <router-link
-            v-for="(itemTag, key) in articleItem.tag"
-            class="tag-class frontend"
-            :key="key"
-            :to="{ name: 'article_tag', params: { en_name: itemTag.en_name } }"
-            >{{ itemTag.name }}</router-link
-          >
+        <li class="item tag-view"
+            v-if="articleItem.tag_ids">
+          <router-link v-for="(itemTag, key) in articleItem.tag"
+                       class="tag-class frontend"
+                       :key="key"
+                       :to="{ name: 'article_tag', params: { en_name: itemTag.en_name } }">{{ itemTag.name }}</router-link>
         </li>
 
-        <li class="item" v-if="articleItem.article_blog">
-          <router-link
-            class="meta-item ContentItem-action"
-            :to="{
+        <li class="item"
+            v-if="articleItem.article_blog">
+          <router-link class="meta-item ContentItem-action"
+                       :to="{
               name: 'articleBlog',
               params: { blogId: articleItem.article_blog.blog_id }
-            }"
-          >
+            }">
             {{ articleItem.article_blog.name }}
           </router-link>
         </li>
@@ -64,12 +57,13 @@
       </ul>
     </div>
 
-    <div class="thumb" v-if="articleItem.cover_img">
-      <router-link
-        class="title"
-        :to="{ name: 'article', params: { aid: articleItem.aid } }"
-      >
-        <img class="box-image" v-lazy="articleItem.cover_img" alt="" />
+    <div class="thumb"
+         v-if="articleItem.cover_img">
+      <router-link class="title"
+                   :to="{ name: 'article', params: { aid: articleItem.aid } }">
+        <img class="box-image"
+             v-lazy="articleItem.cover_img"
+             alt="" />
       </router-link>
     </div>
   </article>
@@ -95,14 +89,14 @@ export default {
       default: {}
     }
   },
-  data() {
+  data () {
     return {
       articleType,
       articleTypeText
     }
   },
   methods: {
-    shareChange(val) {
+    shareChange (val) {
       // 分享到其他
       let urlOrigin = window.location.origin // 源地址
       if (val.type === 'sina') {
@@ -188,7 +182,7 @@ export default {
 
         .tag-class + .tag-class::before {
           display: inline;
-          content: ' \B7 ';
+          content: " \B7 ";
           color: #9b9b9b;
           padding-left: 2px;
           padding-right: 2px;
@@ -196,7 +190,7 @@ export default {
       }
       .item + .item::before {
         display: inline;
-        content: ' \B7 ';
+        content: " \B7 ";
         color: #9b9b9b;
         padding-left: 2px;
         padding-right: 2px;

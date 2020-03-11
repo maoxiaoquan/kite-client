@@ -5,14 +5,14 @@ const state = () => ({
 })
 
 const mutations = {
-  SET_ARTICLE(state, data) {
+  SET_ARTICLE (state, data) {
     // 设置文章
     state.article = data
   }
 }
 
 const actions = {
-  GET_ARTICLE({ commit, dispatch, state }, parameter) {
+  GET_ARTICLE ({ commit, dispatch, state }, parameter) {
     // 获取文章
     return fetch({
       url: '/article',
@@ -23,7 +23,7 @@ const actions = {
       return result
     })
   },
-  GET_ARTICLE_ANNEX({ commit, dispatch, state }, parameter) {
+  GET_ARTICLE_ANNEX ({ commit, dispatch, state }, parameter) {
     // 获取文章
     return fetch({
       url: '/article-annex',

@@ -1,47 +1,41 @@
 <template>
-  <div class="user-center-message-item attention" ref="user_message_list">
+  <div class="user-center-message-item attention"
+       ref="user_message_list">
     <div class="title">
       {{ MessageItem.actionText }} {{ MessageItem.create_dt }}
     </div>
 
     <div class="main clearfix">
-      <router-link
-        class="user-info"
-        :to="{
+      <router-link class="user-info"
+                   :to="{
           name: 'user',
           params: { uid: MessageItem.sender.uid, routeType: 'article' }
-        }"
-      >
-        <img class="avatar" v-lazy="MessageItem.sender.avatar" alt />
+        }">
+        <img class="avatar"
+             v-lazy="MessageItem.sender.avatar"
+             alt />
         <span class="nickname">{{ MessageItem.sender.nickname }}</span>
       </router-link>
       <span class="action">{{
         userMessageTypeText[MessageItem.type][MessageItem.action]
       }}</span>
-      <span class="delete-message" @click="deleteUserMessage(MessageItem.id)"
-        >删除</span
-      >
+      <span class="delete-message"
+            @click="deleteUserMessage(MessageItem.id)">删除</span>
     </div>
 
     <div class="content">
-      <router-link
-        style="color:#df5858"
-        v-if="MessageItem.type === modelName.books"
-        :to="{
+      <router-link style="color:#df5858"
+                   v-if="MessageItem.type === modelName.books"
+                   :to="{
           name: 'book',
           params: { books_id: MessageItem.books.books_id }
-        }"
-        >{{ MessageItem.books.title }}</router-link
-      >
-      <router-link
-        style="color:#df5858"
-        v-else-if="MessageItem.type === modelName.article_annex"
-        :to="{
+        }">{{ MessageItem.books.title }}</router-link>
+      <router-link style="color:#df5858"
+                   v-else-if="MessageItem.type == modelName.article_annex"
+                   :to="{
           name: 'article',
           params: { aid: MessageItem.article_annex.aid }
-        }"
-        v-html="MessageItem.article_annex.attachment"
-      ></router-link>
+        }">{{MessageItem.article_annex.title}}</router-link>
     </div>
   </div>
 </template>
@@ -63,7 +57,7 @@ export default {
       type: Object
     }
   },
-  data() {
+  data () {
     return {
       statusList,
       modelName,
@@ -71,7 +65,7 @@ export default {
     }
   },
   methods: {
-    deleteUserMessage(id) {
+    deleteUserMessage (id) {
       this.$confirm('此操作将永久该消息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -94,9 +88,9 @@ export default {
               console.log(err)
             })
         })
-        .catch(() => {})
+        .catch(() => { })
     },
-    commentRender(val) {
+    commentRender (val) {
       let newComment = val
       faceQQ.map(faceItem => {
         newComment = newComment.replace(

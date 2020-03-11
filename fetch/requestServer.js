@@ -1,9 +1,7 @@
 import LRU from 'lru-cache'
 
 const ports = require('../kite.config')
-let baseURL = `http://localhost:${
-  process.env.NODE_ENV === 'production' ? ports.server.port : ports.client.port
-  }/graphql`
+let baseURL = `http://localhost:${process.env.NODE_ENV === 'production' ? ports.server.port : ports.client.port}/graphql`
 
 export function fetchConfig () {
   let _c = {}

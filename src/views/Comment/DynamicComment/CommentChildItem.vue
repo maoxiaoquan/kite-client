@@ -57,6 +57,7 @@
 <script>
 import commentForm from "./CommentForm";
 import { faceQQ } from '@components'
+import { fetch } from '@request'
 import {
   statusList,
   statusListText
@@ -83,10 +84,11 @@ export default {
       this.reply_uid = this.childCommentItem.uid
     },
     deleteComment (id) {
-      this.$store
-        .dispatch("dynamicComment/DYNAMIC_COMMENT_DELETE", {
-          comment_id: id
-        })
+      fetch({
+        url: '/dynamic-comment/delete',
+        method: 'post',
+        parameter: { comment_id: id }
+      })
         .then(res => {
           if (res.state === "success") {
             this.$emit('deleteChildComment', this.comentKey)

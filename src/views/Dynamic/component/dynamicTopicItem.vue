@@ -11,10 +11,13 @@
                    :to='{name:"dynamicTopicView",params:{dynamicTopicId:dynamicTopicItem.topic_id}}'>
         {{dynamicTopicItem.name}}
       </router-link>
-      <span>{{dynamicTopicItem.attention_count}} 关注 · {{dynamicTopicItem.dynamicCount}} 片刻</span>
-      <span class="subscribe"
+      <span>
+        <!-- {{dynamicTopicItem.attention_count}} 关注 ·  -->
+        {{dynamicTopicItem.dynamicCount}} 片刻
+      </span>
+      <!-- <span class="subscribe"
             :class="{'active':isRssDynamicTopic}"
-            @click="subscribeDynamicTopic">{{isRssDynamicTopic?'已关注':'+ 关注'}}</span>
+            @click="subscribeDynamicTopic">{{isRssDynamicTopic?'已关注':'+ 关注'}}</span> -->
     </div>
   </div>
 </template>
