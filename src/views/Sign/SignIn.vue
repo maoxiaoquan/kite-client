@@ -73,7 +73,7 @@ export default {
   name: 'SignIn',
   metaInfo () {
     return {
-      title: `${this.website.website_name}-登录`,
+      title: `${this.website.meta.website_name}-登录`,
       htmlAttrs: {
         lang: 'zh'
       }

@@ -424,7 +424,6 @@ export default {
       text-align: left;
       max-width: 100%;
       margin-top: 15px;
-      margin-bottom: 10px;
       position: static;
       color: #48494d;
       font-size: 28px;
@@ -650,6 +649,14 @@ export default {
     text-align: center;
     font-size: 25px;
     margin: 20px 0;
+  }
+}
+
+@media (max-width: 575px) {
+  .article.layout-content {
+    .main {
+      padding: 10px;
+    }
   }
 }
 </style>

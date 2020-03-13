@@ -203,4 +203,13 @@ export default {
     flex: 0 0 55px;
   }
 }
+
+@media (max-width: 575px) {
+  .article {
+    padding: 10px 5px;
+    .thumb {
+      display: none;
+    }
+  }
+}
 </style>

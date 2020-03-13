@@ -123,6 +123,7 @@ export default {
   data () {
     return {
       page: 2,
+      pageSize: 25,
       sort: "",
       isLoading: false,
       isMore: true
@@ -153,12 +154,13 @@ export default {
       this.$store
         .dispatch("home/GET_INDEX_ARTICLE_LIST", {
           type: this.$route.query.type || '',
+          pageSize: this.pageSize,
           sort: this.sort,
           page: this.page
         })
         .then(result => {
           this.isLoading = false;
-          if (result.data.article_list.length === 10) {
+          if (result.data.article_list.length === this.pageSize) {
             this.page += 1;
           } else {
             this.isMore = false;
@@ -192,6 +194,11 @@ export default {
     /deep/ .article {
       border-bottom: 1px solid #f7f7f7;
     }
+  }
+}
+@media (max-width: 575px) {
+  .home-lay .client-card {
+    padding: 0 5px;
   }
 }
 </style>

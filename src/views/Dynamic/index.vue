@@ -196,6 +196,11 @@ export default {
       height: 100%;
       display: flex;
       flex-direction: column;
+      &:first-child {
+        border-bottom: 1px solid #f1f1f1;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }
       .nav-item {
         a {
           display: flex;

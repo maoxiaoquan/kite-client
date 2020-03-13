@@ -79,7 +79,7 @@ export default {
   name: 'SignUp',
   metaInfo () {
     return {
-      title: `${this.website.website_name}-注册`,
+      title: `${this.website.meta.website_name}-注册`,
       htmlAttrs: {
         lang: 'zh'
       }

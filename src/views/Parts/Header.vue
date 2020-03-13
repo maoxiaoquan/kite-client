@@ -40,9 +40,7 @@
                     </router-link>
                     <router-link v-if="personalInfo.islogin"
                                  class="dropdown-menu-item"
-                                 :to="{
-                        name: 'user',
-                        params: {
+                                 :to="{name: 'user',params: {
                           uid: personalInfo.user.uid,
                           routeType: 'message'
                         }
@@ -50,6 +48,13 @@
                       消息
                       <span v-if="user.messageCount > 0"
                             class="unread-message-count">{{ user.messageCount }}</span>
+                    </router-link>
+                    <router-link v-if="personalInfo.islogin"
+                                 class="dropdown-menu-item"
+                                 :to="{name: 'privateChatList'}">
+                      私聊
+                      <span v-if="user.messageCount > 0"
+                            class="unread-message-count">{{ user.privateChatCount }}</span>
                     </router-link>
                   </div>
                 </Dropdown>
@@ -92,37 +97,34 @@
               </div>
             </li>
             <template v-if="personalInfo.islogin">
-              <li class="nav-item">
+              <li class="nav-item icon-item">
                 <router-link :to="{ name: 'Write', params: { type: 'create' } }"
                              class="btn btn-sm ">
                   <i class="iconfont el-icon-edit"></i>
                 </router-link>
               </li>
-              <li class="nav-item"
-                  v-if="personalInfo.islogin">
+              <li class="nav-item icon-item mb-hide">
                 <router-link class="btn btn-sm no-read-msg"
                              :to="{
                     name: 'AttentionMessage'
                   }">
-                  <i class="iconfont el-icon-s-promotion"></i>
+                  <i class="iconfont el-icon-timer"></i>
                   <span v-if="user.attentionCount > 0"
                         class="unread-message-count">{{ user.attentionCount }}</span>
                 </router-link>
               </li>
-              <li class="nav-item"
-                  v-if="personalInfo.islogin">
+              <li class="nav-item  icon-item mb-hide">
                 <router-link class="btn btn-sm no-read-msg"
                              :to="{
                     name: 'user',
                     params: { uid: personalInfo.user.uid, routeType: 'message' }
                   }">
-                  <i class="iconfont el-icon-message-solid"></i>
+                  <i class="iconfont el-icon-bell"></i>
                   <span v-if="user.messageCount > 0"
                         class="unread-message-count">{{ user.messageCount }}</span>
                 </router-link>
               </li>
-              <li class="nav-item"
-                  v-if="personalInfo.islogin">
+              <li class="nav-item   icon-item mb-hide">
                 <router-link class="btn btn-sm no-read-msg"
                              :to="{
                     name: 'privateChatList'
@@ -311,15 +313,13 @@ export default {
               padding: 15px 15px;
               display: block;
               font-size: 15px;
-              color: rgba(0, 0, 0, 0.56);
+              color: #252a2d;
             }
             .s-btn--primary {
               color: #fff;
             }
             i {
               display: inline-block;
-              margin-right: 5px;
-              font-weight: bold;
             }
             .iconfont {
               font-size: 20px;
@@ -327,6 +327,12 @@ export default {
             &.active {
               a {
                 color: #ea6f5a;
+              }
+            }
+
+            &.icon-item {
+              i {
+                color: #333;
               }
             }
             &.search {
@@ -424,6 +430,9 @@ export default {
             .navbar-item-content {
               .nav-item {
                 &.search {
+                  display: none;
+                }
+                &.mb-hide {
                   display: none;
                 }
               }

@@ -16,6 +16,7 @@
                           v-if="isHistoryData">查看更多历史聊天</span>
                     <div class="chat-message-item"
                          v-for="(item, key) in messageList"
+                         :key="key"
                          :class="{
                         me: personalInfo.user.uid === item.sendUser.uid
                       }">
@@ -45,7 +46,7 @@
                 <textarea rows="3"
                           cols="20"
                           class="message-input"
-                          v-model="message"></textarea>
+                          v-model="msgVal"></textarea>
                 <button @click="sendMessage"
                         class="send-message">发送</button>
               </div>
@@ -87,7 +88,7 @@ export default {
   data () {
     return {
       messageList: [],
-      message: '',
+      msgVal: '',
       page: 1,
       pageSize: 5,
       isHistoryData: true,
@@ -104,7 +105,7 @@ export default {
     this.scrollChatView()
     this.getPrivateChatInfo()
     this.$socket.on('privateMessage', data => {
-      if (data.sendUser.uid === this.$route.query.uid) {
+      if (data && data.sendUser.uid === this.$route.query.uid) {
         this.messageList.push(data)
         if (this.isLockList) {
           this.isNewMessage = true
@@ -133,7 +134,9 @@ export default {
             this.privateChatRead()
             this.$store.dispatch('user/GET_UNREAD_MESSAGE_COUNT')
           } else {
-            this.joinPrivateChat()
+            if (this.personalInfo.user.uid != this.$route.query.uid) {
+              this.joinPrivateChat()
+            }
           }
         })
     },
@@ -168,17 +171,28 @@ export default {
         })
     },
     sendMessage () {
+
+      if (this.personalInfo.user.uid == this.$route.query.uid) {
+        this.$message.warning('自己不可以和自己发消息')
+        return false
+      }
       // 发送消息
       this.$store
         .dispatch('chat/SEND_PRIVATE_CHAT_MESSAGE', {
           receive_uid: this.$route.query.uid,
-          message: this.message
+          message: this.msgVal
         })
         .then(result => {
           this.isLockList = false
-          this.messageList.push(result.data)
-          this.message = ''
-          this.scrollToBottom()
+          this.msgVal = ''
+          if (result.state === 'success') {
+            if (result.data) {
+              this.messageList.push(result.data)
+              this.scrollToBottom()
+            }
+          } else {
+            this.$message.warning(result.message)
+          }
         })
     },
     privateChatRead () {

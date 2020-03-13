@@ -92,6 +92,7 @@ export default {
   data () {
     return {
       page: 2,
+      pageSize: 25,
       sort: "",
       isLoading: false,
       isMore: true
@@ -133,12 +134,13 @@ export default {
         .dispatch("home/GET_INDEX_ARTICLE_LIST", {
           columnEnName: this.$route.params.en_name,
           type: this.$route.query.type || '',
+          pageSize: this.pageSize,
           sort: this.sort,
           page: this.page
         })
         .then(result => {
           this.isLoading = false;
-          if (result.data.article_list.length === 10) {
+          if (result.data.article_list.length === this.pageSize) {
             this.page += 1;
           } else {
             this.isMore = false;

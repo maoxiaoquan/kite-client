@@ -3,15 +3,21 @@
     <div class="aside-component client-card-shadow">
       <h3 class="title">写下你想说的</h3>
       <div class="issue-btn">
-        <a href="javascript:;" @click="createArticle" class="btn-note">
+        <a href="javascript:;"
+           @click="createArticle"
+           class="btn-note">
           <i class="el-icon-edit"></i>
-          <span class="label-title">写新贴</span>
+          <span class="label-title">写文章</span>
         </a>
-        <a href="javascript:;" @click="createDynamic" class="btn-dynamic">
+        <a href="javascript:;"
+           @click="createDynamic"
+           class="btn-dynamic">
           <i class="el-icon-chat-line-round"></i>
           <span class="label-title">发片刻</span>
         </a>
-        <a href="javascript:;" @click="createBooks" class="btn-book">
+        <a href="javascript:;"
+           @click="createBooks"
+           class="btn-book">
           <i class="el-icon-notebook-2"></i>
           <span class="label-title">撰小书</span>
         </a>
@@ -19,67 +25,53 @@
     </div>
 
     <div class="hot-tags-for-sidebar client-card">
-      <header
-        class="heading u-clearfix heading--borderedBottom heading--allCaps heading--normal heading--simple xzl-margin-bottom15"
-      >
+      <header class="heading u-clearfix heading--borderedBottom heading--allCaps heading--normal heading--simple xzl-margin-bottom15">
         <div class="u-clearfix">
           <div class="heading-content hot-tags-header u-floatLeft">
             <span class="hot-tags-header-title">
               热门标签
             </span>
             <span class="hot-tags-more">
-              <router-link
-                :to="{ name: 'subscribe_tag', params: { type: 'all' } }"
-                >查看更多 &gt;</router-link
-              >
+              <router-link :to="{ name: 'subscribe_tag', params: { type: 'all' } }">查看更多 &gt;</router-link>
             </span>
           </div>
         </div>
       </header>
-      <ul
-        class="tags xzl-tags-list hot-sidebar-items hot-tags-sidebar tags--light"
-      >
-        <li v-for="(item, key) in home.popular_article_tag" :key="key">
-          <router-link
-            class="link xzl-link-color"
-            :to="{ name: 'article_tag', params: { en_name: item.en_name } }"
-          >
+      <ul class="tags xzl-tags-list hot-sidebar-items hot-tags-sidebar tags--light">
+        <li v-for="(item, key) in home.popular_article_tag"
+            :key="key">
+          <router-link class="link xzl-link-color"
+                       :to="{ name: 'article_tag', params: { en_name: item.en_name } }">
             {{ item.name }}
           </router-link>
         </li>
       </ul>
     </div>
 
-    <div class="notice client-card-shadow" v-if="website.notice.length > 0">
-      <a
-        class="notice-item"
-        v-for="(item, key) in website.notice"
-        v-if="item.enable"
-        :href="item.link"
-        :key="key"
-        >{{ item.title }}</a
-      >
+    <div class="notice client-card-shadow"
+         v-if="website.notice.length > 0">
+      <a class="notice-item"
+         v-for="(item, key) in website.notice"
+         v-if="item.enable"
+         :href="item.link"
+         :key="key">{{ item.title }}</a>
     </div>
 
-    <div class="advertise client-card" v-if="website.advertise.length > 0">
-      <div
-        class="advertise-item"
-        v-for="(advertiseItem, key) in website.advertise"
-        v-if="advertiseItem.enable"
-        :key="key"
-      >
-        <a
-          class="advertise-img"
-          :href="advertiseItem.link || 'javascript:;'"
-          v-if="advertiseItem.img_url"
-        >
-          <img v-lazy="advertiseItem.img_url" alt="" />
+    <div class="advertise client-card"
+         v-if="website.advertise.length > 0">
+      <div class="advertise-item"
+           v-for="(advertiseItem, key) in website.advertise"
+           v-if="advertiseItem.enable"
+           :key="key">
+        <a class="advertise-img"
+           :href="advertiseItem.link || 'javascript:;'"
+           v-if="advertiseItem.img_url">
+          <img v-lazy="advertiseItem.img_url"
+               alt="" />
         </a>
-        <a
-          class="advertise-text"
-          :href="advertiseItem.link || 'javascript:;'"
-          v-else
-        >
+        <a class="advertise-text"
+           :href="advertiseItem.link || 'javascript:;'"
+           v-else>
           {{ advertiseItem.title }}
         </a>
       </div>
@@ -87,16 +79,22 @@
 
     <div class="website-information client-card">
       <ul class="more-list">
-        <li class="item" v-if="website.meta.about">
-          <a :href="website.meta.about" target="_blank">关于</a>
+        <li class="item"
+            v-if="website.meta.about">
+          <a :href="website.meta.about"
+             target="_blank">关于</a>
         </li>
-        <li class="item" v-if="website.meta.feedback">
-          <a :href="website.meta.feedback" target="_blank">建议反馈</a>
+        <li class="item"
+            v-if="website.meta.feedback">
+          <a :href="website.meta.feedback"
+             target="_blank">建议反馈</a>
         </li>
       </ul>
-      <ul class="more-list" v-if="website.meta.miibeian">
+      <ul class="more-list"
+          v-if="website.meta.miibeian">
         <li class="item">
-          <a href="http://www.beian.miit.gov.cn" target="_blank">{{
+          <a href="http://www.beian.miit.gov.cn"
+             target="_blank">{{
             website.meta.miibeian
           }}</a>
         </li>
@@ -116,7 +114,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'HomeAside',
   methods: {
-    createDynamic() {
+    createDynamic () {
       if (!this.$store.state.personalInfo.islogin) {
         this.$router.push({ name: 'signIn' })
       } else {
@@ -126,14 +124,14 @@ export default {
         })
       }
     },
-    createBooks() {
+    createBooks () {
       if (!this.$store.state.personalInfo.islogin) {
         this.$router.push({ name: 'signIn' })
       } else {
         this.$router.push({ name: 'booksWrite', params: { type: 'create' } })
       }
     },
-    createArticle() {
+    createArticle () {
       if (!this.$store.state.personalInfo.islogin) {
         this.$router.push({ name: 'signIn' })
       } else {
@@ -143,7 +141,7 @@ export default {
   },
   computed: {
     ...mapState(['home', 'website']),
-    currYear() {
+    currYear () {
       let date = new Date()
       let year = date.getFullYear()
       return year
@@ -189,7 +187,7 @@ export default {
     padding: 24px;
     transition: all 0.3s ease;
     .title {
-      font-size: 16px;
+      font-size: 15px;
       line-height: 28px;
       color: rgba(0, 0, 0, 0.88);
       font-weight: normal;
@@ -197,7 +195,7 @@ export default {
       position: relative;
       padding-left: 12px;
       &::before {
-        content: '';
+        content: "";
         width: 4px;
         height: 20px;
         position: absolute;
@@ -233,8 +231,8 @@ export default {
           margin-bottom: 8px;
         }
         .label-title {
-          color: #444;
-          font-size: 16px;
+          color: #333;
+          font-size: 14px;
           display: block;
         }
       }
@@ -260,7 +258,7 @@ export default {
       margin-bottom: 15px;
       padding-left: 12px;
       &::before {
-        content: '';
+        content: "";
         width: 4px;
         height: 20px;
         position: absolute;
@@ -270,7 +268,7 @@ export default {
       }
       span.hot-tags-header-title {
         font-weight: normal;
-        font-size: 16px;
+        font-size: 15px;
         color: #2d2d2f;
         &:after {
           position: absolute;
@@ -294,14 +292,13 @@ export default {
       a {
         border: 1px solid #f5f5f5;
         border-radius: 4px;
-        height: 32px;
         margin-right: 8px;
         color: #888;
         margin-bottom: 8px;
-        padding: 4px 7px;
+        padding: 3px 8px;
         background: rgba(0, 0, 0, 0.03);
         display: block;
-        font-size: 14px;
+        font-size: 13px;
       }
     }
   }

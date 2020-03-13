@@ -567,7 +567,7 @@ export default {
 
   .box-input,
   .box-select {
-    border: 1px solid #9199a1;
+    border: 1px solid #e0e0e0;
     border-radius: 6px;
   }
   .box-select {
@@ -579,7 +579,7 @@ export default {
   }
   .box-input {
     font-size: 14px;
-    border: 1px solid #9199a1;
+    border: 1px solid #e0e0e0;
     border-radius: 6px;
     width: 100%;
     height: 36px;
@@ -587,7 +587,7 @@ export default {
   }
   .box-textarea {
     margin-top: 10px;
-    border: 1px solid #9199a1;
+    border: 1px solid #e0e0e0;
     height: 100px;
   }
 
@@ -603,7 +603,7 @@ export default {
     .common-select-box {
       position: relative;
       background: #fff;
-      border: 1px solid #9199a1;
+      border: 1px solid #e0e0e0;
       border-radius: 6px;
       color: #1c1f21;
       cursor: pointer;
@@ -676,7 +676,7 @@ export default {
       padding-left: 12px;
       margin-right: 12px;
       background: #fff;
-      border: 1px solid #9199a1;
+      border: 1px solid #e0e0e0;
       border-radius: 6px;
       box-sizing: border-box;
       .search-input {
@@ -746,12 +746,14 @@ export default {
   .write-footer {
     margin: 20px 0;
     .send-article {
-      padding: 5px 15px;
-      background: #256ef8;
+      padding: 12px 60px;
+      background: #fd763a;
       border: none;
       color: #fff;
+      display: block;
+      margin: 0 auto;
+      font-size: 15px;
       border-radius: 5px;
-      font-style: 16px;
     }
   }
 }
