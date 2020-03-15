@@ -15,7 +15,7 @@ NProgress.configure({
   minimum: 0.3 // 初始化时的最小百分比
 })
 const orgUrl = window.location.origin
-const socketUrl = IS_DEV ? 'http://localhost:8086' : `${orgUrl}:8086`
+const socketUrl = IS_DEV ? 'http://localhost:8086' : orgUrl
 
 Vue.prototype.$socket = io(socketUrl)
 
