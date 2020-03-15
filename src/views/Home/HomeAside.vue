@@ -226,7 +226,7 @@ export default {
   .hot-tags-for-sidebar,
   .aside-component,
   .website-information {
-    padding: 20px 22px 20px;
+    padding: 20px;
     background-color: #fff;
     color: #8a6d3b;
     margin-bottom: 10px;
@@ -281,8 +281,8 @@ export default {
       line-height: 20px;
       color: #8a6d3b;
       font-size: 13px;
-      padding-bottom: 8px;
-      margin-bottom: 8px;
+      padding-bottom: 5px;
+      margin-bottom: 5px;
       border-bottom: 1px solid #f7f7f7;
       &:hover {
         text-decoration: underline;

@@ -89,12 +89,11 @@ export default {
         line-height: 28px;
         text-align: center;
         cursor: pointer;
-        background: none;
-        border: 1px solid;
+        background: #f0f0f0;
         border-radius: 2px;
         width: 56px;
         height: 28px;
-        color: #8590a6;
+        color: #333;
         font-size: 14px;
       }
     }
