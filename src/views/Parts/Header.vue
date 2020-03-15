@@ -134,7 +134,7 @@
                         class="unread-message-count">{{ user.privateChatCount }}</span>
                 </router-link>
               </li>
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown user-center">
                 <Dropdown placement="right">
                   <div class="el-dropdown-link"
                        slot="button">
@@ -351,7 +351,7 @@ export default {
                   outline: none;
                   font-size: 12px;
                   color: #666;
-                  width: 220px;
+                  width: 200px;
                   background-color: transparent;
                 }
                 .search-btn {
@@ -360,6 +360,9 @@ export default {
                   background-color: transparent;
                 }
               }
+            }
+            &.user-center {
+              margin-left: 20px;
             }
             &.dropdown {
               position: relative;

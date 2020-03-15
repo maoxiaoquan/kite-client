@@ -85,13 +85,11 @@ export default {
 
     ]);
   },
-  created () {
-    this.$store.dispatch("dynamic/GET_RECOMMEND_DYNAMIC_LIST")
-  },
   mounted () {
     if (this.personalInfo.islogin) {
       this.$store.dispatch('user/GET_USER_INFO_ALL', { uid: this.personalInfo.user.uid })
     }
+    this.$store.dispatch("dynamic/GET_RECOMMEND_DYNAMIC_LIST")
   },
   methods: {
     contentRender (val) {
@@ -187,11 +185,9 @@ export default {
   padding: 22px;
   margin-bottom: 10px;
   .title {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 28px;
     color: rgba(0, 0, 0, 0.88);
-    font-weight: 700;
-    margin-bottom: 16px;
     position: relative;
     padding-left: 12px;
     &:before {
@@ -207,7 +203,7 @@ export default {
   }
   .dynamic-list {
     .item {
-      padding: 8px 0;
+      padding: 8px 0 5px;
     }
     .item:not(:last-child) {
       border-bottom: 1px solid hsla(0, 0%, 59.2%, 0.1);

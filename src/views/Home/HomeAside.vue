@@ -1,7 +1,7 @@
 <template>
   <div class="home-lay layout-aside">
     <div class="aside-component client-card-shadow">
-      <h3 class="title">写下你想说的</h3>
+      <h3 class="as-title">写下你想说的</h3>
       <div class="issue-btn">
         <a href="javascript:;"
            @click="createArticle"
@@ -24,11 +24,37 @@
       </div>
     </div>
 
+    <div class="new-dynamic client-card">
+      <h3 class="as-title">
+        最新片刻
+      </h3>
+      <ul class="dynamic-list">
+        <li class="item"
+            v-for="(item,key) in newDynamicList"
+            :key="key">
+          <router-link class="avatar"
+                       :to="{
+              name: 'user',
+              params: { uid: item.user.uid, routeType: 'article' }
+            }">
+            <div class="avatar-img"
+                 :style="`background-image: url(${item.user.avatar});`"></div>
+          </router-link>
+          <router-link class="dynamic"
+                       :to='{name:"dynamicView",params:{dynamicId:item.id}}'>
+            <div class="content-box"
+                 v-html="contentRender(item.content)">
+            </div>
+          </router-link>
+        </li>
+      </ul>
+    </div>
+
     <div class="hot-tags-for-sidebar client-card">
       <header class="heading u-clearfix heading--borderedBottom heading--allCaps heading--normal heading--simple xzl-margin-bottom15">
         <div class="u-clearfix">
           <div class="heading-content hot-tags-header u-floatLeft">
-            <span class="hot-tags-header-title">
+            <span class="as-title">
               热门标签
             </span>
             <span class="hot-tags-more">
@@ -50,6 +76,7 @@
 
     <div class="notice client-card-shadow"
          v-if="website.notice.length > 0">
+      <h3 class="as-title">公告</h3>
       <a class="notice-item"
          v-for="(item, key) in website.notice"
          v-if="item.enable"
@@ -110,10 +137,23 @@
 
 <script>
 import { mapState } from 'vuex'
-
+import { faceQQ } from '@components'
 export default {
   name: 'HomeAside',
+  mounted () {
+    this.getNewDynamic()
+  },
+  data () {
+    return {
+      newDynamicList: []
+    }
+  },
   methods: {
+    getNewDynamic () {
+      this.$store.dispatch("dynamic/GET_RECOMMEND_DYNAMIC_LIST", { type: "new" }).then(result => {
+        this.newDynamicList = result.data.list || []
+      })
+    },
     createDynamic () {
       if (!this.$store.state.personalInfo.islogin) {
         this.$router.push({ name: 'signIn' })
@@ -123,6 +163,16 @@ export default {
           params: { dynamicTopicId: 'newest' }
         })
       }
+    },
+    contentRender (val) {
+      let content = val;
+      faceQQ.map(faceItem => {
+        content = content.replace(
+          new RegExp("\\" + faceItem.face_text, "g"),
+          faceItem.face_view
+        );
+      });
+      return content;
     },
     createBooks () {
       if (!this.$store.state.personalInfo.islogin) {
@@ -152,16 +202,88 @@ export default {
 
 <style scoped lang="scss">
 .layout-aside {
-  .notice {
-    padding: 24px;
+  .as-title {
+    font-size: 15px;
+    line-height: 28px;
+    color: rgba(0, 0, 0, 0.88);
+    font-weight: normal;
+    margin-bottom: 16px;
+    position: relative;
+    padding-left: 12px;
+    &::before {
+      content: "";
+      width: 4px;
+      height: 20px;
+      position: absolute;
+      top: 4px;
+      left: 0;
+      border-radius: 2px;
+      background: #ec7259;
+    }
+  }
+  .new-dynamic,
+  .notice,
+  .hot-tags-for-sidebar,
+  .aside-component,
+  .website-information {
+    padding: 20px 22px 20px;
     background-color: #fff;
     color: #8a6d3b;
     margin-bottom: 10px;
+  }
+
+  .new-dynamic {
+    .dynamic-list {
+      .item {
+        display: flex;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #f7f7f7;
+        &:last-child {
+          margin-bottom: 0;
+          border-bottom: none;
+        }
+        .avatar {
+          width: 38px;
+          height: 38px;
+          flex: 0 0 38px;
+          margin-right: 10px;
+          .avatar-img {
+            height: 38px;
+            width: 38px;
+            border-radius: 3px 3px 3px 3px;
+            display: inline-block;
+            vertical-align: middle;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.02);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 50%;
+          }
+        }
+        .dynamic {
+          line-height: 18px;
+          flex: 1;
+          font-size: 13px;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          -webkit-line-clamp: 2;
+        }
+      }
+    }
+  }
+
+  .notice {
     .notice-item {
       display: block;
       line-height: 20px;
       color: #8a6d3b;
-      font-size: 14px;
+      font-size: 13px;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #f7f7f7;
       &:hover {
         text-decoration: underline;
       }
@@ -183,28 +305,6 @@ export default {
     }
   }
   .aside-component {
-    margin-bottom: 10px;
-    padding: 24px;
-    transition: all 0.3s ease;
-    .title {
-      font-size: 15px;
-      line-height: 28px;
-      color: rgba(0, 0, 0, 0.88);
-      font-weight: normal;
-      margin-bottom: 16px;
-      position: relative;
-      padding-left: 12px;
-      &::before {
-        content: "";
-        width: 4px;
-        height: 20px;
-        position: absolute;
-        top: 4px;
-        left: 0;
-        border-radius: 2px;
-        background: #ec7259;
-      }
-    }
     .issue-btn {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -222,7 +322,6 @@ export default {
         -ms-flex-direction: column;
         flex-direction: column;
         flex: 1;
-        padding: 10px 0;
         text-align: center;
         position: relative;
         i {
@@ -240,13 +339,8 @@ export default {
   }
 
   .hot-tags-for-sidebar {
-    margin-bottom: 10px;
-    padding: 24px;
-    transition: all 0.3s ease;
     .hot-tags-header {
       position: relative;
-      padding-bottom: 13px;
-      // border-bottom: 1px solid #ededed;
       width: 100%;
       display: -webkit-box;
       display: -ms-flexbox;
@@ -255,35 +349,10 @@ export default {
       -ms-flex-align: center;
       align-items: center;
       line-height: 1;
-      margin-bottom: 15px;
-      padding-left: 12px;
-      &::before {
-        content: "";
-        width: 4px;
-        height: 20px;
-        position: absolute;
-        left: 0;
-        border-radius: 2px;
-        background: #ec7259;
-      }
-      span.hot-tags-header-title {
-        font-weight: normal;
-        font-size: 15px;
-        color: #2d2d2f;
-        &:after {
-          position: absolute;
-          bottom: -1px;
-          left: 0;
-          right: 0;
-          height: 1px;
-          width: 64px;
-          background: #2d2d2f;
-          // content: "";
-        }
-      }
       .hot-tags-more {
         margin-left: auto;
         font-size: 14px;
+        margin-bottom: 16px;
         color: #c7c7c7;
       }
     }
@@ -304,7 +373,6 @@ export default {
   }
 
   .website-information {
-    padding: 20px;
     ul {
       display: block;
       li {

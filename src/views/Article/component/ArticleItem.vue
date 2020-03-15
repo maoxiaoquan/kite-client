@@ -198,9 +198,11 @@ export default {
     }
   }
   .thumb {
+    display: flex;
     width: 55px;
     height: 55px;
     flex: 0 0 55px;
+    align-items: center;
   }
 }
 

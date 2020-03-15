@@ -199,6 +199,7 @@ export default {
             if (result.state === 'success') {
               this.$message.success('上传用户头像成功，头像正在审核中')
               this.$store.dispatch('PERSONAL_INFO')
+              window.location.reload()
             } else {
               this.$message.warning(result.message)
             }
