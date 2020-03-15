@@ -4,7 +4,7 @@ import { createApp } from './app'
 import NProgress from 'nprogress'
 import { loading } from './directive'
 import VueLazyload from 'vue-lazyload'
-
+const IS_DEV = process.env.NODE_ENV === 'development'
 const { app, router, store } = createApp()
 
 NProgress.configure({
@@ -14,8 +14,10 @@ NProgress.configure({
   trickleSpeed: 200, // 自动递增间隔
   minimum: 0.3 // 初始化时的最小百分比
 })
+const orgUrl = window.location.origin
+const socketUrl = IS_DEV ? 'http://localhost:8086' : `${orgUrl}:8086`
 
-Vue.prototype.$socket = io('http://localhost:8086')
+Vue.prototype.$socket = io(socketUrl)
 
 // or with options
 Vue.use(VueLazyload, {
