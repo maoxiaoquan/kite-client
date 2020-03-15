@@ -268,7 +268,6 @@ export default {
     iRender () {
       var $vm = this;
       $vm.$render($vm.d_value, function (res) {
-        console.log('res', res)
         // render
         $vm.d_render = res;
         // change回调
