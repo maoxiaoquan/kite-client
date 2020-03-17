@@ -41,7 +41,7 @@
       </li>
       <li>
         <router-link class="collection"
-                     :to="{ name: 'personal' }">
+                     :to="{ name: 'collect' }">
           <i class="icon el-icon-folder-opened"></i>
           <span class="box-title">收藏集</span>
         </router-link>
@@ -249,7 +249,7 @@ export default {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     a,
     span {
       display: -webkit-box;
@@ -275,7 +275,7 @@ export default {
         -webkit-box-pack: center;
         -ms-flex-pack: center;
         justify-content: center;
-        font-size: 20px;
+        font-size: 18px;
         -webkit-box-align: end;
         -ms-flex-align: end;
         align-items: flex-end;

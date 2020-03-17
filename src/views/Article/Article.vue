@@ -35,6 +35,9 @@
                         :class="`type${article.type}`">{{
                       articleTypeText[article.type]
                     }}</em>
+                    <router-link class="article-edit"
+                                 v-if="personalInfo.user.uid===article.user.uid"
+                                 :to="{name:'Write',params:{type:article.aid}}">文章编辑</router-link>
                   </div>
                 </div>
               </div>
@@ -96,10 +99,15 @@
             </ul>
 
             <div class="meta-bottom clearfix">
-              <div class="meta-bottom-item like"
+              <div class="meta-bottom-item thumb"
                    @click="onUserThumbArticle"
                    :class="{ active: isThumb(article) }">
                 <i :class="isThumb(article) ? 'el-icon-thumb' : 'el-icon-thumb'"></i>
+              </div>
+              <div class="meta-bottom-item collect"
+                   @click="onUserCollectArticle"
+                   :class="{ active: isCollect(article) }">
+                <i :class="isCollect(article) ? 'el-icon-star-on' : 'el-icon-star-off'"></i>
               </div>
               <div class="meta-bottom-item share">
                 <Dropdown>
@@ -128,8 +136,10 @@
             <!--文章评论-->
             <ArticleComment />
           </div>
+
           <p class="no-aricle"
              v-else>文章不存在</p>
+
         </main>
       </div>
       <div class="col-xs-12 col-sm-3--6 col-md-3--6 aside">
@@ -288,15 +298,22 @@ export default {
     },
     isThumb (item) {
       // 是否收藏
-      if (this.personalInfo.islogin) {
-        if (
-          this.user.associateInfo.articleThumdId &&
-          ~this.user.associateInfo.articleThumdId.indexOf(item.aid)
-        ) {
-          return true
-        } else {
-          return false
-        }
+      if (
+        this.user.associateInfo.articleThumdId &&
+        ~this.user.associateInfo.articleThumdId.indexOf(item.aid)
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isCollect (item) {
+      // 是否收藏
+      if (
+        this.user.associateInfo.articleCollectId &&
+        ~this.user.associateInfo.articleCollectId.indexOf(item.aid)
+      ) {
+        return true
       } else {
         return false
       }
@@ -335,21 +352,32 @@ export default {
         })
     },
     onUserThumbArticle () {
-      /*用户like 文章*/
+      /*用户thumb 文章*/
       this.$store
         .dispatch('common/SET_THUMB', {
           associate_id: this.article.aid,
           type: modelName.article
         })
         .then(result => {
+          this.$message.warning(result.message)
           if (result.state === 'success') {
             this.$store.dispatch('user/GET_ASSOCIATE_INFO')
-          } else {
             this.$message.warning(result.message)
           }
         })
-        .catch(err => {
-          console.log(err)
+    },
+    onUserCollectArticle () {
+      /*用户collect 文章*/
+      this.$store
+        .dispatch('common/SET_COLLECT', {
+          associate_id: this.article.aid,
+          type: modelName.article
+        })
+        .then(result => {
+          this.$message.warning(result.message)
+          if (result.state === 'success') {
+            this.$store.dispatch('user/GET_ASSOCIATE_INFO')
+          }
         })
     },
     getArticleAnnex () {
@@ -363,9 +391,6 @@ export default {
           } else {
             this.$message.warning(result.message)
           }
-        })
-        .catch(err => {
-          console.log(err)
         })
     },
     shareChange (val) {
@@ -510,6 +535,17 @@ export default {
                   }
                 }
               }
+
+              .article-edit {
+                padding: 1px 5px;
+                cursor: pointer;
+                font-size: 12px;
+                border-radius: 5px;
+                background-color: #fd763a;
+                color: #f2f6fc;
+                display: inline-block;
+                margin-left: 10px;
+              }
             }
           }
         }
@@ -560,6 +596,7 @@ export default {
       .tag-body {
         display: -webkit-box;
         display: flex;
+        margin-top: 30px;
         li {
           position: relative;
           list-style: none;

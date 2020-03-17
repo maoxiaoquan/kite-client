@@ -22,7 +22,7 @@ const state = () => ({
 })
 
 const mutations = {
-  SET_USER_INFO_ALL(state, data) {
+  SET_USER_INFO_ALL (state, data) {
     // 获取用户的全部信息
     state.otherUserAttentionCount = data.otherUserAttentionCount
     state.userArticleCount = data.userArticleCount
@@ -33,24 +33,24 @@ const mutations = {
     state.user_info = data.user_info
     state.user = data.user
   },
-  SET_USER_ARTICLE_BLOG_ALL(state, data) {
+  SET_USER_ARTICLE_BLOG_ALL (state, data) {
     // 设置获取的全部的个人文章专栏
     state.user_article_blog = data.list
   },
-  SET_UNREAD_MESSAGE_COUNT(state, data) {
+  SET_UNREAD_MESSAGE_COUNT (state, data) {
     // 用户消息数量
     state.attentionCount = data.attentionCount
     state.messageCount = data.messageCount
     state.privateChatCount = data.privateChatCount
   },
-  SET_ASSOCIATE_INFO(state, data) {
+  SET_ASSOCIATE_INFO (state, data) {
     // 用户关联信心
     state.associateInfo = data || {}
   }
 }
 
 const actions = {
-  GET_USER_INFO_ALL({ commit, dispatch, state }, parameter) {
+  GET_USER_INFO_ALL ({ commit, dispatch, state }, parameter) {
     // 获取用户信息
     return fetch({
       url: '/user/info',
@@ -116,14 +116,6 @@ const actions = {
     // 获取用户关注
     return fetch({
       url: '/user/attention-list',
-      method: 'get',
-      parameter: { params: data }
-    })
-  },
-  GET_USER_LIKE_ARTICLE_LIST: ({ commit, dispatch, state }, data) => {
-    // 获取用户like
-    return fetch({
-      url: '/user/like-article-list',
       method: 'get',
       parameter: { params: data }
     })
@@ -202,7 +194,7 @@ const actions = {
       return result
     })
   },
-  GET_PERSONAL_DYNAMIC_LIST({ commit, dispatch, state }, parameter) {
+  GET_PERSONAL_DYNAMIC_LIST ({ commit, dispatch, state }, parameter) {
     // 获取动态列表
     return fetch({
       url: '/personal/dynamic-list',
@@ -210,7 +202,7 @@ const actions = {
       parameter: { params: parameter }
     })
   },
-  GET_USER_ARTICLE_BLOG_LIST({ commit, dispatch, state }, parameter) {
+  GET_USER_ARTICLE_BLOG_LIST ({ commit, dispatch, state }, parameter) {
     // 获取用户的个人专栏列表
     return fetch({
       url: '/personal/article-blog-list',
@@ -218,7 +210,7 @@ const actions = {
       parameter: { params: parameter }
     })
   },
-  GET_BOOKS_LIST({ commit, dispatch, state }, parameter) {
+  GET_BOOKS_LIST ({ commit, dispatch, state }, parameter) {
     // 获取用户的个人专栏列表
     return fetch({
       url: '/personal/books-list',
@@ -226,7 +218,7 @@ const actions = {
       parameter: { params: parameter }
     })
   },
-  GET_ASSOCIATE_INFO({ commit, dispatch, state }, parameter) {
+  GET_ASSOCIATE_INFO ({ commit, dispatch, state }, parameter) {
     // 获取用户关联信息
     return fetch({
       url: '/user/associate-info',

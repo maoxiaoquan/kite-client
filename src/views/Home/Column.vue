@@ -131,7 +131,7 @@ export default {
     infiniteHandler () {
       this.isLoading = true;
       this.$store
-        .dispatch("home/GET_INDEX_ARTICLE_LIST", {
+        .dispatch("home/GET_INDEX_COLUMN_ARTICLE_LIST", {
           columnEnName: this.$route.params.en_name,
           type: this.$route.query.type || '',
           pageSize: this.pageSize,
