@@ -344,26 +344,30 @@ export default {
             aid: this.$route.params.type
           })
           .then(result => {
-            const articleInfo = result.data.article
-            const articleAnnexInfo = result.data.articleAnnex
-            this.write = { ...articleInfo, ...articleAnnexInfo }
-            this.write.is_public = Number(articleInfo.is_public)
-            this.write.content = articleInfo.origin_content
-            this.write.title = articleInfo.title
-            this.articleTagAll.map(item => {
-              if (
-                ~articleInfo.tag_ids.split(',').indexOf(String(item.tag_id))
-              ) {
-                this.currentArticleTagArr.push(item)
+            if (result.state === 'success') {
+              const articleInfo = result.data.article
+              const articleAnnexInfo = result.data.articleAnnex
+              this.write = { ...articleInfo, ...articleAnnexInfo }
+              this.write.is_public = Number(articleInfo.is_public)
+              this.write.content = articleInfo.origin_content
+              this.write.title = articleInfo.title
+              this.articleTagAll.map(item => {
+                if (
+                  ~articleInfo.tag_ids.split(',').indexOf(String(item.tag_id))
+                ) {
+                  this.currentArticleTagArr.push(item)
+                }
+              })
+              if (result.data.articleAnnex) {
+                // 附件
+                this.write.is_attachment = articleInfo.is_attachment
+                this.write.attachment = articleAnnexInfo.origin_attachment
               }
-            })
-
-            if (result.data.articleAnnex) {
-              // 附件
-              this.write.is_attachment = articleInfo.is_attachment
-              this.write.attachment = articleAnnexInfo.origin_attachment
+              this.renderCurrentArticleTag()
+            } else {
+              this.$message.warning(result.message)
+              this.$router.push({ name: 'home' })
             }
-            this.renderCurrentArticleTag()
           })
       }
     },

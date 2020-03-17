@@ -101,8 +101,7 @@
 </template>
 
 <script>
-import UserAside from './view/UserAside'
-import Collect from './PersonalView/Collect'
+import UserAside from '../view/UserAside'
 import { mapState } from 'vuex'
 import ClientOnly from 'vue-client-only'
 import { Page, faceQQ, Dropdown } from '@components'
@@ -165,7 +164,6 @@ export default {
   components: {
     UserAside,
     ClientOnly,
-    Collect,
     Page
   }
 }

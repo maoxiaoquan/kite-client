@@ -1,42 +1,38 @@
 <template>
   <div class="user-aside-view">
-    <router-link
-      class="return-user client-card"
-      v-if="$route.name !== 'user'"
-      :to="{
+    <router-link class="return-user client-card"
+                 v-if="$route.name !== 'user'"
+                 :to="{
         name: 'user',
         params: { uid: personalInfo.user.uid, routeType: 'article' }
-      }"
-    >
+      }">
       返回个人中心 <i class="el-icon-d-arrow-right"></i>
     </router-link>
 
-    <ul
-      class="list user-role client-card-shadow"
-      v-if="
+    <ul class="list user-role client-card-shadow"
+        v-if="
         $route.name === 'user' &&
           user.user.user_role_ids &&
           userRoleAll &&
           user.user.user_role_ids !== 'ordinary_role_100000'
-      "
-    >
-      <li
-        class="badge-icon"
-        v-for="(item, key) in userRoleAll"
-        :key="key"
-        v-if="
+      ">
+      <li class="badge-icon"
+          v-for="(item, key) in userRoleAll"
+          :key="key"
+          v-if="
           ~user.user.user_role_ids
             .split(',')
             .indexOf(String(item.user_role_id)) && item.is_show
-        "
-      >
-        <a target="_blank" href="javascript:;">
+        ">
+        <a target="_blank"
+           href="javascript:;">
           <span class="tag-name">{{ item.user_role_name }}</span>
         </a>
       </li>
     </ul>
 
-    <ul class="aside-operat client-card-shadow" v-if="personalInfo.islogin">
+    <ul class="aside-operat client-card-shadow"
+        v-if="personalInfo.islogin&&personalInfo.user.uid==$route.params.uid">
       <li @click="checkIn">
         <a href="javascript:;">
           <i class="icon el-icon-bell"></i>
@@ -44,19 +40,22 @@
         </a>
       </li>
       <li>
-        <router-link class="collection" :to="{ name: 'personal' }">
+        <router-link class="collection"
+                     :to="{ name: 'collect' }">
           <i class="icon el-icon-folder-opened"></i>
           <span class="box-title">收藏集</span>
         </router-link>
       </li>
       <li>
-        <router-link class="collection" :to="{ name: 'shellDetail' }">
+        <router-link class="collection"
+                     :to="{ name: 'shellDetail' }">
           <i class="icon el-icon-notebook-2"></i>
           <span class="box-title">贝壳明细</span>
         </router-link>
       </li>
       <li>
-        <router-link class="collection" :to="{ name: 'myOrder' }">
+        <router-link class="collection"
+                     :to="{ name: 'myOrder' }">
           <i class="icon el-icon-notebook-1"></i>
           <span class="box-title">我的订单</span>
         </router-link>
@@ -68,20 +67,23 @@
         </router-link>
       </li>
       <li>
-        <router-link class="collection" :to="{ name: 'experienceDetail' }">
+        <router-link class="collection"
+                     :to="{ name: 'experienceDetail' }">
           <i class="icon el-icon-document-checked"></i>
           <span class="box-title">经验明细</span>
         </router-link>
       </li>
       <li>
-        <router-link class="collection" :to="{ name: 'privateChatList' }">
+        <router-link class="collection"
+                     :to="{ name: 'privateChatList' }">
           <i class="icon el-icon-chat-line-round"></i>
           <span class="box-title">私聊</span>
         </router-link>
       </li>
     </ul>
 
-    <div class="client-card" v-if="$route.name === 'user'">
+    <div class="client-card"
+         v-if="$route.name === 'user'">
       <div class="title">个人介绍</div>
       <div class="description">
         <div class="js-intro">
@@ -102,12 +104,12 @@ import { Popover, Face } from '@components'
 import { mapState } from 'vuex'
 export default {
   name: 'UserAside',
-  data() {
+  data () {
     return {
       userRoleAll: ''
     }
   },
-  mounted() {
+  mounted () {
     this.$store.dispatch('user/GET_USER_ROLE_ALL').then(result => {
       this.userRoleAll = result.data.user_role_all || ''
     })
@@ -116,7 +118,7 @@ export default {
     ...mapState(['personalInfo', 'user'])
   },
   methods: {
-    checkIn() {
+    checkIn () {
       this.$store.dispatch('virtual/CHECK_IN').then(result => {
         if (result.state === 'success') {
           this.$message.warning(result.message)
@@ -247,7 +249,7 @@ export default {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     a,
     span {
       display: -webkit-box;
@@ -273,7 +275,7 @@ export default {
         -webkit-box-pack: center;
         -ms-flex-pack: center;
         justify-content: center;
-        font-size: 20px;
+        font-size: 18px;
         -webkit-box-align: end;
         -ms-flex-align: end;
         align-items: flex-end;

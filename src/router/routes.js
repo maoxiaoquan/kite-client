@@ -34,24 +34,24 @@ export default [
         component: () => import('@views/User/User') // 用户内页
       },
       {
-        path: 'personal-info',
-        name: 'personal',
-        component: () => import('@views/User/Personal') // 个人页
-      },
-      {
-        path: 'shell-detail',
+        path: 'personal/shell-detail',
         name: 'shellDetail',
-        component: () => import('@views/User/ShellDetail') // 消费明细
+        component: () => import('@views/User/view/ShellDetail') // 消费明细
       },
       {
-        path: 'experience-detail',
+        path: 'personal/experience-detail',
         name: 'experienceDetail',
-        component: () => import('@views/User/Experience') // 经验明细
+        component: () => import('@views/User/view/Experience') // 经验明细
       },
       {
-        path: 'my-order',
+        path: 'personal/my-order',
         name: 'myOrder',
-        component: () => import('@views/User/Order') // 我的订单
+        component: () => import('@views/User/view/Order') // 我的订单
+      },
+      {
+        path: 'personal/collect',
+        name: 'collect',
+        component: () => import('@views/User/view/Collect') // 收藏
       },
       {
         path: 'setting',
@@ -92,13 +92,8 @@ export default [
         component: require('@views/ArticleTag/ArticleTag').default // 文章标签内容页
       },
       {
-        path: 'article-rule',
-        name: 'article_rule',
-        component: () => import('@views/Rule/ArticleRule') // 文章编写规则
-      },
-      {
         path: 'comment-rule',
-        name: 'comment_rule',
+        name: 'commentRule',
         component: () => import('@views/Rule/CommentRule') // 评论规则
       },
       {

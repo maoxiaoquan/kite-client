@@ -93,12 +93,11 @@
 </template>
 
 <script>
-import UserAside from './view/UserAside'
-import Collect from './PersonalView/Collect'
+import UserAside from '../view/UserAside'
 import { mapState } from 'vuex'
 import ClientOnly from 'vue-client-only'
 import { Page, faceQQ, Dropdown } from '@components'
-import shopModule from '../../store/module/shop'
+import shopModule from '../../../store/module/shop'
 import {
   userMessageAction,
   virtualPlusLess,
@@ -170,7 +169,6 @@ export default {
   components: {
     UserAside,
     ClientOnly,
-    Collect,
     Page
   },
   destroyed () {

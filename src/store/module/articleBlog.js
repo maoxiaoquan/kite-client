@@ -65,14 +65,6 @@ const actions = {
       commit('SET_ARTICLE_BLOG_ARTICLE_LIST', result.data)
       return result
     })
-  },
-  GET_LIKE_ARTICLE_BLOG_LIST ({ commit, dispatch, state }, parameter) {
-    // 获取个人like的个人专栏列表
-    return fetch({
-      url: '/article-blog/like-list',
-      method: 'get',
-      parameter: { params: parameter }
-    })
   }
 }
 

@@ -14,6 +14,9 @@
         <reply v-else-if="Number(item.action)===userMessageAction.reply"
                :MessageItem="item"
                @delete-change="deleteChange" />
+        <collect v-else-if="Number(item.action)===userMessageAction.collect"
+                 :MessageItem="item"
+                 @delete-change="deleteChange" />
         <like v-else-if="Number(item.action)===userMessageAction.like"
               :MessageItem="item"
               @delete-change="deleteChange" />
@@ -34,13 +37,13 @@
 
 <script>
 
-import attention from '../msgComponents/attention'
-import comment from '../msgComponents/comment'
-import like from '../msgComponents/like'
-import reply from '../msgComponents/reply'
-import thumb from '../msgComponents/thumb'
-import sell from '../msgComponents/sell'
-
+import attention from './msgComponents/attention'
+import comment from './msgComponents/comment'
+import like from './msgComponents/like'
+import reply from './msgComponents/reply'
+import thumb from './msgComponents/thumb'
+import sell from './msgComponents/sell'
+import collect from './msgComponents/collect'
 import { Page } from '@components'
 import { mapState } from 'vuex'
 import {
@@ -95,6 +98,7 @@ export default {
     like,
     thumb,
     sell,
+    collect,
     Page
   }
 }

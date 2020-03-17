@@ -5,7 +5,7 @@ const state = () => ({})
 const mutations = {}
 
 const actions = {
-  GET_TEST ({ commit, dispatch, state }, parameter) {
+  GET_TEST({ commit, dispatch, state }, parameter) {
     return gqlfetch({
       parameter: `
           query {
@@ -19,7 +19,7 @@ const actions = {
         `
     })
   },
-  GET_USER_INFO ({ commit, dispatch, state }, params) {
+  GET_USER_INFO({ commit, dispatch, state }, params) {
     return gqlfetch({
       parameter: `
           query {
@@ -37,6 +37,21 @@ const actions = {
               title
               thumb_count
               comment_count
+            }
+          }
+        `
+    })
+  },
+  GET_THUMB_USER_LIST({ commit, dispatch, state }, parameter) {
+    return gqlfetch({
+      parameter: `
+          query {
+            thumbUserList(type: ${parameter.type},associate_id:${parameter.associate_id}) { 
+              list {
+                uid
+                avatar
+                nickname
+              }
             }
           }
         `

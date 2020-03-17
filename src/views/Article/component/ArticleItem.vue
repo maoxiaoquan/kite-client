@@ -203,6 +203,7 @@ export default {
     height: 55px;
     flex: 0 0 55px;
     align-items: center;
+    overflow: hidden;
   }
 }
 

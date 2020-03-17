@@ -362,7 +362,7 @@ export default {
     }
   }
   .chat-message-footer {
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #f1f1f1;
     position: relative;
     background: #fff;
     .message-input {
