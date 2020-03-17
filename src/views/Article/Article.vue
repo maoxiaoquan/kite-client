@@ -132,6 +132,15 @@
                 </Dropdown>
               </div>
             </div>
+
+            <div class="thumb-user-list"
+                 v-if="thumbUserList&&thumbUserList.length>0&&article.thumb_count>0">
+              <div class="avatar-img"
+                   v-for="(item,key) in thumbUserList"
+                   :key="key"
+                   :style="`background-image: url(${item.avatar});`"></div>
+              <div class="avatar-num">+{{ article.thumb_count }}</div>
+            </div>
             <!--article footer end-->
             <!--文章评论-->
             <ArticleComment />
@@ -279,7 +288,8 @@ export default {
       modelName,
       isBuyDialog: false,
       isBuyLoading: false,
-      articleAnnex: {} // 文章附件信息
+      articleAnnex: {}, // 文章附件信息
+      thumbUserList: []
     }
   },
   mounted () {
@@ -288,6 +298,7 @@ export default {
       this.getArticleAnnex()
     }
     this.initHljs()
+    this.getThumbUserList()
   },
   methods: {
     initHljs () {
@@ -362,6 +373,10 @@ export default {
           this.$message.warning(result.message)
           if (result.state === 'success') {
             this.$store.dispatch('user/GET_ASSOCIATE_INFO')
+            this.$store.dispatch('article/GET_ARTICLE', {
+              aid: this.$route.params.aid
+            })
+            this.getThumbUserList()
             this.$message.warning(result.message)
           }
         })
@@ -391,6 +406,16 @@ export default {
           } else {
             this.$message.warning(result.message)
           }
+        })
+    },
+    getThumbUserList () {
+      this.$store
+        .dispatch('graphql/GET_THUMB_USER_LIST', {
+          associate_id: this.article.aid,
+          type: modelName.article
+        })
+        .then(result => {
+          this.thumbUserList = result.data ? result.data.thumbUserList.list : []
         })
     },
     shareChange (val) {
@@ -637,7 +662,7 @@ export default {
           line-height: 38px;
           border: 1px solid #e0e0e0;
           text-align: center;
-          margin: 0 8px;
+          margin-right: 20px;
           cursor: pointer;
           border-radius: 20px;
           i {
@@ -673,6 +698,35 @@ export default {
           color: #9b9b9b;
           line-height: 40px;
           border-radius: 50px;
+        }
+      }
+
+      .thumb-user-list {
+        margin-top: 30px;
+        .avatar-img {
+          display: inline-block;
+          position: relative;
+          background-position: 50%;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-color: #eee;
+          width: 38px;
+          height: 38px;
+          margin-right: 10px;
+          border-radius: 50%;
+          vertical-align: middle;
+        }
+        .avatar-num {
+          width: 38px;
+          height: 38px;
+          line-height: 38px;
+          display: inline-block;
+          background: #f1f1f1;
+          border-radius: 50%;
+          color: #666;
+          text-align: center;
+          vertical-align: middle;
+          font-size: 14px;
         }
       }
     }

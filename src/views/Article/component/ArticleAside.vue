@@ -5,7 +5,7 @@
       <div class="block-body">
         <div class="user-item item">
           <div class="lazy avatar avatar loaded"
-               :style="`background-image: url(&quot;${userInfo.avatar}&quot;);`"></div>
+               :style="`background-image: url(${userInfo.avatar});`"></div>
           <div class="info-box">
             <router-link class="username"
                          :to="{
