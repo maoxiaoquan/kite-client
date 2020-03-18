@@ -13,7 +13,7 @@
         <li v-if="_page!=numPage"><a href="javascript:;"
              @click="_page++;pageClick()"><i class="el-icon-arrow-right"></i></a></li>
         <li v-if="_page == numPage"><a class="banclick"><i class="el-icon-arrow-right"></i></a></li>
-        <li><a>共<i>{{numPage}}</i>页</a></li>
+        <li><a class="total">共<i>{{numPage}}</i>页</a></li>
       </ul>
     </template>
 
@@ -148,12 +148,15 @@ li {
 .page-bar a {
   text-decoration: none;
   position: relative;
-  /* float: left; */
   border: 1px solid #e0e0e0;
-  padding: 6px 10px;
-  font-size: 15px;
+  /* padding: 6px 10px; */
+  font-size: 14px;
   border-radius: 20px;
-  margin-left: -1px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  display: inline-block;
+  /* margin-left: -1px; */
   color: #999;
   cursor: pointer;
 }
@@ -177,5 +180,11 @@ li {
   color: #666;
   margin: 0px 4px;
   font-size: 12px;
+}
+.page-bar {
+  .total {
+    width: auto;
+    padding: 0 10px;
+  }
 }
 </style>

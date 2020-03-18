@@ -5,9 +5,10 @@
         <div class="row">
           <div class="col-xs-12 col-sm-8 col-md-8 main">
             <div class="client-card pd20">
-              <h3>贝壳明细</h3>
+              <h3>经验明细</h3>
               <div class="amount">
-                余额：<span class="amount-num">{{ personalInfo.user_info.shell_balance || 0 }}
+                等级：<span class="amount-num">Lv {{ getLevel() || 0 }} </span>
+                总经验：<span class="amount-num">{{ personalInfo.user_info.experience || 0 }}
                 </span>
               </div>
 
@@ -16,70 +17,30 @@
                   <td style="width:20%"
                       class="hd">时间</td>
                   <td style="width:20%"
-                      class="hd">类型</td>
-                  <td style="width:20%"
                       class="hd">数额</td>
-                  <td style="width:20%"
-                      class="hd">余额</td>
                   <td style="width:20%"
                       class="hd">描述</td>
                 </tr>
                 <tr v-for="(detailItem, key) in detail.list"
                     :key="key">
                   <td style="width:20%">{{ detailItem.create_dt }}</td>
-                  <td style="width:20%">{{ detailItem.actionText }}</td>
                   <td style="width:20%">
-                    <span class="amount"
-                          :class="
-                        virtualPlusLess.plus === detailItem.plus_less
-                          ? 'plus'
-                          : 'less'
-                      ">
-                      {{
-                        virtualPlusLessText[detailItem.plus_less] +
-                          detailItem.amount
-                      }}
-                    </span>
-                  </td>
-                  <td style="width:20%">
-                    <span class="balance">
-                      {{ detailItem.balance }}
-                    </span>
+                    <span class="balance"> +{{ detailItem.value }} </span>
                   </td>
                   <td style="width:20%">
                     {{ detailItem.actionText + detailItem.typeText }}
-                    <router-link v-if="detailItem.type === modelName.article"
+                    <router-link style="color:#df5858"
+                                 v-if="detailItem.type === modelName.article"
                                  :to="{
                         name: 'article',
-                        params: { aid: detailItem.article.aid }
-                      }">{{ detailItem.article.title }}</router-link>
-                    <router-link v-if="detailItem.type === modelName.dynamic"
+                        params: { aid: detailItem.content.aid }
+                      }">{{ detailItem.content.title }}</router-link>
+                    <router-link style="color:#df5858"
+                                 v-if="detailItem.type === modelName.dynamic"
                                  :to="{
                         name: 'dynamicView',
-                        params: { dynamicId: detailItem.dynamic.id }
-                      }">{{ detailItem.dynamic.content }}</router-link>
-                    <router-link v-if="detailItem.type === modelName.books"
-                                 :to="{
-                        name: 'book',
-                        params: { books_id: detailItem.books.books_id }
-                      }">{{ detailItem.books.title }}</router-link>
-                    <router-link v-if="detailItem.type === modelName.article_annex"
-                                 :to="{
-                        name: 'article',
-                        params: {aid: detailItem.article_annex.aid }
-                      }">{{ detailItem.article_annex.title }}</router-link>
-                    <router-link v-if="detailItem.type === modelName.book"
-                                 :to="{
-                        name: 'BookView',
-                        params: {
-                          books_id: detailItem.book.books_id,
-                          book_id: detailItem.book.book_id
-                        }
-                      }">{{ detailItem.book.title }}</router-link>
-
-                    <a style="color:#666"
-                       href="javascript:;"
-                       v-if="detailItem.type === modelName.chat_message">{{ detailItem.chat_message.content }}</a>
+                        params: { dynamicId: detailItem.content.id }
+                      }">{{ detailItem.content.content }}</router-link>
                   </td>
                 </tr>
               </table>
@@ -101,17 +62,11 @@
 </template>
 
 <script>
-import UserAside from './view/UserAside'
-import Collect from './PersonalView/Collect'
+import UserAside from '../view/UserAside'
 import { mapState } from 'vuex'
 import ClientOnly from 'vue-client-only'
 import { Page, faceQQ, Dropdown } from '@components'
-import {
-  userMessageAction,
-  virtualPlusLess,
-  virtualPlusLessText,
-  modelName
-} from '@utils/constant'
+import { userMessageAction, modelName, userLevel } from '@utils/constant'
 
 export default {
   name: 'Personal',
@@ -125,9 +80,8 @@ export default {
   },
   data () {
     return {
-      virtualPlusLess,
-      virtualPlusLessText,
       modelName,
+      userLevel,
       detail: {
         list: [],
         count: 0,
@@ -149,7 +103,7 @@ export default {
     },
     getVirtualList () {
       this.$store
-        .dispatch('virtual/GET_VIRTUAL_LIST', {
+        .dispatch('common/GET_EXPERIENCE_LIST', {
           uid: this.personalInfo.user.uid,
           page: this.detail.page,
           pageSize: this.detail.pageSize
@@ -157,6 +111,24 @@ export default {
         .then(result => {
           this.detail = result.data
         })
+    },
+    getLevel () {
+      let l = 0
+      let x = this.user.user_info.experience
+      if (x < this.userLevel.one) {
+        l = 0
+      } else if (x < this.userLevel.two && x > this.userLevel.one) {
+        l = 1
+      } else if (x < this.userLevel.three && x > this.userLevel.two) {
+        l = 2
+      } else if (x < this.userLevel.four && x > this.userLevel.three) {
+        l = 3
+      } else if (x < this.userLevel.five && x > this.userLevel.four) {
+        l = 4
+      } else if (x >= this.userLevel.five) {
+        l = 5
+      }
+      return l
     }
   },
   computed: {
@@ -165,7 +137,6 @@ export default {
   components: {
     UserAside,
     ClientOnly,
-    Collect,
     Page
   }
 }
@@ -205,11 +176,6 @@ export default {
       }
       .balance {
         color: #0aa31c;
-      }
-      a {
-        font-size: 14px;
-        color: #41b883;
-        text-decoration: underline;
       }
     }
   }

@@ -35,6 +35,9 @@
                         :class="`type${article.type}`">{{
                       articleTypeText[article.type]
                     }}</em>
+                    <router-link class="article-edit"
+                                 v-if="personalInfo.user.uid===article.user.uid"
+                                 :to="{name:'Write',params:{type:article.aid}}">文章编辑</router-link>
                   </div>
                 </div>
               </div>
@@ -96,10 +99,15 @@
             </ul>
 
             <div class="meta-bottom clearfix">
-              <div class="meta-bottom-item like"
+              <div class="meta-bottom-item thumb"
                    @click="onUserThumbArticle"
                    :class="{ active: isThumb(article) }">
                 <i :class="isThumb(article) ? 'el-icon-thumb' : 'el-icon-thumb'"></i>
+              </div>
+              <div class="meta-bottom-item collect"
+                   @click="onUserCollectArticle"
+                   :class="{ active: isCollect(article) }">
+                <i :class="isCollect(article) ? 'el-icon-star-on' : 'el-icon-star-off'"></i>
               </div>
               <div class="meta-bottom-item share">
                 <Dropdown>
@@ -124,12 +132,23 @@
                 </Dropdown>
               </div>
             </div>
+
+            <div class="thumb-user-list"
+                 v-if="thumbUserList&&thumbUserList.length>0&&article.thumb_count>0">
+              <div class="avatar-img"
+                   v-for="(item,key) in thumbUserList"
+                   :key="key"
+                   :style="`background-image: url(${item.avatar});`"></div>
+              <div class="avatar-num">+{{ article.thumb_count }}</div>
+            </div>
             <!--article footer end-->
             <!--文章评论-->
             <ArticleComment />
           </div>
+
           <p class="no-aricle"
              v-else>文章不存在</p>
+
         </main>
       </div>
       <div class="col-xs-12 col-sm-3--6 col-md-3--6 aside">
@@ -269,7 +288,8 @@ export default {
       modelName,
       isBuyDialog: false,
       isBuyLoading: false,
-      articleAnnex: {} // 文章附件信息
+      articleAnnex: {}, // 文章附件信息
+      thumbUserList: []
     }
   },
   mounted () {
@@ -278,6 +298,7 @@ export default {
       this.getArticleAnnex()
     }
     this.initHljs()
+    this.getThumbUserList()
   },
   methods: {
     initHljs () {
@@ -288,15 +309,22 @@ export default {
     },
     isThumb (item) {
       // 是否收藏
-      if (this.personalInfo.islogin) {
-        if (
-          this.user.associateInfo.articleThumdId &&
-          ~this.user.associateInfo.articleThumdId.indexOf(item.aid)
-        ) {
-          return true
-        } else {
-          return false
-        }
+      if (
+        this.user.associateInfo.articleThumdId &&
+        ~this.user.associateInfo.articleThumdId.indexOf(item.aid)
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isCollect (item) {
+      // 是否收藏
+      if (
+        this.user.associateInfo.articleCollectId &&
+        ~this.user.associateInfo.articleCollectId.indexOf(item.aid)
+      ) {
+        return true
       } else {
         return false
       }
@@ -335,21 +363,36 @@ export default {
         })
     },
     onUserThumbArticle () {
-      /*用户like 文章*/
+      /*用户thumb 文章*/
       this.$store
         .dispatch('common/SET_THUMB', {
           associate_id: this.article.aid,
           type: modelName.article
         })
         .then(result => {
+          this.$message.warning(result.message)
           if (result.state === 'success') {
             this.$store.dispatch('user/GET_ASSOCIATE_INFO')
-          } else {
+            this.$store.dispatch('article/GET_ARTICLE', {
+              aid: this.$route.params.aid
+            })
+            this.getThumbUserList()
             this.$message.warning(result.message)
           }
         })
-        .catch(err => {
-          console.log(err)
+    },
+    onUserCollectArticle () {
+      /*用户collect 文章*/
+      this.$store
+        .dispatch('common/SET_COLLECT', {
+          associate_id: this.article.aid,
+          type: modelName.article
+        })
+        .then(result => {
+          this.$message.warning(result.message)
+          if (result.state === 'success') {
+            this.$store.dispatch('user/GET_ASSOCIATE_INFO')
+          }
         })
     },
     getArticleAnnex () {
@@ -364,8 +407,15 @@ export default {
             this.$message.warning(result.message)
           }
         })
-        .catch(err => {
-          console.log(err)
+    },
+    getThumbUserList () {
+      this.$store
+        .dispatch('graphql/GET_THUMB_USER_LIST', {
+          associate_id: this.article.aid,
+          type: modelName.article
+        })
+        .then(result => {
+          this.thumbUserList = result.data ? result.data.thumbUserList.list : []
         })
     },
     shareChange (val) {
@@ -510,6 +560,17 @@ export default {
                   }
                 }
               }
+
+              .article-edit {
+                padding: 1px 5px;
+                cursor: pointer;
+                font-size: 12px;
+                border-radius: 5px;
+                background-color: #fd763a;
+                color: #f2f6fc;
+                display: inline-block;
+                margin-left: 10px;
+              }
             }
           }
         }
@@ -560,6 +621,7 @@ export default {
       .tag-body {
         display: -webkit-box;
         display: flex;
+        margin-top: 30px;
         li {
           position: relative;
           list-style: none;
@@ -600,7 +662,7 @@ export default {
           line-height: 38px;
           border: 1px solid #e0e0e0;
           text-align: center;
-          margin: 0 8px;
+          margin-right: 20px;
           cursor: pointer;
           border-radius: 20px;
           i {
@@ -636,6 +698,35 @@ export default {
           color: #9b9b9b;
           line-height: 40px;
           border-radius: 50px;
+        }
+      }
+
+      .thumb-user-list {
+        margin-top: 30px;
+        .avatar-img {
+          display: inline-block;
+          position: relative;
+          background-position: 50%;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-color: #eee;
+          width: 38px;
+          height: 38px;
+          margin-right: 10px;
+          border-radius: 50%;
+          vertical-align: middle;
+        }
+        .avatar-num {
+          width: 38px;
+          height: 38px;
+          line-height: 38px;
+          display: inline-block;
+          background: #f1f1f1;
+          border-radius: 50%;
+          color: #666;
+          text-align: center;
+          vertical-align: middle;
+          font-size: 14px;
         }
       }
     }

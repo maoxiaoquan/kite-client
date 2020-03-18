@@ -5,7 +5,7 @@
       <div class="block-body">
         <div class="user-item item">
           <div class="lazy avatar avatar loaded"
-               :style="`background-image: url(&quot;${userInfo.avatar}&quot;);`"></div>
+               :style="`background-image: url(${userInfo.avatar});`"></div>
           <div class="info-box">
             <router-link class="username"
                          :to="{
@@ -20,7 +20,7 @@
         </div>
 
         <div class="btn-group"
-             v-if="userInfo.uid !== personalInfo.user.uid">
+             v-if="userInfo.uid != personalInfo.user.uid">
           <button class="btn btn-private-chat"
                   @click="privateChat">
             <i class="iconfont"></i>

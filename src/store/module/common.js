@@ -29,6 +29,14 @@ const actions = {
       parameter: parameter
     })
   },
+  GET_COLLECT_LIST ({ commit, dispatch, state }, parameter) {
+    // 获取收藏列表
+    return fetch({
+      url: '/collect/list',
+      method: 'get',
+      parameter: { params: parameter }
+    })
+  },
   SET_THUMB ({ commit, dispatch, state }, parameter) {
     // 设置点赞
     return fetch({
