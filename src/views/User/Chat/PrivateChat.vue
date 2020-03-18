@@ -85,6 +85,14 @@ function debounce (func, wait, immediate) {
 
 export default {
   name: 'PrivateChat',
+  metaInfo () {
+    return {
+      title: `与${this.$route.query.nickname}的私聊`,
+      htmlAttrs: {
+        lang: 'zh'
+      }
+    }
+  },
   data () {
     return {
       messageList: [],
