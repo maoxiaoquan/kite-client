@@ -3,7 +3,7 @@ const path = require('path')
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
 const IS_NODE_ENV = process.env.NODE_ENV === 'development'
-
+const THEME_NAME = '_default2'
 function ProcessCwd (val) {
   return path.resolve(process.cwd(), val)
 }
@@ -14,6 +14,7 @@ module.exports = {
     'font-family': 'Microsoft YaHei'
   },
   env: NODE_ENV,
+  THEME_NAME,
   publicStatic: ProcessCwd('static'),
   client: {
     port: 8081, // 前台调试端口号
@@ -30,9 +31,9 @@ module.exports = {
       }
     },
     assetsRoot: IS_NODE_ENV
-      ? ProcessCwd('_client')
-      : path.resolve('../kite/static/_client'),
-    publicPath: IS_NODE_ENV ? '/' : '/_client/',
+      ? ProcessCwd(`${THEME_NAME}`)
+      : path.resolve(`../kite/static/theme/${THEME_NAME}`),
+    publicPath: IS_NODE_ENV ? '/' : `/theme/${THEME_NAME}/`,
     devtool: IS_NODE_ENV ? 'cheap-module-eval-source-map' : '#source-map',
     dev: {
       notifyOnErrors: true,
