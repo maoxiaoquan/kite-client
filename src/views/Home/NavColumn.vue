@@ -61,7 +61,7 @@ export default {
   &.recommend-collection {
     .nav-items {
       flex: 1;
-      padding-right: 120px;
+      padding-right: 105px;
       .nav-item {
         height: 30px;
         box-sizing: border-box;
