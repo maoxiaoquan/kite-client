@@ -115,8 +115,11 @@ export default {
 @media (max-width: 575px) {
   .list-nav .left .nav-item,
   .list-nav .right .nav-item {
-    padding: 0px 2px;
+    padding: 0px 5px;
     font-size: 12px;
+  }
+  .list-nav .right {
+    display: none;
   }
 }
 </style>

@@ -11,13 +11,13 @@
          :class="{'active':currColumnEnName===column_item.en_name}">
         {{column_item.name}}
       </a>
-    </div>
-    <div class="nav-more">
-      <a href="javascript:;"
-         class="nav-more-btn"
+
+      <a class="nav-item nav-more"
+         href="javascript:;"
          @click="switchNav({name:'columnAll'})">
         更多...
       </a>
+
     </div>
   </nav>
 </template>
@@ -61,6 +61,7 @@ export default {
   &.recommend-collection {
     .nav-items {
       flex: 1;
+      padding-right: 120px;
       .nav-item {
         height: 30px;
         box-sizing: border-box;
@@ -80,21 +81,37 @@ export default {
       }
     }
     .nav-more {
-      width: 80px;
-      .nav-more-btn {
-        position: absolute;
-        right: 15px;
-        top: 21px;
-        font-size: 13px;
-        line-height: 28px;
-        text-align: center;
-        cursor: pointer;
-        background: #f0f0f0;
+      position: absolute;
+      right: 15px;
+      top: 21px;
+      background: #f0f0f0;
+      color: #333;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .nav-header {
+    padding: 15px 0 5px;
+    &.recommend-collection {
+      .nav-items {
+        padding-right: 0;
+      }
+      .nav-items .nav-item,
+      .nav-more .nav-more {
+        height: 25px;
+        box-sizing: border-box;
+        padding: 0 10px;
         border-radius: 2px;
-        width: 56px;
-        height: 28px;
-        color: #333;
-        font-size: 14px;
+        font-size: 13px;
+        line-height: 25px;
+        display: inline-block;
+        color: #646464;
+        background-color: #f6f6f6;
+        margin: 0 4px 6px;
+      }
+      .nav-more {
+        position: static;
       }
     }
   }
