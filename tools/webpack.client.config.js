@@ -3,6 +3,7 @@ const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../kite.config')
 const merge = require('webpack-merge')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const baseWebpackConfig = require('./webpack.base.config')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
@@ -45,6 +46,13 @@ const pordWebpackConfig = merge(baseWebpackConfig, {
       filename: utils.assetsPath('css/[name].[contenthash].css'),
       chunkFilename: utils.assetsPath('css/[name].[contenthash].css')
     }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../public/index.html'),
+        to: config.client.assetsRoot,
+        force: true
+      }
+    ]),
     //  当vendor模块不再改变时, 根据模块的相对路径生成一个四位数的hash作为模块id
     new webpack.HashedModuleIdsPlugin()
     // new BundleAnalyzerPlugin()
