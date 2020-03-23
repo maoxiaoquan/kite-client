@@ -36,14 +36,6 @@ const mutations = {
 }
 
 const actions = {
-  UPLOAD_ARTICLE_BLOG_IMG ({ commit, dispatch, state }, parameter) {
-    // 上传用户头像
-    return fetch({
-      url: '/article-blog/upload-img',
-      method: 'post',
-      parameter: parameter
-    })
-  },
   GET_ARTICLE_BLOG_INFO ({ commit, dispatch, state }, parameter) {
     // 获取个人专栏信息
     return fetch({

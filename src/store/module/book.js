@@ -12,14 +12,6 @@ const mutations = {
 }
 
 const actions = {
-  UPLOAD_BOOK_IMG ({ commit, dispatch, state }, parameter) {
-    // 上传小书封面图片
-    return fetch({
-      url: '/book/upload-book-picture',
-      method: 'post',
-      parameter: parameter
-    })
-  },
   CREATE_BOOK: ({ commit, dispatch, state }, parameter) => {
     // 创建小书章节
     return fetch({

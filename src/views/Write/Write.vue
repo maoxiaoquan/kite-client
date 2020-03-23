@@ -469,7 +469,7 @@ export default {
       var formData = new FormData()
       formData.append('file', $file)
       this.$store
-        .dispatch('editor/UPLOAD_ARTICLE_PICTURE', formData)
+        .dispatch('common/UPLOAD_FILE', formData)
         .then(res => {
           if (res.state === 'success') {
             this.$message.success('上传文章图片成功')

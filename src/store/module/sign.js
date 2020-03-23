@@ -40,7 +40,7 @@ const actions = {
   RESET_PASSWORD: ({ commit, dispatch, state }, parameter) => {
     // 重置密码
     return fetch({
-      url: '/reset_password',
+      url: '/reset-password',
       method: 'post',
       parameter
     })

@@ -20,13 +20,6 @@ const actions = {
       parameter: { ...data }
     })
   },
-  UPLOAD_ARTICLE_PICTURE: ({ commit, dispatch, state }, data) => {
-    return fetch({
-      url: '/article/upload-article-picture',
-      method: 'post',
-      parameter: data
-    })
-  },
   SAVE_ARTICLE: ({ commit, dispatch, state }, data) => {
     return fetch({
       url: '/article/create',

@@ -296,10 +296,10 @@ export default {
       }
     },
     changeUploadCoverImg ({ formData, config }) { // 上传封面图片
-      this.$store.dispatch('books/UPLOAD_BOOKS_COVER_IMG', formData)
+      this.$store.dispatch('common/UPLOAD_FILE', formData)
         .then(result => {
           if (result.state === 'success') {
-            this.write.cover_img = result.data.img
+            this.write.cover_img = result.data.fileUrl
             this.$message.success('上传封面成功')
           } else {
             this.$message.warning(result.message)
@@ -364,11 +364,11 @@ export default {
       var formData = new FormData();
       formData.append('file', $file);
       this.$store
-        .dispatch("books/UPLOAD_BOOKS_COVER_IMG", formData)
+        .dispatch("common/UPLOAD_FILE", formData)
         .then(res => {
           if (res.state === "success") {
             this.$message.success("上传小书图片成功");
-            this.$refs.mavonEditor.$img2Url(pos, res.data.img);
+            this.$refs.mavonEditor.$img2Url(pos, res.data.fileUrl);
           } else {
             this.$message.warning(res.message);
             return false
