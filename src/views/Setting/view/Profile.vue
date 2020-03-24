@@ -192,18 +192,28 @@ export default {
         })
     },
     changeAvatar ({ formData, config }) {
+
       this.$store
-        .dispatch('setting/PERSONAL_UPLOAD_AVATAR', formData)
-        .then(result => {
-          this.$nextTick(function () {
-            if (result.state === 'success') {
-              this.$message.success('上传用户头像成功，头像正在审核中')
-              this.$store.dispatch('PERSONAL_INFO')
-              window.location.reload()
-            } else {
-              this.$message.warning(result.message)
-            }
-          })
+        .dispatch('common/UPLOAD_FILE', formData)
+        .then(res => {
+          if (res.state === 'success') {
+            this.$store
+              .dispatch('setting/PERSONAL_UPLOAD_AVATAR', { avatar: res.data.fileUrl })
+              .then(result => {
+                this.$nextTick(function () {
+                  if (result.state === 'success') {
+                    this.$message.success('上传用户头像成功，头像正在审核中')
+                    this.$store.dispatch('PERSONAL_INFO')
+                    window.location.reload()
+                  } else {
+                    this.$message.warning(result.message)
+                  }
+                })
+              })
+          } else {
+            this.$message.warning(res.message)
+            return false
+          }
         })
     }
   },
