@@ -364,6 +364,7 @@ export default {
           padding-right: 60px;
           .msg-content {
             background: #f46e6552;
+            text-align: left;
           }
         }
       }
