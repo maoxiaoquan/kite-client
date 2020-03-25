@@ -3,7 +3,7 @@ const path = require('path')
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
 const IS_NODE_ENV = process.env.NODE_ENV === 'development'
-const THEME_NAME = '_default'
+const THEME_NAME = 'default'
 function ProcessCwd(val) {
   return path.resolve(process.cwd(), val)
 }
