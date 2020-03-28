@@ -212,22 +212,20 @@ export default {
       })
     },
     getLevel () {
-      let l = 0
-      let x = this.user.user_info.experience
-      if (x < this.userLevel.one) {
-        l = 0
-      } else if (x < this.userLevel.two && x > this.userLevel.one) {
-        l = 1
-      } else if (x < this.userLevel.three && x > this.userLevel.two) {
-        l = 2
-      } else if (x < this.userLevel.four && x > this.userLevel.three) {
-        l = 3
-      } else if (x < this.userLevel.five && x > this.userLevel.four) {
-        l = 4
-      } else if (x >= this.userLevel.five) {
-        l = 5
+      let experience = this.user.user_info.experience
+      if (experience > this.userLevel.five) {
+        return 5
+      } else if (experience > this.userLevel.four) {
+        return 4
+      } else if (experience > this.userLevel.three) {
+        return 3
+      } else if (experience > this.userLevel.two) {
+        return 2
+      } else if (experience > this.userLevel.one) {
+        return 1
+      } else if (experience < this.userLevel.one) {
+        return 0
       }
-      return l
     },
     onUserAttention (type) {
       if (!this.personalInfo.islogin) {
