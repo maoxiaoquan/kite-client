@@ -271,10 +271,10 @@ export default {
     },
     changeArticleBlogImg ({ formData, config }) {
       this.$store
-        .dispatch('articleBlog/UPLOAD_ARTICLE_BLOG_IMG', formData)
+        .dispatch('common/UPLOAD_FILE', formData)
         .then(result => {
           if (result.state === 'success') {
-            this.blogForm.icon = result.data.img
+            this.blogForm.icon = result.data.fileUrl
           } else {
             this.$message.warning(result.message)
           }

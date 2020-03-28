@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "init": "node  ./cli/init.js ",
-    "build": "rimraf ../kite/static/_client && npm run build:client && npm run build:server",
+    "build": "node fileDelete.js && npm run build:client && npm run build:server",
     "build:client": "cross-env NODE_ENV=production  webpack --config tools/webpack.client.config.js --color -p --progress --hide-modules --display-optimization-bailout",
     "build:server": "cross-env NODE_ENV=production  webpack --config tools/webpack.server.config.js --color -p --progress --hide-modules --display-optimization-bailout",
     "start": "cross-env NODE_ENV=development node ./tools/dev.js"
@@ -49,7 +49,7 @@
     "babel-plugin-styled-components": "1.8.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
-    "copy-webpack-plugin": "^5.0.3",
+    "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.1",
     "cssnano": "^4.1.7",

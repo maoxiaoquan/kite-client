@@ -54,6 +54,14 @@ import { mapState } from 'vuex'
 import chatModule from '../../../store/module/chat'
 export default {
   name: 'PrivateChat',
+  metaInfo () {
+    return {
+      title: `私聊列表`,
+      htmlAttrs: {
+        lang: 'zh'
+      }
+    }
+  },
   data () {
     return {
       content: '',

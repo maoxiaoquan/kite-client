@@ -102,5 +102,5 @@ if (
   (location.protocol === 'https:' || isLocalhost()) &&
   navigator.serviceWorker
 ) {
-  navigator.serviceWorker.register('/_client/service-worker.js')
+  navigator.serviceWorker.register('/theme/default/service-worker.js')
 }

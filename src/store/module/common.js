@@ -68,6 +68,13 @@ const actions = {
       method: 'post',
       parameter
     })
+  },
+  UPLOAD_FILE: ({ commit, dispatch, state }, data) => {
+    return fetch({
+      url: '/upload-file',
+      method: 'post',
+      parameter: data
+    })
   }
 }
 

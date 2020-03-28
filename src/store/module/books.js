@@ -41,14 +41,6 @@ const actions = {
       return result
     })
   },
-  UPLOAD_BOOKS_COVER_IMG ({ commit, dispatch, state }, parameter) {
-    // 上传小书封面图片
-    return fetch({
-      url: '/books/upload-books-picture',
-      method: 'post',
-      parameter: parameter
-    })
-  },
   CREATE_BOOKS: ({ commit, dispatch, state }, parameter) => {
     // 创建小书
     return fetch({

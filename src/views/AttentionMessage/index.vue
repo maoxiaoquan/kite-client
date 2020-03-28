@@ -60,6 +60,14 @@ import {
 } from '@utils/constant'
 export default {
   name: 'UserMessage',
+  metaInfo () {
+    return {
+      title: '关注',
+      htmlAttrs: {
+        lang: 'zh'
+      }
+    }
+  },
   data () {
     return {
       isLoading: false,

@@ -247,9 +247,9 @@ export default {
         this.$message.warning("当前用户未登陆，请前往登陆后尝试");
         return false
       }
-      this.$store.dispatch('dynamic/UPLOAD_DYNAMIC_PICTURE', formData)
+      this.$store.dispatch('common/UPLOAD_FILE', formData)
         .then(result => {
-          this.coverImage += result.data.img + ','
+          this.coverImage += result.data.fileUrl + ','
         })
     },
     deleteCoverImage (url, index) { // 删除已上传的图片

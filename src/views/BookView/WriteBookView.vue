@@ -313,11 +313,11 @@ export default {
       var formData = new FormData();
       formData.append('file', $file);
       this.$store
-        .dispatch("book/UPLOAD_BOOK_IMG", formData)
+        .dispatch("common/UPLOAD_FILE", formData)
         .then(res => {
           if (res.state === "success") {
             this.$message.success("上传图片成功");
-            this.$refs.mavonEditor.$img2Url(pos, res.data.img);
+            this.$refs.mavonEditor.$img2Url(pos, res.data.fileUrl);
           } else {
             this.$message.warning(res.message);
             return false

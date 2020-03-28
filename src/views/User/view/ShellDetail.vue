@@ -51,35 +51,35 @@
                     <router-link v-if="detailItem.type === modelName.article"
                                  :to="{
                         name: 'article',
-                        params: { aid: detailItem.article.aid }
-                      }">{{ detailItem.article.title }}</router-link>
+                        params: { aid: detailItem.modelInfo.aid }
+                      }">{{ detailItem.modelInfo.title }}</router-link>
                     <router-link v-if="detailItem.type === modelName.dynamic"
                                  :to="{
                         name: 'dynamicView',
-                        params: { dynamicId: detailItem.dynamic.id }
-                      }">{{ detailItem.dynamic.content }}</router-link>
+                        params: { dynamicId: detailItem.modelInfo.id }
+                      }">{{ detailItem.modelInfo.content }}</router-link>
                     <router-link v-if="detailItem.type === modelName.books"
                                  :to="{
                         name: 'book',
-                        params: { books_id: detailItem.books.books_id }
-                      }">{{ detailItem.books.title }}</router-link>
+                        params: { books_id: detailItem.modelInfo.books_id }
+                      }">{{ detailItem.modelInfo.title }}</router-link>
                     <router-link v-if="detailItem.type === modelName.article_annex"
                                  :to="{
                         name: 'article',
-                        params: {aid: detailItem.article_annex.aid }
-                      }">{{ detailItem.article_annex.title }}</router-link>
+                        params: {aid: detailItem.modelInfo.aid }
+                      }">{{ detailItem.modelInfo.title }}</router-link>
                     <router-link v-if="detailItem.type === modelName.book"
                                  :to="{
                         name: 'BookView',
                         params: {
-                          books_id: detailItem.book.books_id,
-                          book_id: detailItem.book.book_id
+                          books_id: detailItem.modelInfo.books_id,
+                          book_id: detailItem.modelInfo.book_id
                         }
-                      }">{{ detailItem.book.title }}</router-link>
+                      }">{{ detailItem.modelInfo.title }}</router-link>
 
                     <a style="color:#666"
                        href="javascript:;"
-                       v-if="detailItem.type === modelName.chat_message">{{ detailItem.chat_message.content }}</a>
+                       v-if="detailItem.type === modelName.chat_message">{{ detailItem.modelInfo.content }}</a>
                   </td>
                 </tr>
               </table>

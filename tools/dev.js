@@ -38,7 +38,12 @@ app.use(express.static(path.join(__dirname, '../../static')))
 
 app.use((req, res, next) => {
   // 接口进行拦截，并进行代理
-  if (req.url.startsWith('/api-client/v1') || req.url.startsWith('/graphql') || req.url.startsWith('/default') || req.url.startsWith('/upload')) {
+  if (
+    req.url.startsWith('/api-client/v1') ||
+    req.url.startsWith('/graphql') ||
+    req.url.startsWith('/default') ||
+    req.url.startsWith('/upload')
+  ) {
     req.respond = false
     return proxy(config.client.proxy)(req, res, next)
   }
@@ -46,7 +51,7 @@ app.use((req, res, next) => {
 })
 
 let renderer
-const templatePath = path.resolve(__dirname, '../public/index.template.html')
+const templatePath = path.resolve(__dirname, '../public/index.html')
 
 setupDevServer(app, templatePath, (bundle, options) => {
   console.log('bundle success ~~~~~~')
