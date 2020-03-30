@@ -24,28 +24,32 @@ export default {
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       this.picavalue = files[0];
-      console.log('初始大小', this.picavalue.size);
-      if (this.picavalue.size / 1024 > 1024) {
-        this.$message({
-          message: "图片过大不支持上传",
-          type: "warning"
-        });
-      } else {
-        let formData = new FormData();
-        formData.append("file", this.picavalue);
-        let config = {
-          headers: { "Content-Type": "multipart/form-data" }
-        };
-        // 发送请求;
-        this.$emit(
-          "changeUpload",
-          {
-            formData,
-            config
-          }
-        );
-        // this.imgPreview(this.picavalue);
+      let ImgLimitType = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png']
+
+      if (!~ImgLimitType.indexOf(this.picavalue.type)) {
+        this.$message.warning("图片格式有误");
+        return false
       }
+
+      if (this.picavalue.size / 1024 > 1024) {
+        this.$message.warning("图片过大不支持上传");
+        return false
+      }
+
+      let formData = new FormData();
+      formData.append("file", this.picavalue);
+      let config = {
+        headers: { "Content-Type": "multipart/form-data" }
+      };
+      // 发送请求;
+      this.$emit(
+        "changeUpload",
+        {
+          formData,
+          config
+        }
+      );
+      // this.imgPreview(this.picavalue);
       e.target.value = ""
     },
     //获取图片
