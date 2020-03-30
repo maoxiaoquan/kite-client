@@ -31,7 +31,20 @@ export default {
           type: "warning"
         });
       } else {
-        this.imgPreview(this.picavalue);
+        let formData = new FormData();
+        formData.append("file", this.picavalue);
+        let config = {
+          headers: { "Content-Type": "multipart/form-data" }
+        };
+        // 发送请求;
+        this.$emit(
+          "changeUpload",
+          {
+            formData,
+            config
+          }
+        );
+        // this.imgPreview(this.picavalue);
       }
       e.target.value = ""
     },
