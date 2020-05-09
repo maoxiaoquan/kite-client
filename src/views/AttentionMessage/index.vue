@@ -1,5 +1,4 @@
 <template>
-
   <section class="article-list-lay layout-content ">
     <div class="container box-container">
       <div class="row">
@@ -7,13 +6,15 @@
           <div class="user-message client-card"
                v-loading="isLoading">
             <h3 class="title">关注</h3>
-            <div class="user-message-view">
+            <div class="user-message-view"
+                 v-if="messageList.list&&messageList.list.length>0">
               <div class="user-message-item attention"
                    v-for="(MessageItem,key) in messageList.list"
                    :key="key"
                    ref="user_message_list">
                 <div class="main clearfix">
                   <router-link class="user-info"
+                               v-if="MessageItem.sender&&MessageItem.sender.uid"
                                :to="{name:'user',params:{uid:MessageItem.sender.uid,routeType:'article'}}">
                     <img class="avatar"
                          v-lazy="MessageItem.sender.avatar"
@@ -21,16 +22,17 @@
                     <span class="nickname">{{MessageItem.sender.nickname}}</span>
                   </router-link>
                   <p class="time"> {{MessageItem.create_dt}}</p>
-                  <div class="content">
+                  <div class="content"
+                       v-if="MessageItem.associateInfo">
                     {{MessageItem.actionText}}{{MessageItem.typeText}}
                     <router-link style="color:#df5858"
-                                 v-if="MessageItem.type===modelName.article"
+                                 v-if="MessageItem.type===modelName.article&&MessageItem.associateInfo.aid"
                                  :to="{name:'article',params:{aid:MessageItem.associateInfo.aid}}">{{MessageItem.associateInfo.title}}</router-link>
                     <router-link style="color:#df5858"
-                                 v-if="MessageItem.type===modelName.dynamic"
+                                 v-if="MessageItem.type===modelName.dynamic&&MessageItem.associateInfo.id"
                                  :to="{name:'dynamicView',params:{dynamicId:MessageItem.associateInfo.id}}">{{MessageItem.associateInfo.content}}</router-link>
                     <router-link style="color:#df5858"
-                                 v-if="MessageItem.type===modelName.books"
+                                 v-if="MessageItem.type===modelName.books&&MessageItem.associateInfo.books_id"
                                  :to="{name:'book',params:{books_id:MessageItem.associateInfo.books_id}}">{{MessageItem.associateInfo.title}}</router-link>
 
                   </div>
@@ -50,8 +52,6 @@
 </template>
 
 <script>
-
-
 
 import { Page } from '@components'
 import { mapState } from 'vuex'
