@@ -94,8 +94,11 @@
 
     <div class="dynamic-link-row"
          v-if="dynamicItem.type === dynamicType.link">
+      <span>传送门</span>
       <a :href="dynamicItem.attach"
-         target="_block">{{ dynamicItem.attach }}</a>
+         target="_block">
+        {{ dynamicItem.attach }}
+      </a>
     </div>
 
     <div class="dynamic-topic-row"
@@ -455,15 +458,19 @@ export default {
     }
   }
   .dynamic-link-row {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
     a {
-      display: flex;
-      align-items: center;
-      padding: 9px 15px;
-      max-width: 100%;
       background-color: #fff;
-      border: 1px solid #ebebeb;
-      border-radius: 4px;
+      padding: 3px 5px;
       box-sizing: border-box;
+    }
+    span {
+      background: #42c02e;
+      display: inline-block;
+      padding: 3px 5px;
     }
   }
   .dynamic-image-row {
@@ -482,7 +489,7 @@ export default {
       line-height: 22px;
       padding: 0 12px;
       border: 1px solid #007fff;
-      border-radius: 14px;
+      border-radius: 6px;
       color: #007fff;
       user-select: none;
     }
