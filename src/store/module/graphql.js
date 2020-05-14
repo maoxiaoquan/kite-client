@@ -16,7 +16,7 @@ const actions = {
               }
             }
           }
-        `
+        `,
     })
   },
   GET_USER_INFO({ commit, dispatch, state }, params) {
@@ -29,6 +29,7 @@ const actions = {
               avatar
               profession
               company
+              experience
               articleCount
               dynamicCount
             }
@@ -39,7 +40,7 @@ const actions = {
               comment_count
             }
           }
-        `
+        `,
     })
   },
   GET_THUMB_USER_LIST({ commit, dispatch, state }, parameter) {
@@ -54,9 +55,9 @@ const actions = {
               }
             }
           }
-        `
+        `,
     })
-  }
+  },
 }
 
 const getters = {}
@@ -66,5 +67,5 @@ export default {
   state,
   mutations,
   actions,
-  getters
+  getters,
 }

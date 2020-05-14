@@ -461,16 +461,21 @@ export default {
     overflow: hidden;
     display: flex;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 6px;
+    background-color: #81c764;
     a {
-      background-color: #fff;
-      padding: 3px 5px;
+      padding: 5px 8px;
+      color: #fff;
+      display: inline-block;
       box-sizing: border-box;
     }
     span {
-      background: #42c02e;
+      background: #3fdff0;
       display: inline-block;
-      padding: 3px 5px;
+      padding: 5px 5px;
+      width: 60px;
+      color: #fff;
+      text-align: center;
     }
   }
   .dynamic-image-row {

@@ -14,7 +14,7 @@
               }">
               {{ userInfo.nickname }}</router-link>
             <div class="position">
-              {{ userInfo.profession }} @ {{ userInfo.company }}
+              <span class="level">LV{{getLevel()}}</span> {{ userInfo.profession }} @ {{ userInfo.company }}
             </div>
           </div>
         </div>
@@ -85,6 +85,7 @@ import { modelName, userLevel } from '@utils/constant'
 export default {
   data () {
     return {
+      userLevel,
       userInfo: {},
       recommendArticle: []
     }
@@ -135,6 +136,22 @@ export default {
         name: 'privateChat',
         query: { uid: this.userInfo.uid, nickname: this.userInfo.nickname }
       })
+    },
+    getLevel () {
+      let experience = this.userInfo.experience
+      if (experience > this.userLevel.five) {
+        return 5
+      } else if (experience > this.userLevel.four) {
+        return 4
+      } else if (experience > this.userLevel.three) {
+        return 3
+      } else if (experience > this.userLevel.two) {
+        return 2
+      } else if (experience > this.userLevel.one) {
+        return 1
+      } else if (experience < this.userLevel.one) {
+        return 0
+      }
     },
     onUserAttention (type) {
       if (!this.personalInfo.islogin) {
@@ -256,6 +273,15 @@ export default {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        .level {
+          padding: 3px 10px;
+          color: #fff;
+          border-radius: 5px;
+          line-height: 13px;
+          font-size: 13px;
+          display: inline-block;
+          background: #0aa31c;
+        }
       }
     }
     .user-item {
