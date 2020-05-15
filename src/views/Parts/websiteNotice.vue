@@ -17,10 +17,10 @@
            v-if="advertiseItem.enable"
            :key="key">
         <a class="advertise-img"
-           :href="advertiseItem.link||'javascript:;'"
+           :href="advertiseItem.link || 'javascript:;'"
            v-if="advertiseItem.img_url">
-          <img v-lazy="advertiseItem.img_url"
-               alt="">
+          <div class="image"
+               :style="`background-image: url(${advertiseItem.img_url||''})`"></div>
         </a>
         <a class="advertise-text"
            :href="advertiseItem.link||'javascript:;'"
@@ -46,7 +46,7 @@ export default {
 .website-notice {
   .notice {
     padding: 15px 12px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     background-color: #fcf8e3;
     color: #8a6d3b;
     .notice-item {
@@ -61,6 +61,7 @@ export default {
   }
 
   .advertise {
+    padding-top: 10px;
     .advertise-item {
       overflow: hidden;
       margin-bottom: 10px;
@@ -68,6 +69,21 @@ export default {
         border-radius: 12px;
         overflow: hidden;
         display: block;
+        padding: 0 15px;
+        .image {
+          position: relative;
+          height: 180px;
+          width: 100%;
+          max-width: 100%;
+          background-position: 50%;
+          background-repeat: no-repeat;
+          background-size: cover;
+          cursor: zoom-in;
+          p {
+            font-size: 14px;
+            padding: 30px;
+          }
+        }
       }
       .advertise-text {
         font-size: 14px;

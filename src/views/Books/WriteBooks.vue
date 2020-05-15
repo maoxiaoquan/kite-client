@@ -7,10 +7,9 @@
         <div class="row mrg-bm20 books-write-content ">
           <div class="col-xs-12 col-sm-4 col-md-3 box-form-group">
             <div class="cover-img">
-              <img v-lazy="write.cover_img"
+              <div class="cover-img-view"
                    v-if="write.cover_img"
-                   class="cover-img-view"
-                   alt="">
+                   :style="`background-image: url(${write.cover_img})`"></div>
               <div class="cover-img-view cover-img-null"
                    v-else>
                 <p>封面图片为空，如果未上传，将采用默认图片</p>
@@ -454,13 +453,16 @@ export default {
   .books-write-content {
     .cover-img {
       .cover-img-view {
+        position: relative;
+        height: 180px;
+        border: 1px solid #f1f1f1;
+        border-radius: 4px;
         width: 160px;
-        height: 200px;
-        border: 1px solid #e0e0e0;
-        border-radius: 3px;
-        margin-bottom: 10px;
-        display: block;
-        overflow: hidden;
+        max-width: 100%;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        cursor: zoom-in;
         p {
           font-size: 14px;
           padding: 30px;

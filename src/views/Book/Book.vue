@@ -6,7 +6,8 @@
           <div class="client-card">
             <div class="book-info">
               <div class="poster">
-                <img v-lazy="books.booksInfo.cover_img||''">
+                <div class="image"
+                     :style="`background-image: url(${books.booksInfo.cover_img||''})`"></div>
               </div>
               <div class="info">
                 <div class="title-line">
@@ -334,11 +335,22 @@ export default {
     padding: 20px;
     .poster {
       width: 130px;
-      height: 182px;
       border-radius: 2px;
       background-repeat: no-repeat;
       float: left;
       margin-right: 20px;
+      .image {
+        position: relative;
+        height: 180px;
+        border: 1px solid #f1f1f1;
+        border-radius: 4px;
+        width: 100%;
+        max-width: 100%;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        cursor: zoom-in;
+      }
     }
     .info {
       margin-left: 150px;

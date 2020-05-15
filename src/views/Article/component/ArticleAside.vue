@@ -274,13 +274,13 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         .level {
-          padding: 3px 10px;
+          padding: 3px 5px;
           color: #fff;
           border-radius: 5px;
-          line-height: 13px;
+          line-height: 10px;
           font-size: 13px;
           display: inline-block;
-          background: #0aa31c;
+          background: #ffc107;
         }
       }
     }

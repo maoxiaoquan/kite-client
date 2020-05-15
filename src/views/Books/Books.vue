@@ -62,9 +62,9 @@
                 <div class="library-item clearfix">
                   <div class="library-item__thumb">
                     <router-link :to="{name:'book',params:{books_id:booksItem.books_id}}">
-                      <img v-lazy="booksItem.cover_img"
-                           class="img-full"
-                           lazy="loaded">
+                      <div class="image"
+                           :style="`background-image: url(${booksItem.cover_img})`"
+                           v-lazy="booksItem.cover_img"></div>
                     </router-link>
                   </div>
                   <div class="library-item__body">
@@ -399,10 +399,17 @@ export default {
       float: left;
       width: 88px;
       margin-right: 8px;
-      img {
-        border-radius: 4px;
-        border: 1px solid #f1f1f1;
+      .image {
+        position: relative;
         height: 120px;
+        border: 1px solid #f1f1f1;
+        border-radius: 4px;
+        width: 120px;
+        max-width: 100%;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        cursor: zoom-in;
       }
     }
     .library-item__body {

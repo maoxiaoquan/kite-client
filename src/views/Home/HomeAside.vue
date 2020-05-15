@@ -93,8 +93,8 @@
         <a class="advertise-img"
            :href="advertiseItem.link || 'javascript:;'"
            v-if="advertiseItem.img_url">
-          <img v-lazy="advertiseItem.img_url"
-               alt="" />
+          <div class="image"
+               :style="`background-image: url(${advertiseItem.img_url||''})`"></div>
         </a>
         <a class="advertise-text"
            :href="advertiseItem.link || 'javascript:;'"
@@ -290,6 +290,8 @@ export default {
     }
   }
   .advertise {
+    margin-bottom: 10px;
+    padding-top: 15px;
     .advertise-item {
       overflow: hidden;
       margin-bottom: 10px;
@@ -297,6 +299,21 @@ export default {
         border-radius: 12px;
         overflow: hidden;
         display: block;
+        padding: 0 15px;
+        .image {
+          position: relative;
+          height: 180px;
+          width: 100%;
+          max-width: 100%;
+          background-position: 50%;
+          background-repeat: no-repeat;
+          background-size: cover;
+          cursor: zoom-in;
+          p {
+            font-size: 14px;
+            padding: 30px;
+          }
+        }
       }
       .advertise-text {
         font-size: 14px;

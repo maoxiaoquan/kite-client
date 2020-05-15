@@ -82,14 +82,14 @@
 
     <div class="dynamic-image-row"
          v-if="dynamicItem.type === dynamicType.img">
-      <img style="width: 100px; height: 100px"
-           class="preview-picture"
+      <div class="image"
            v-lazy="url"
            v-for="(url, key) in imgAnalyze(dynamicItem.attach)"
            :key="key"
            v-if="url"
            @click="previewImg(url)"
-           alt="" />
+           :style="`background-image: url(${url})`">
+      </div>
     </div>
 
     <div class="dynamic-link-row"
@@ -473,18 +473,28 @@ export default {
       background: #3fdff0;
       display: inline-block;
       padding: 5px 5px;
+      flex: 0 0 60px;
       width: 60px;
       color: #fff;
       text-align: center;
     }
   }
   .dynamic-image-row {
-    .preview-picture {
-      width: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    .image {
+      flex: 0 1 auto;
+      position: relative;
       height: 100px;
-      overflow: hidden;
-      margin-right: 5px;
-      margin-bottom: 5px;
+      margin-right: 4px;
+      margin-top: 4px;
+      width: 100px;
+      max-width: 100%;
+      background-position: 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      cursor: zoom-in;
     }
   }
   .dynamic-topic-row {
