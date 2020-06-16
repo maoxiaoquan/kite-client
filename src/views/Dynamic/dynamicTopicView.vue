@@ -221,6 +221,7 @@ export default {
         border-bottom: 1px solid rgba(92, 96, 102, 0.1);
         display: flex;
         flex-direction: row;
+        margin: 12px 0;
         a {
           flex: 1;
           text-align: center;
@@ -229,6 +230,11 @@ export default {
           &.exact-active {
             color: #37c701;
           }
+        }
+      }
+      .dy-view {
+        .dy-item {
+          margin-bottom: 12px;
         }
       }
     }

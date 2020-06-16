@@ -554,7 +554,7 @@ export default {
     margin-bottom: 30px;
   }
   .write-top {
-    margin: 30px 0;
+    margin: 15px 0;
     .title {
       width: 100%;
       padding: 10px 15px;
